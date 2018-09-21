@@ -102,7 +102,7 @@ zzStatus ZZMediaxApp_Help(zzMediaxAppST *pSelf, zzU16 argc, zz_char** argv)
             }
             else
             {
-                ZZPRINTF("Please input proc id after -proc\n");
+                ZZPRINTF("Please input proc id after -matrix\n");
             }
 
         }
