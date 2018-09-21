@@ -12,9 +12,9 @@ zzStatus ZZTaskMng_Init(zzTaskMngST *pSelf, zzU16 argc, zz_char **argv)
     zzStatus sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-    
+
     pSelf->curr_task = NULL;
-    
+
     return sts;
 }
 
@@ -39,14 +39,25 @@ zzStatus ZZTaskMng_Execute(zzTaskMngST *pSelf, zzU16 argc, zz_char **argv, zzTas
     while (TRUE)
     {
         pSelf->curr_task_alive = FALSE;
-        
+
+        //ExecInit Task
+        if (NULL != pSelf->curr_task->pfnZZTaskExecInit)
+        {
+            sts = pSelf->curr_task->pfnZZTaskExecInit(pSelf->curr_task);
+            if (sts != ZZ_ERR_NONE)
+            {
+                ZZPRINTF("Task Exec Init error\n");
+                goto END;
+            }
+        }
+
         sts = ZZTaskMng_ExecuteMatrix(pSelf);
         if (sts != ZZ_ERR_NONE)
         {
             ZZPRINTF("ZZTaskMng_ExecuteMatrix error\n");
             goto END;
         }
-        
+
         //gest task alive status
         if (FALSE == pSelf->curr_task_alive)
         {
@@ -63,14 +74,14 @@ zzStatus ZZTaskMng_Close(zzTaskMngST *pSelf)
     zzStatus sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-        
+
     return sts;
 }
 
 zzBOOL ZZTaskMng_CheckTaskInExecList(zzTaskMngST *pSelf, zzU16 taskID)
 {
     zzBOOL    sts = FALSE;
-    zz_list*  pos = NULL; 
+    zz_list*  pos = NULL;
 
     list_for_each(pos, &pSelf->exec_task_head)
     {
@@ -88,9 +99,9 @@ zzBOOL ZZTaskMng_CheckTaskInExecList(zzTaskMngST *pSelf, zzU16 taskID)
 zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
 {
     zzStatus        sts        = ZZ_ERR_NONE;
-    zz_list         *pos       = NULL; 
+    zz_list         *pos       = NULL;
     zzMatrixBaseST  *pMatrix   = NULL;
-    
+
     //loop martrixs
     list_for_each(pos, &pSelf->curr_task->matrix_head)
     {
@@ -100,7 +111,7 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
         {
             ZZPRINTF("Can not get a Matrix, exist the task\n");
             sts = ZZ_ERR_UNSUPPORTED;
-            goto END; 
+            goto END;
         }
 
         if (ZZ_EVENT_END == pMatrix->next_event)
@@ -110,7 +121,7 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
         }
 
         pSelf->curr_task_alive = TRUE;
-        
+
         //init Matrix start event
         if (FALSE == pMatrix->restart_flag)
         {
@@ -121,7 +132,7 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
         {
             pMatrix->next_event = ZZ_EVENT_PART_START;
         }
-        
+
         while (TRUE)
         {
             zzMatrixCellST     *pCell   = NULL;
@@ -136,7 +147,7 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
                 ZZPRINTF("This Matrix is part done: %d\n", pMatrix->matrix_id);
                 break;
             }
-            
+
             sts = ZZMatrixBase_FindCell(pMatrix, pMatrix->next_event, &pCell);
             if (sts != ZZ_ERR_NONE)
             {
@@ -175,7 +186,7 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
             //post cell execute
             if (NULL != pCell->pfnPostExec)
             {
-                sts = pCell->pfnPostExec(pMatrix); 
+                sts = pCell->pfnPostExec(pMatrix);
                 if (sts != ZZ_ERR_NONE)
                 {
                     ZZPRINTF("Cell PostExec error\n");
@@ -184,7 +195,7 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
             }
         }
     }
-    
+
 END:
     return sts;
 }
@@ -194,7 +205,7 @@ zzStatus ZZTaskMng_StartTask(zzTaskMngST *pSelf, zzU16 argc, zz_char **argv, zzT
     zzStatus sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-    
+
     return sts;
 }
 
@@ -203,7 +214,7 @@ zzStatus ZZTaskMng_EndTask(zzTaskMngST *pSelf)
     zzStatus sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-    
+
     return sts;
 }
 
@@ -212,7 +223,7 @@ zzStatus ZZTaskMng_ExecStartTask(zzTaskMngST *pSelf)
     zzStatus sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-    
+
     return sts;
 }
 
@@ -220,7 +231,7 @@ zzStatus ZZTaskMng_ExecEndTask(zzTaskMngST *pSelf)
 {
     zzStatus sts = ZZ_ERR_NONE;
 
-    CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);    
+    CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
     return sts;
 }
