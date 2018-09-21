@@ -1,4 +1,4 @@
 MDK MOLA
 ========
 
-A media tool on Linux
+A media tool with framework on Linux
