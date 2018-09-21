@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 #endif
 {
     zzStatus sts = ZZ_ERR_NONE;
-    
+
     ZZPRINTF("Welcome to zzmediax, Have fun && Good luck!\n");
 
     g_zzApp = (ZZMEDIAXAPP_ST *)AllocAndZeroMem(sizeof(ZZMEDIAXAPP_ST));
@@ -28,14 +28,13 @@ int main(int argc, char *argv[])
         goto END;
     }
 
-
     sts = ZZMEDIAX_INIT(g_zzApp, argc, argv);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZ_MEDIAX_INIT  error\n");
         goto END;
     }
-        
+
     if (GetAPP()->help.bHelpFlag == TRUE)
     {
         sts = ZZMEDIAX_HELP(g_zzApp, argc, argv);
@@ -54,7 +53,7 @@ int main(int argc, char *argv[])
             goto END;
         }
     }
-    
+
     sts = ZZMEDIAX_CLOSE(g_zzApp);
     if (sts != ZZ_ERR_NONE)
     {
@@ -62,11 +61,9 @@ int main(int argc, char *argv[])
         goto END;
     }
 
-END:  
+END:
     FREEIF(g_zzApp);
-    g_zzApp = NULL;
 
     return sts;
-    
-}
 
+}
