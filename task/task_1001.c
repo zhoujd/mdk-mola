@@ -100,7 +100,7 @@ zzStatus ZZTask1001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
     }
 
     //create matrix 1001
-    sts = ZZMatrix1001_Create(&pSelf->pMatrix1001);
+    sts = ZZMatrix1001_Create(&pSelf->pMatrix1001, argc, argv);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZMatrix1001_Create  error\n");

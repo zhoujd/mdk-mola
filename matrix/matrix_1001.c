@@ -65,7 +65,7 @@ END:
     return sts;    
 }
 
-zzStatus ZZMatrix1001_Create(zzMatrix1001ST **ppRet)
+zzStatus ZZMatrix1001_Create(zzMatrix1001ST **ppRet, zzU16 argc, zz_char **argv)
 {
     zzStatus  sts = ZZ_ERR_NONE;
     
