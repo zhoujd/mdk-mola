@@ -11,6 +11,9 @@ static zzStatus ZZTask1101_ExecInit(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask1101_Release(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask1101_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 
+static zzStatus ZZTask1101_CreateMatrix(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
+static zzStatus ZZTask1101_InitMatrix(zzTaskBaseST *pTaskBase);
+
 static zzStatus ZZTask1101_CreateSurface(zzTask1101ST  *pSelf);
 static zzStatus ZZTask1101_ReleaseSurface(zzTask1101ST  *pSelf);
 
