@@ -18,7 +18,7 @@ enum MATRIX2001_EVENT_EN
 };
 
 //Matrix Cells
-static zzMatrixCellST matrix_cells[] = 
+static zzMatrixCellST matrix_cells[] =
 {
     {ZZ_EVENT_START,         NULL,  ZZMatrix2001_Start, NULL},      //ZZ_EVENT_START
     {ZZ_EVENT_TASK2001_TEST, NULL,  ZZMatrix2001_Test,  NULL },     //ZZ_EVENT_TASK2001_TEST
@@ -32,7 +32,7 @@ zzStatus ZZMatrix2001_Help(zzHelpInfoST *pSelf, zzU16 argc, zz_char **argv)
 
     ZZPRINTF("Matrix 2001 help\n");
 
-    return sts;    
+    return sts;
 }
 
 zzStatus ZZMatrix2001_HelpRegister()
@@ -53,7 +53,7 @@ zzStatus ZZMatrix2001_HelpRegister()
     pHelpInfo->help_id         = MATRIX2001_ID;
     pHelpInfo->desc_info       = ZZ_STRING("input one frame by one frame");
     pHelpInfo->pfnMatrixHelpFn = ZZMatrix2001_Help;
-    
+
     sts =  ZZHelp_MatrixHelpAdd(&pApp->help, pHelpInfo);
     if (sts != ZZ_ERR_NONE)
     {
@@ -62,13 +62,13 @@ zzStatus ZZMatrix2001_HelpRegister()
     }
 
 END:
-    return sts;    
+    return sts;
 }
 
 zzStatus ZZMatrix2001_Create(zzMatrix2001ST **ppRet)
 {
     zzStatus  sts = ZZ_ERR_NONE;
-    
+
     *ppRet = (zzMatrix2001ST *)AllocAndZeroMem(sizeof(zzMatrix2001ST));
     if (*ppRet == NULL)
     {
@@ -81,9 +81,9 @@ zzStatus ZZMatrix2001_Create(zzMatrix2001ST **ppRet)
     (*ppRet)->base.cell_num  = ARRAY_NUM(matrix_cells);
 
     (*ppRet)->base.matrix_id = MATRIX2001_ID;
-        
+
 END:
-    return sts;    
+    return sts;
 }
 
 zzStatus ZZMatrix2001_Release(zzMatrix2001ST *pSelf)
@@ -91,20 +91,20 @@ zzStatus ZZMatrix2001_Release(zzMatrix2001ST *pSelf)
     zzStatus  sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-   
-    FREEIF(pSelf);
 
-    return sts;    
+
+
+    return sts;
 }
 
 zzStatus ZZMatrix2001_Start(zzMatrixBaseST *pSelf)
 {
     zzStatus  sts = ZZ_ERR_NONE;
-    
+
     ZZPRINTF("Matrix 2001 Start\n");
 
     pSelf->next_event = ZZ_EVENT_TASK2001_TEST;
-    
+
     return sts;
 }
 
@@ -127,7 +127,7 @@ zzStatus ZZMatrix2001_End(zzMatrixBaseST *pSelf)
     ZZPRINTF("Matrix 2001 End\n");
 
     pSelf->next_event = ZZ_EVENT_END;
-    
+
 
     return sts;
 }

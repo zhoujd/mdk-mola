@@ -24,7 +24,7 @@ zzStatus ZZTask1001_Register()
         sts = ZZ_ERR_MEMORY_ALLOC;
         goto END;
     }
-    
+
     sts = ZZTaskBase_DefaultFP((zzTaskBaseST *)pSelf);
     if (sts != ZZ_ERR_NONE)
     {
@@ -42,7 +42,7 @@ zzStatus ZZTask1001_Register()
         ZZPRINTF("ZZTaskBase_DefaultFP  error\n");
         goto END;
     }
-    
+
     pSelf->base.task_id = TASK1001_ID;
     pSelf->base.desc_info = ZZ_STRING("This is only for develop\n");
 
@@ -66,7 +66,7 @@ zzStatus ZZTask1001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
         ZZ_STRING("Task 1001 help welcome"),
         NULL,
     };
-        
+
     //use default context
     sts  = ZZTaskBase_Help(pTaskBase, argc, argv);
     if (sts != ZZ_ERR_NONE)
@@ -79,10 +79,10 @@ zzStatus ZZTask1001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
     {
         ZZPRINTF("%s\n", help_doc[i]);
     }
-    
+
 END:
     return sts;
-    
+
 }
 
 
@@ -182,11 +182,11 @@ zzStatus ZZTask1001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
         goto END;
     }
 
-    
-    
+
+
 END:
     return sts;
-    
+
 }
 
 zzStatus ZZTask1001_ExecInit(zzTaskBaseST *pTaskBase)
@@ -199,10 +199,10 @@ zzStatus ZZTask1001_ExecInit(zzTaskBaseST *pTaskBase)
         ZZPRINTF("ZZTaskBase_ExecInit  error\n");
         goto END;
     }
-    
+
 END:
     return sts;
-    
+
 }
 
 zzStatus ZZTask1001_Release(zzTaskBaseST *pTaskBase)
@@ -250,16 +250,15 @@ zzStatus ZZTask1001_Release(zzTaskBaseST *pTaskBase)
         goto END;
     }
 
-    
+
     sts  = ZZTaskBase_Release(pTaskBase);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTaskBaseExec_Init  error\n");
         goto END;
     }
-    
+
 END:
     return sts;
-    
-}
 
+}

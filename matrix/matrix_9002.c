@@ -89,7 +89,6 @@ END:
 
 zzStatus ZZMatrix9002_Init(zzMatrix9002ST *pSelf, zzU16 argc, zz_char **argv,
                            zzPipeCtrlST *pPipeCtrl)
-
 {
     zzStatus  sts = ZZ_ERR_NONE;
 
@@ -103,7 +102,6 @@ zzStatus ZZMatrix9002_Release(zzMatrix9002ST *pSelf)
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
-    FREEIF(pSelf);
 
     return sts;
 }

@@ -1,4 +1,3 @@
-
 #include "task_db.h"
 #include "app_base.h"
 
@@ -9,7 +8,7 @@ zzStatus ZZTaskDB_Init(zzTaskDBST *pSelf, zzU16 argc, zz_char** argv, zzTaskRegi
 
     INIT_LIST_HEAD(&pSelf->task_head);
     pSelf->pfnTaskRegister = pfnTaskRegister;
-    
+
     //register task
     if (NULL != pSelf->pfnTaskRegister)
     {
@@ -40,7 +39,7 @@ zzStatus ZZTaskDB_SelectFlow(zzTaskDBST *pSelf, zzU16 task_id, zzTaskBaseST **pp
 {
     zzStatus  sts    = ZZ_ERR_NONE;
     zzBOOL    bFound = FALSE;
-    zz_list*  pos    = NULL; 
+    zz_list*  pos    = NULL;
 
     list_for_each(pos, &pSelf->task_head)
     {
@@ -61,7 +60,7 @@ zzStatus ZZTaskDB_SelectFlow(zzTaskDBST *pSelf, zzU16 task_id, zzTaskBaseST **pp
         sts = ZZ_ERR_NOT_FOUND;
         goto END;
     }
-   
+
 END:
     return sts;
 }
@@ -70,17 +69,29 @@ zzStatus ZZTaskDB_Close(zzTaskDBST *pSelf)
 {
     zzStatus  sts    = ZZ_ERR_NONE;
     zz_list   *pos   = NULL;
-    zz_list   *n     = NULL; 
+    zz_list   *n     = NULL;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-    
+
     //free task list
     list_for_each_safe(pos, n, &pSelf->task_head)
     {
         zzTaskBaseST *pTemp = container_of(pos, zzTaskBaseST, task_list);
+
+        if (NULL != pTemp->pfnZZTaskRelease)
+        {
+            sts = pTemp->pfnZZTaskRelease(pTemp);
+            if (ZZ_ERR_NONE != sts)
+            {
+                ZZPRINTF("ZZTaskDB release error\n");
+                goto END;
+            }
+        }
+
         list_del_init(pos);
         FREEIF(pTemp);
     }
 
+END:
     return sts;
 }
