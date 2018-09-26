@@ -93,7 +93,6 @@ zzStatus ZZMatrix2002_Release(zzMatrix2002ST *pSelf)
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
-    FREEIF(pSelf);
 
     return sts;
 }
@@ -114,8 +113,6 @@ zzStatus ZZMatrix2002_Init(zzMatrix2002ST *pSelf, zzU16 argc, zz_char **argv,
     }
 
     pSelf->base.pipe_ctrl = pPipeCtrl;
-
-    FREEIF(pSelf);
 
 END:
     return sts;
