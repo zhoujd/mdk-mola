@@ -1,4 +1,4 @@
-/* matrix_1101.h --- 
+/* matrix_1101.h ---
  */
 
 #ifndef INCLUDED_ZZ_MATRIX_1101_H
@@ -17,7 +17,7 @@ struct _zzMatrix1101ST
 {
     zzMatrixBaseST    base;
 
-    zzSurfaceST       dst_surf;
+    zzSurfaceST       *pDestSurface;
     zzFrameReaderST   *pFrameReader;  //frame reader
 };
 
