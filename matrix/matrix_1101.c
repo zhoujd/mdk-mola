@@ -18,7 +18,7 @@ enum MATRIX1101_EVENT_EN
 };
 
 //Matrix Cells
-static zzMatrixCellST matrix_cells[] = 
+static zzMatrixCellST matrix_cells[] =
 {
     {ZZ_EVENT_START,         NULL, ZZMatrix1101_Start, NULL},     //ZZ_EVENT_START
     {ZZ_EVENT_TASK1101_TEST, NULL, ZZMatrix1101_Test,  NULL},     //ZZ_EVENT_TEST
@@ -32,7 +32,7 @@ zzStatus ZZMatrix1101_Help(zzHelpInfoST *pSelf, zzU16 argc, zz_char **argv)
 
     ZZPRINTF("Matrix 1101 help\n");
 
-    return sts;    
+    return sts;
 }
 
 zzStatus ZZMatrix1101_HelpRegister()
@@ -53,7 +53,7 @@ zzStatus ZZMatrix1101_HelpRegister()
     pHelpInfo->help_id         = MATRIX1101_ID;
     pHelpInfo->desc_info       = ZZ_STRING("input one frame by one frame");
     pHelpInfo->pfnMatrixHelpFn = ZZMatrix1101_Help;
-    
+
     sts =  ZZHelp_MatrixHelpAdd(&pApp->help, pHelpInfo);
     if (sts != ZZ_ERR_NONE)
     {
@@ -62,13 +62,13 @@ zzStatus ZZMatrix1101_HelpRegister()
     }
 
 END:
-    return sts;    
+    return sts;
 }
 
 zzStatus ZZMatrix1101_Create(zzMatrix1101ST **ppRet)
 {
     zzStatus  sts = ZZ_ERR_NONE;
-    
+
     *ppRet = (zzMatrix1101ST *)AllocAndZeroMem(sizeof(zzMatrix1101ST));
     if (*ppRet == NULL)
     {
@@ -81,9 +81,9 @@ zzStatus ZZMatrix1101_Create(zzMatrix1101ST **ppRet)
     (*ppRet)->base.cell_num  = ARRAY_NUM(matrix_cells);
 
     (*ppRet)->base.matrix_id     = MATRIX1101_ID;
-        
+
 END:
-    return sts;    
+    return sts;
 }
 
 zzStatus ZZMatrix1101_Release(zzMatrix1101ST *pSelf)
@@ -91,10 +91,22 @@ zzStatus ZZMatrix1101_Release(zzMatrix1101ST *pSelf)
     zzStatus  sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-   
+
     FREEIF(pSelf);
 
-    return sts;    
+    return sts;
+}
+
+
+zzStatus ZZMatrix1101_Init(zzMatrix1101ST *pSelf, zzU16 argc, zz_char **argv)
+{
+    zzStatus  sts = ZZ_ERR_NONE;
+
+    CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
+
+    FREEIF(pSelf);
+
+    return sts;
 }
 
 zzStatus ZZMatrix1101_Start(zzMatrixBaseST *pMatrixBase)
@@ -102,9 +114,9 @@ zzStatus ZZMatrix1101_Start(zzMatrixBaseST *pMatrixBase)
     zzStatus       sts    = ZZ_ERR_NONE;
     zzMatrix1101ST *pSelf = GET_MATRIX1101(pMatrixBase);
 
-    
+
     ZZPRINTF("Matrix %d Start\n", pSelf->base.matrix_id);
-    
+
     pMatrixBase->next_event = ZZ_EVENT_TASK1101_TEST;
 
     return sts;
@@ -114,11 +126,11 @@ zzStatus ZZMatrix1101_Test(zzMatrixBaseST *pMatrixBase)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
     zzMatrix1101ST *pSelf = GET_MATRIX1101(pMatrixBase);
-    
+
     ZZPRINTF("Matrix %d Test\n", pSelf->base.matrix_id);
 
     pMatrixBase->next_event = ZZ_EVENT_TASK1101_DONE;
-    
+
     return sts;
 
 }
@@ -127,12 +139,12 @@ zzStatus ZZMatrix1101_Test(zzMatrixBaseST *pMatrixBase)
 zzStatus ZZMatrix1101_End(zzMatrixBaseST *pMatrixBase)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
-    zzMatrix1101ST *pSelf = GET_MATRIX1101(pMatrixBase);    
-    
+    zzMatrix1101ST *pSelf = GET_MATRIX1101(pMatrixBase);
+
     ZZPRINTF("Matrix %d End\n", pSelf->base.matrix_id);
 
     pMatrixBase->next_event = ZZ_EVENT_END;
-    
+
     return sts;
 
 }

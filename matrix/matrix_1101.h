@@ -27,7 +27,7 @@ struct _zzMatrix1101ST
 zzStatus ZZMatrix1101_Create(zzMatrix1101ST **ppRet);
 zzStatus ZZMatrix1101_Release(zzMatrix1101ST *pSelf);
 
-zzStatus ZZMatrix1101_Init(zzMatrix1101ST *pSelf);
+zzStatus ZZMatrix1101_Init(zzMatrix1101ST *pSelf, zzU16 argc, zz_char **argv);
 
 zzStatus ZZMatrix1101_Help(zzHelpInfoST *pSelf, zzU16 argc, zz_char **argv);
 zzStatus ZZMatrix1101_HelpRegister();
