@@ -12,6 +12,7 @@ static zzStatus ZZTask2001_Release(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask2001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 
 static zzStatus ZZTask2001_ParseInputString(zzTask2001ST  *pSelf, int nArgNum, char **strInput);
+static zzStatus ZZTask2001_ParseOutputInfo(zzTask2001ST  *pSelf, int nArgNum, char **strInput);
 
 static zzStatus ZZTask2001_InitMatrix(zzTask2001ST  *pSelf, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_ReleaseMatrix(zzTask2001ST  *pSelf);
@@ -350,18 +351,66 @@ END:
     return sts;
 }
 
-zzStatus ZZTask2001_ParseInputString(zzTask2001ST  *pSelf, int nArgNum, char **strInput)
+
+zzStatus ZZTask2001_ParseOutputInfo(zzTask2001ST  *pSelf, int nArgNum, char **strInput)
 {
-    zzStatus           sts     = ZZ_ERR_NONE;
-    zzU8               i       = 1;
+    zzStatus                 sts      = ZZ_ERR_NONE;
+    zzU8                     i        = 1;
+    zzTask2001InputParamsST  *pParams = &pSelf->params;
 
     for (i = 1; i < nArgNum; i++ )
     {
         CHECK_POINTER(strInput[i], ZZ_ERR_NULL_PTR);
         {
+            if (0 == zz_strcmp(strInput[i], ZZ_STRING("-i")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_strcpy(pParams->strSrcFile, strInput[i]);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-o")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_strcpy(pParams->strDstFile, strInput[i]);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-n")) )
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &pParams->numFrames);
+            }
+
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-screen")) )
+            {
+                i++;
+                pSelf->screen_flag = TRUE;
+            }
         }
     }
 
+    return sts;
+}
+
+zzStatus ZZTask2001_ParseInputString(zzTask2001ST  *pSelf, int nArgNum, char **strInput)
+{
+    zzStatus           sts     = ZZ_ERR_NONE;
+
+    sts = ZZ_ParseOwnFrameInfo(pSelf->params.frameInfo, nArgNum, strInput);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZ_ParseOwnFrameInfo  error\n");
+        goto END;
+    }
+
+    sts = ZZTask2001_ParseOutputInfo(pSelf, nArgNum, strInput);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTask2001_ParseOutputInfo  error\n");
+        goto END;
+    }
+
+END:
     return sts;
 }
 

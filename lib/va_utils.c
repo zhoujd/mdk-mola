@@ -58,7 +58,7 @@ zzStatus ZZVA_InitVA_X11(Display **display, VADisplay *va_dpy)
 {
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus sts     = ZZ_ERR_NONE;
-    
+
     int       major_version = 0;
     int       minor_version = 0;
 
@@ -79,7 +79,7 @@ zzStatus ZZVA_InitVA_X11(Display **display, VADisplay *va_dpy)
         ZZPRINTF("XOpenDisplay error!\n");
         goto END;
     }
-    
+
     *va_dpy = vaGetDisplay(*display);
     va_res  = vaInitialize(*va_dpy, &major_version, &minor_version);
     sts     = va_to_zz_status(va_res);
@@ -88,17 +88,17 @@ zzStatus ZZVA_InitVA_X11(Display **display, VADisplay *va_dpy)
         ZZPRINTF("vaInitialize error!\n");
         goto END;
     }
-    
+
 END:
     return sts;
-    
-}    
+
+}
 #else //ZZ_LIBVA_USE_X11
 zzStatus ZZVA_InitVA_DRM(Display **display, VADisplay *va_dpy)
 {
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus sts     = ZZ_ERR_NONE;
-    
+
     int       major_version = 0;
     int       minor_version = 0;
 
@@ -110,7 +110,7 @@ zzStatus ZZVA_InitVA_DRM(Display **display, VADisplay *va_dpy)
         sts = ZZ_ERR_UNKNOWN;
         goto END;
     }
-    
+
     *va_dpy = vaGetDisplayDRM(drm_fd);
     if (*va_dpy == NULL)
     {
@@ -118,7 +118,7 @@ zzStatus ZZVA_InitVA_DRM(Display **display, VADisplay *va_dpy)
         sts = ZZ_ERR_UNKNOWN;
         goto END;
     }
-    
+
     va_res  = vaInitialize(*va_dpy, &major_version, &minor_version);
     sts     = va_to_zz_status(va_res);
     if (ZZ_ERR_NONE != sts)
@@ -126,7 +126,7 @@ zzStatus ZZVA_InitVA_DRM(Display **display, VADisplay *va_dpy)
         ZZPRINTF("vaInitialize error!\n");
         goto END;
     }
-    
+
 END:
     return sts;
 }
@@ -137,7 +137,7 @@ zzStatus ZZVA_InitVA_Android(Display **display, VADisplay *va_dpy)
 {
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus sts     = ZZ_ERR_NONE;
-    
+
     int       major_version = 0;
     int       minor_version = 0;
 
@@ -150,7 +150,7 @@ zzStatus ZZVA_InitVA_Android(Display **display, VADisplay *va_dpy)
         ZZPRINTF("NULL == *display error\n");
         goto END;
     }
-    
+
     *va_dpy = vaGetDisplay(*display);
     va_res  = vaInitialize(*va_dpy, &major_version, &minor_version);
     sts     = va_to_zz_status(va_res);
@@ -159,7 +159,7 @@ zzStatus ZZVA_InitVA_Android(Display **display, VADisplay *va_dpy)
         ZZPRINTF("vaInitialize error!\n");
         goto END;
     }
-    
+
 END:
     return sts;
 }
@@ -171,7 +171,7 @@ zzStatus ZZVA_InitVA(Display **display, VADisplay *va_dpy)
 #ifdef ANDROID
     return ZZVA_InitVA_Android(display, va_dpy);
 #else //ANDROID
-    
+
 #if ZZ_LIBVA_USE_X11
     return ZZVA_InitVA_X11(display, va_dpy);
 #else
@@ -179,15 +179,15 @@ zzStatus ZZVA_InitVA(Display **display, VADisplay *va_dpy)
 #endif //ZZ_LIBVA_USE_X11
 
 #endif //ANDROID
-    
+
 }// zzStatus InitVA()
 
 zzStatus ZZVA_CloseVA(Display *display,VADisplay va_dpy)
 {
     zzStatus sts     = ZZ_ERR_NONE;
-    
+
     vaTerminate(va_dpy);
-    
+
     if (NULL != display)
     {
 #ifndef ANDROID
@@ -196,7 +196,7 @@ zzStatus ZZVA_CloseVA(Display *display,VADisplay va_dpy)
         XCloseDisplay(display);
         display = NULL;
 #endif //ZZ_LIVA_USE_X11
-        
+
 #else
         free(display);
 #endif
@@ -209,7 +209,7 @@ zzStatus ZZVA_GetScreenInfo(zzU16 *pWidth, zzU16 *pHeight)
 {
 #ifndef ANDROID
 
-#if ZZ_LIBVA_USE_X11    
+#if ZZ_LIBVA_USE_X11
     char         *display_name;
     Display      *display;
 
@@ -222,21 +222,21 @@ zzStatus ZZVA_GetScreenInfo(zzU16 *pWidth, zzU16 *pHeight)
     screen_num     = DefaultScreen(display);
     display_width  = DisplayWidth(display, screen_num);
     display_height = DisplayHeight(display, screen_num);
-    
+
     CHECK_POINTER(pWidth, ZZ_ERR_NOT_INITIALIZED);
     CHECK_POINTER(pHeight, ZZ_ERR_NOT_INITIALIZED);
-    
+
     *pWidth  = display_width;
     *pHeight = display_height;
-#else    
+#else
     *pWidth  = ZZ_CTX_DEF_WIDTH;
     *pHeight = ZZ_CTX_DEF_HEIGHT;
-#endif //VPPG_LIBVA_USE_X11    
-    
+#endif //VPPG_LIBVA_USE_X11
+
 #else
     *pWidth  = ZZ_CTX_DEF_WIDTH;
     *pHeight = ZZ_CTX_DEF_HEIGHT;
 #endif
-    
+
     return ZZ_ERR_NONE;
 }

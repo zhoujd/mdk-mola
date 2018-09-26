@@ -1,4 +1,4 @@
-/* app_defs.h --- 
+/* app_defs.h ---
  */
 
 #ifndef ZZ_APP_DEF_H
@@ -31,7 +31,7 @@ struct _zzAppST
     zzTaskMngST         task_mng;
     zzDispatch          dispatch;
     zzHelpST            help;
-    
+
     void                *data;   //for extend using
 };
 
@@ -55,4 +55,3 @@ zzStatus ZZApp_MatrixHelp(zzAppST *pSelf, zzU16 argc, zz_char **argv, zzU16 matr
 
 
 #endif /* ZZ_APP_DEF_H */
-

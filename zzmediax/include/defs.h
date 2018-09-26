@@ -72,7 +72,7 @@ typedef enum
     ZZ_ERR_DEVICE_FAILED               = -17,  /* device operation failure */
     ZZ_ERR_MORE_BITSTREAM              = -18,  /* expect more bitstream buffers at output */
 
-    ZZ_ERR_EOF_STREAM                  = -19,  
+    ZZ_ERR_EOF_STREAM                  = -19,
 
     /* warnings >0 */
     ZZ_WRN_IN_EXECUTION                = 1,    /* the previous asynchrous operation is in execution */

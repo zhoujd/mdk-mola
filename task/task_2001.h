@@ -15,7 +15,7 @@
 #define TASK2001_ID  (2001)
 
 typedef struct _zzTask2001ST zzTask2001ST;
-typedef struct _zzTask2001InputParamsST Task2001InputParamsST;
+typedef struct _zzTask2001InputParamsST zzTask2001InputParamsST;
 
 enum Task2001Surface
 {
@@ -47,8 +47,8 @@ struct _zzTask2001ST
     zzMatrix2002ST          *pMatrix2002;
     zzMatrix9002ST          *pMatrix9002;
 
-    zzBOOL                  screen_flag;
-    Task2001InputParamsST   params;
+    zzBOOL                    screen_flag;
+    zzTask2001InputParamsST   params;
 
 };
 

@@ -1,11 +1,15 @@
-/* zz_frame_reader.h --- 
+/* zz_frame_reader.h ---
  */
 
 #ifndef INCLUDED_ZZ_FRAME_OP_H
 #define INCLUDED_ZZ_FRAME_OP_H 1
 
-
 #include "cmn.h"
+
+enum
+{
+    NOT_INIT_VALUE      =   0xFFF7
+};
 
 typedef struct _zzOwnFrameInfoST zzOwnFrameInfoST;
 typedef struct _zzFrameData      zzFrameData;
@@ -22,7 +26,7 @@ enum inputParamEnum
     VPP_IN_6,
     VPP_IN_7,
     VPP_IN_8,
-    VPP_OUT,   
+    VPP_OUT,
     VPP_COUNT,
 };
 
@@ -168,6 +172,7 @@ zzStatus ZZ_Str2FourCC(zz_char* strInput, zzU32 *pFourCC);
 zz_char* ZZ_FourCC2Str(zzU32 fourcc);
 zz_char* ZZ_PicStruct2Str(zzU8 picStruct);
 zzStatus ZZ_DumpFrameInfo(zzFrameInfo *pFrameInfo);
+zzStatus ZZ_ParseOwnFrameInfo(zzOwnFrameInfoST *frameInfo, int nArgNum, char **strInput);
 
 
 #endif /* INCLUDED_ZZ_FRAME_OP_H */

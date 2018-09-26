@@ -14,7 +14,7 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
 
     CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
     CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
-    
+
     w = pInfo->Width;
     h = pInfo->Height;
 
@@ -24,13 +24,13 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
     {
             pInfo->CropX = 0;
             pInfo->CropY = 0;
-    }	 	
+    }
 
     if(pInfo->FourCC == ZZ_FOURCC_YV12)
     {
-	 ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch; 
+     ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
         // read luminance plane
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
@@ -46,7 +46,7 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
 
         // load V
         ptr  = Frame_V(pData) + (pInfo->CropX >> 1) + (pInfo->CropY >> 1) * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
@@ -55,10 +55,10 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
                 fseek(fSrc, (pInfo->Pitch - pInfo->Width)>>1, SEEK_CUR);
             }
         }
-        
+
         // load U
         ptr  = Frame_U(pData) + (pInfo->CropX >> 1) + (pInfo->CropY >> 1) * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
@@ -136,7 +136,7 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
-            // Notice: This shift just for vphal's padding. 
+            // Notice: This shift just for vphal's padding.
             ptr += pitch;
             // if not padding in file, please comment out this line below
             //fseek(fSrc, w, SEEK_CUR);
@@ -345,18 +345,18 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
     }
     else if( pInfo->FourCC == ZZ_FOURCC_NV12 )
     {
-        ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;   
+        ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
         // read luminance plane
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
         }
-    
+
         // load UV
         h     >>= 1;
         ptr = Frame_UV(pData) + pInfo->CropX + (pInfo->CropY >> 1) * pitch;
-        for (i = 0; i < h; i++) 
+        for (i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
@@ -367,7 +367,7 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
         ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
 
         // read luminance plane
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
@@ -376,7 +376,7 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
         // load UV
         h     >>= 1;
         ptr = Frame_UV(pData) + pInfo->CropX + (pInfo->CropY >> 1) * pitch;
-        for (i = 0; i < h; i++) 
+        for (i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
@@ -387,13 +387,13 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
         w     >>= 1;
         pitch >>= 1;
         ptr = Frame_U(pData) + pInfo->CropX + (pInfo->CropY >> 1) * pitch;
-        for (i = 0; i < h; i++) 
+        for (i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
         }
         ptr = Frame_V(pData) + pInfo->CropX + (pInfo->CropY >> 1) * pitch;
-        for (i = 0; i < h; i++) 
+        for (i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
@@ -406,11 +406,11 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
         CHECK_POINTER(Frame_G(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_R(pData), ZZ_ERR_NOT_INITIALIZED);
         // there is issue with A channel in case of d3d, so A-ch is ignored
-        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED); 
+        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED);
 
         ptr = ZZ_MIN( ZZ_MIN(Frame_R(pData), Frame_G(pData)), Frame_B(pData) );
         ptr = ptr + pInfo->CropX + pInfo->CropY * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, 4*w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, 4*w, ZZ_ERR_MORE_DATA);
@@ -422,29 +422,29 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
         CHECK_POINTER(Frame_G(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_R(pData), ZZ_ERR_NOT_INITIALIZED);
         // there is issue with A channel in case of d3d, so A-ch is ignored
-        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED); 
+        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED);
 
         ptr = ZZ_MIN( ZZ_MIN(Frame_R(pData), Frame_G(pData)), Frame_B(pData) );
-        ptr = ptr + pInfo->CropX + pInfo->CropY * pitch; 
+        ptr = ptr + pInfo->CropX + pInfo->CropY * pitch;
 
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, 4*w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, 4*w, ZZ_ERR_MORE_DATA);
         }
     }
     else if ( pInfo->FourCC == ZZ_FOURCC_R5G6B5 )
-             
+
     {
         CHECK_POINTER(Frame_B(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_G(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_R(pData), ZZ_ERR_NOT_INITIALIZED);
         // there is issue with A channel in case of d3d, so A-ch is ignored
-        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED); 
+        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED);
 
         ptr = ZZ_MIN( ZZ_MIN(Frame_R(pData), Frame_G(pData)), Frame_B(pData) );
-        ptr = ptr + pInfo->CropX +pInfo->CropY * pitch;   
-        for(i = 0; i < h; i++) 
+        ptr = ptr + pInfo->CropX +pInfo->CropY * pitch;
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, 2*w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, 2*w, ZZ_ERR_MORE_DATA);
@@ -452,14 +452,14 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
     }
     else if (pInfo->FourCC == ZZ_FOURCC_YUY2)
     {
-        ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch; 
-        for(i = 0; i < h; i++) 
+        ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
+        for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, 2*w, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, 2*w, ZZ_ERR_MORE_DATA);
         }
-    } 
-    else 
+    }
+    else
     {
         return ZZ_ERR_UNSUPPORTED;
     }
@@ -480,28 +480,28 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
 
     if(pInfo->MultiSrcWorktaskflowId == 2201)
     {
-	  pInfo->CropX = 0;
-	  pInfo->CropY = 0;
+      pInfo->CropX = 0;
+      pInfo->CropY = 0;
     }
-    if (pInfo->CropH > 0 && pInfo->CropW > 0 && bWithBox == FALSE) 
+    if (pInfo->CropH > 0 && pInfo->CropW > 0 && bWithBox == FALSE)
     {
-	 if(pInfo->MultiSrcWorktaskflowId == 2201)
-	 {
-		w = pInfo->Width;
+     if(pInfo->MultiSrcWorktaskflowId == 2201)
+     {
+        w = pInfo->Width;
               h = pInfo->Height;
-	 }
-	 else
-	 {
+     }
+     else
+     {
              w = pInfo->CropW;
              h = pInfo->CropH;
-	 }
-    } 
-    else 
+     }
+    }
+    else
     {
         w = pInfo->Width;
         h = pInfo->Height;
     }
-    
+
     pitch = pData->Pitch;
 
     if(pInfo->FourCC == ZZ_FOURCC_YV12)
@@ -518,7 +518,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
 
         ptr  = Frame_V(pData) + (pInfo->CropX >> 1) + (pInfo->CropY >> 1) * pitch;
 
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
@@ -574,7 +574,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
         {
             CHECK_NOT_EQUAL(zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
-        
+
         w >>= 2;
         pitch >>= 2;
         ptr  = Frame_U(pData) + pInfo->CropX + pInfo->CropY * pitch;
@@ -585,7 +585,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
         }
 
         ptr  = Frame_V(pData) + pInfo->CropX + pInfo->CropY * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
@@ -598,7 +598,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
         {
             CHECK_NOT_EQUAL(zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
-        
+
         ptr  = Frame_U(pData) + pInfo->CropX + pInfo->CropY * pitch;
         for(i = 0; i < h; i++)
         {
@@ -607,7 +607,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
         }
 
         ptr  = Frame_V(pData) + pInfo->CropX + pInfo->CropY * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
@@ -633,7 +633,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
         }
 
         ptr  = Frame_V(pData) + pInfo->CropX + pInfo->CropY * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
           //            CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ (i + 16) * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
@@ -682,13 +682,13 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
 
-	 ptr  = Frame_U(pData) + (pInfo->CropX >> 1) + (pInfo->CropY) * pitch;
+     ptr  = Frame_U(pData) + (pInfo->CropX >> 1) + (pInfo->CropY) * pitch;
         for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fwrite(ptr + i * pitch, 1, w, fDst);
             CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
         }
-    } 
+    }
     else if( pInfo->FourCC == ZZ_FOURCC_NV12 )
     {
 
@@ -697,11 +697,11 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
-    
+
         // write UV data
         h     >>= 1;
         ptr  = Frame_UV(pData) + (pInfo->CropX ) + (pInfo->CropY >> 1) * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
@@ -709,7 +709,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
     else if( pInfo->FourCC == ZZ_FOURCC_YUY2 )
     {
         ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, 2*w, fDst), 2*w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
@@ -720,46 +720,46 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
         CHECK_POINTER(Frame_G(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_B(pData), ZZ_ERR_NOT_INITIALIZED);
         // there is issue with A channel in case of d3d, so A-ch is ignored
-        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED); 
+        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED);
 
         ptr = ZZ_MIN( ZZ_MIN(Frame_R(pData), Frame_G(pData)), Frame_B(pData) );
         ptr = ptr + pInfo->CropX + pInfo->CropY * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr + i * pitch, 1, 4*w, fDst), 4*w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
-    } 
+    }
     else if (pInfo->FourCC == ZZ_FOURCC_ABGR)
     {
         CHECK_POINTER(Frame_R(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_G(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_B(pData), ZZ_ERR_NOT_INITIALIZED);
         // there is issue with A channel in case of d3d, so A-ch is ignored
-        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED); 
+        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED);
 
         ptr = ZZ_MIN( ZZ_MIN(Frame_R(pData), Frame_G(pData)), Frame_B(pData) );
         ptr = ptr + pInfo->CropX + pInfo->CropY * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr + i * pitch, 1, 4*w, fDst), 4*w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
-    } 
+    }
     else if (pInfo->FourCC == ZZ_FOURCC_R5G6B5)
     {
         CHECK_POINTER(Frame_R(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_G(pData), ZZ_ERR_NOT_INITIALIZED);
         CHECK_POINTER(Frame_B(pData), ZZ_ERR_NOT_INITIALIZED);
         // there is issue with A channel in case of d3d, so A-ch is ignored
-        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED); 
+        //CHECK_POINTER(pData->A, ZZ_ERR_NOT_INITIALIZED);
 
         ptr = ZZ_MIN( ZZ_MIN(Frame_R(pData), Frame_G(pData)), Frame_B(pData));
         ptr = ptr + pInfo->CropX + pInfo->CropY * pitch;
-        for(i = 0; i < h; i++) 
+        for(i = 0; i < h; i++)
         {
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr + i * pitch, 1, 2*w, fDst), 2*w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
-    } 
-    else 
+    }
+    else
     {
         return ZZ_ERR_UNSUPPORTED;
     }
@@ -772,7 +772,7 @@ zzStatus ZZ_Str2FourCC(zz_char* strInput, zzU32 *pFourCC)
 {
     zzStatus  sts    = ZZ_ERR_NONE;
 
-    if ( 0 == zz_strcmp(strInput, ZZ_STRING("yv12")) ) 
+    if ( 0 == zz_strcmp(strInput, ZZ_STRING("yv12")) )
     {
         *pFourCC = ZZ_FOURCC_YV12;
     }
@@ -807,8 +807,8 @@ zzStatus ZZ_Str2FourCC(zz_char* strInput, zzU32 *pFourCC)
     else if ( 0 == zz_strcmp(strInput, ZZ_STRING("yuy2")) )
     {
         *pFourCC = ZZ_FOURCC_YUY2;
-    } 
-    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("nv12")) ) 
+    }
+    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("nv12")) )
     {
         *pFourCC = ZZ_FOURCC_NV12;
     }
@@ -816,19 +816,19 @@ zzStatus ZZ_Str2FourCC(zz_char* strInput, zzU32 *pFourCC)
     {
         *pFourCC = ZZ_FOURCC_NV12_LINEAR;
     }
-    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("abgr")) ) 
+    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("abgr")) )
     {
         *pFourCC = ZZ_FOURCC_ABGR;
     }
-    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("argb")) ) 
+    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("argb")) )
     {
         *pFourCC = ZZ_FOURCC_ARGB;
-    }    
-    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("r5g6b5")) ) 
+    }
+    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("r5g6b5")) )
     {
         *pFourCC = ZZ_FOURCC_R5G6B5;
     }
-    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("xrgb")) ) 
+    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("xrgb")) )
     {
         *pFourCC = ZZ_FOURCC_XRGB;
     }
@@ -902,11 +902,27 @@ zz_char* ZZ_FourCC2Str(zzU32 fourcc)
     return ret;
 }
 
+zzU8 ZZ_GetPicStruct(zzU8 picStruct )
+{
+    if ( 0 == picStruct )
+    {
+        return ZZ_PICSTRUCT_FIELD_TFF;
+    }
+    else if( 2 == picStruct )
+    {
+        return ZZ_PICSTRUCT_FIELD_BFF;
+    }
+    else
+    {
+        return ZZ_PICSTRUCT_PROGRESSIVE;
+    }
+}
+
 zz_char* ZZ_PicStruct2Str(zzU8 picStruct)
 {
     zz_char*  ret = NULL;
-    
-    switch (picStruct ) 
+
+    switch (picStruct )
     {
     case ZZ_PICSTRUCT_FIELD_TFF:
         ret = "tff";
@@ -933,7 +949,7 @@ zzStatus ZZ_DumpFrameInfo(zzFrameInfo *pFrameInfo)
     CHECK_POINTER(pFrameInfo, ZZ_ERR_NULL_PTR);
 
     ZZPRINTF("Format    = (%s:%d)\n", ZZ_FourCC2Str(pFrameInfo->FourCC), pFrameInfo->FourCC);
-    
+
     ZZPRINTF("Width     = (%d)\n", pFrameInfo->Width);
     ZZPRINTF("Height    = (%d)\n", pFrameInfo->Height);
     ZZPRINTF("CropX     = (%d)\n", pFrameInfo->CropX);
@@ -941,6 +957,181 @@ zzStatus ZZ_DumpFrameInfo(zzFrameInfo *pFrameInfo)
     ZZPRINTF("CropW     = (%d)\n", pFrameInfo->CropW);
     ZZPRINTF("CropH     = (%d)\n", pFrameInfo->CropH);
     ZZPRINTF("PicStruct = (%s:%d)\n", ZZ_PicStruct2Str(pFrameInfo->PicStruct), pFrameInfo->PicStruct);
-    
+
     return sts;
+}
+
+zzStatus ZZ_ParseOwnFrameInfo(zzOwnFrameInfoST *frameInfo, int nArgNum, char **strInput)
+{
+    zzStatus           sts     = ZZ_ERR_NONE;
+    zzU8               i       = 1;
+
+    for (i = 1; i < nArgNum; i++ )
+    {
+        CHECK_POINTER(strInput[i], ZZ_ERR_NULL_PTR);
+        {
+            if ( 0 == zz_strcmp(strInput[i], ZZ_STRING("-sw")) )
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_IN].Width);
+            }
+            else if ( 0 == zz_strcmp(strInput[i], ZZ_STRING("-spitch")) )
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_IN].Pitch);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-sh")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_IN].Height);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-scrX")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_IN].CropX);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-scrY")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_IN].CropY);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-scrW")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_IN].CropW);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-scrH")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_IN].CropH);
+            }
+            else if(0 == zz_strcmp(strInput[i], ZZ_STRING("-spic")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), (short int *)&frameInfo[VPP_IN].PicStruct);
+                frameInfo[VPP_IN].PicStruct = ZZ_GetPicStruct(frameInfo[VPP_IN].PicStruct);
+            }
+            else if(0 == zz_strcmp(strInput[i], ZZ_STRING("-sf")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%lf"), &frameInfo[VPP_IN].dFrameRate);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-dw")) )
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_OUT].Width);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-dh")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_OUT].Height);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-dcrX")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_OUT].CropX);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-dcrY")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_OUT].CropY);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-dcrW")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_OUT].CropW);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-dcrH")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &frameInfo[VPP_OUT].CropH);
+            }
+            else if(0 == zz_strcmp(strInput[i], ZZ_STRING("-dpic")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), (short int *)&frameInfo[VPP_OUT].PicStruct);
+                frameInfo[VPP_OUT].PicStruct = ZZ_GetPicStruct(frameInfo[VPP_OUT].PicStruct);
+            }
+            else if(0 == zz_strcmp(strInput[i], ZZ_STRING("-df")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%lf"), &frameInfo[VPP_OUT].dFrameRate);
+            }
+
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-scc")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                sts = ZZ_Str2FourCC(strInput[i], &frameInfo[VPP_IN].FourCC);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("zzmedix unsupport format: %s\n", strInput[i]);
+                    goto END;
+                }
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-dcc")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                sts = ZZ_Str2FourCC(strInput[i], &frameInfo[VPP_OUT].FourCC);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("zzmediax unsupport format: %s\n", strInput[i]);
+                    goto END;
+                }
+            }
+
+        }
+    }
+
+    if (NOT_INIT_VALUE == frameInfo[VPP_IN].CropW)
+    {
+        frameInfo[VPP_IN].CropW = frameInfo[VPP_IN].Width;
+    }
+
+    if (NOT_INIT_VALUE == frameInfo[VPP_IN].CropH)
+    {
+        frameInfo[VPP_IN].CropH = frameInfo[VPP_IN].Height;
+    }
+
+    if (NOT_INIT_VALUE == frameInfo[VPP_OUT].CropW)
+    {
+        frameInfo[VPP_OUT].CropW = frameInfo[VPP_OUT].Width;
+    }
+
+    if (NOT_INIT_VALUE == frameInfo[VPP_OUT].CropH)
+    {
+        frameInfo[VPP_OUT].CropH = frameInfo[VPP_OUT].Height;
+    }
+
+    //picture struct setting
+    if (ZZ_PICSTRUCT_UNKNOWN == frameInfo[VPP_IN].PicStruct)
+    {
+        frameInfo[VPP_IN].PicStruct = ZZ_PICSTRUCT_PROGRESSIVE;
+    }
+
+    if (ZZ_PICSTRUCT_UNKNOWN == frameInfo[VPP_OUT].PicStruct)
+    {
+        frameInfo[VPP_OUT].PicStruct = frameInfo[VPP_IN].PicStruct;
+    }
+END:
+    return sts;
+
 }

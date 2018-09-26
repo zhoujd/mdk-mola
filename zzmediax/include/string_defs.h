@@ -74,6 +74,11 @@ typedef char zz_char;
 #define zz_itoa_decimal(value, str) snprintf(str, sizeof(str)/sizeof(str[0])-1, "%d", value)
 
 #define zz_strcat(dest, len, str)               strcat(dest, str)
+
+#define zz_strcpy       strcpy
+#define zz_strncpy      strncpy
+#define zz_sscanf       sscanf
+
 #define zz_strcopy(dest, len, str)              strcpy(dest, str)
 #define zz_strncopy(dst, num_dst, src, count)   strncpy(dst, src, count)
 

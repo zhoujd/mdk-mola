@@ -1,4 +1,4 @@
-/* utils.h --- 
+/* utils.h ---
  */
 
 #ifndef ZZUTILS_H
@@ -12,6 +12,3 @@ void*      ZZAllocAndZeroMem(size_t size);
 zzStatus   ZZInfoPrint(zz_char*  pStrInfoFile, zz_char* format, ...);
 
 #endif //ZZUTILS_H
-
-
-	
