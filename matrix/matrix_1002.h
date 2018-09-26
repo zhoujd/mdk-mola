@@ -12,6 +12,12 @@
 #define MATRIX1002_ID (1002)
 
 typedef struct _zzMatrix1002ST zzMatrix1002ST;
+typedef struct _zzMatrix1002InputParamsST zzMatrix1002InputParamsST;
+
+struct _zzMatrix1002InputParamsST
+{
+    int i;
+};
 
 struct _zzMatrix1002ST
 {
@@ -19,6 +25,8 @@ struct _zzMatrix1002ST
 
     zzSurfaceST       *pDestSurface;
     zzFrameReaderST   *pFrameReader;  //frame reader
+
+    zzMatrix1002InputParamsST params;
 };
 
 

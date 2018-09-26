@@ -10,6 +10,8 @@ static zzStatus ZZMatrix1002_Start(zzMatrixBaseST *pSelf);
 static zzStatus ZZMatrix1002_Test(zzMatrixBaseST *pSelf);
 static zzStatus ZZMatrix1002_End(zzMatrixBaseST *pSelf);
 
+static zzStatus ZZMatrix1002_ParseInputString(zzMatrix1002ST  *pSelf, int nArgNum, char **strInput);
+
 enum MATRIX1002_EVENT_EN
 {
     ZZ_EVENT_TASK1002_TEST = ZZ_EVENT_USER + 1,
@@ -104,10 +106,18 @@ zzStatus ZZMatrix1002_Init(zzMatrix1002ST *pSelf, zzU16 argc, zz_char **argv,
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
+    sts = ZZMatrix1002_ParseInputString(pSelf, argc, argv);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrix1002_ParseInputString error\n");
+        goto END;
+    }
+
     pSelf->base.pipe_ctrl = pPipeCtrl;
 
     FREEIF(pSelf);
 
+END:
     return sts;
 }
 
@@ -149,4 +159,19 @@ zzStatus ZZMatrix1002_End(zzMatrixBaseST *pMatrixBase)
 
     return sts;
 
+}
+
+zzStatus ZZMatrix1002_ParseInputString(zzMatrix1002ST  *pSelf, int nArgNum, char **strInput)
+{
+    zzStatus           sts     = ZZ_ERR_NONE;
+    zzU8               i       = 1;
+
+    for (i = 1; i < nArgNum; i++ )
+    {
+        CHECK_POINTER(strInput[i], ZZ_ERR_NULL_PTR);
+        {
+        }
+    }
+
+    return sts;
 }

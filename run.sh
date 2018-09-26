@@ -7,7 +7,7 @@ if [ ! -e ./zzmediaxapp ]; then
     exit 1
 fi
 
-run_task_1101()
+run_task_2001()
 {
     echo "run task 2001 start ..."
     ./zzmediaxapp -task 2001
@@ -22,4 +22,4 @@ run_task_1001()
 }
 
 run_task_1001
-run_task_1101
+run_task_2001
