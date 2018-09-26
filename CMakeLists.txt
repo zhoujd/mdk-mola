@@ -60,6 +60,8 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_4001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_1002.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_2002.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9002.c
   )
 
 ADD_EXECUTABLE(zzmediaxapp ${SRC_LIST})
