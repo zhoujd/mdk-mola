@@ -265,14 +265,16 @@ zzStatus ZZTask2001_CreateSurface(zzTask2001ST  *pSelf)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
 
-    sts = ZZ_ParamInfo2SurfInfo(&pSelf->surface[TASK2001_SCALING_SRC].frameInfo, &pSelf->params.frameInfo[VPP_IN]);
+    sts = ZZ_ParamInfo2SurfInfo(&pSelf->surface[TASK2001_SCALING_SRC].frameInfo,
+                                &pSelf->params.frameInfo[VPP_IN]);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZ_ParamInfo2SurfInfo  error\n");
         goto END;
     }
 
-    sts = ZZ_ParamInfo2SurfInfo(&pSelf->surface[TASK2001_SCALING_DST].frameInfo, &pSelf->params.frameInfo[VPP_OUT]);
+    sts = ZZ_ParamInfo2SurfInfo(&pSelf->surface[TASK2001_SCALING_DST].frameInfo,
+                                &pSelf->params.frameInfo[VPP_OUT]);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZ_ParamInfo2SurfInfo  error\n");
@@ -308,7 +310,6 @@ zzStatus ZZTask2001_CreateSurface(zzTask2001ST  *pSelf)
         ZZPRINTF("ZZSurface_CreateEx  error\n");
         goto END;
     }
-
 
 END:
     return sts;
