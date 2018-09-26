@@ -4,8 +4,8 @@ zzStatus ZZMediaxApp_TaskRegister(zzAppST *pApp)
 {
     zzStatus      sts    = ZZ_ERR_NONE;
 
-    //init Task 1101
-    sts = ZZTask1101_Register();
+    //init Task 2001
+    sts = ZZTask2001_Register();
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTask1101_Regist error\n");
@@ -29,11 +29,11 @@ zzStatus ZZMediaxApp_MatrixHelpRegister(zzAppST *pApp)
 {
     zzStatus      sts    = ZZ_ERR_NONE;
 
-    //init Matrix 1101
-    sts = ZZMatrix1101_HelpRegister();
+    //init Matrix 1002
+    sts = ZZMatrix1002_HelpRegister();
     if (sts != ZZ_ERR_NONE)
     {
-        ZZPRINTF("ZZMatrix1101_HelpRegister error\n");
+        ZZPRINTF("ZZMatrix1002_HelpRegister error\n");
         goto END;
     }
 

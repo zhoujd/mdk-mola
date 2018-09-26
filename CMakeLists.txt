@@ -52,14 +52,14 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_writer.c
 
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_1001.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_1101.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_2001.c
   
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_1001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_2001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_3001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_4001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9001.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_1101.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_1002.c
   )
 
 ADD_EXECUTABLE(zzmediaxapp ${SRC_LIST})
