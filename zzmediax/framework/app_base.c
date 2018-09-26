@@ -1,4 +1,3 @@
-
 #include "app_base.h"
 
 
@@ -97,7 +96,7 @@ END:
 }
 
 zzStatus ZZApp_Execute(zzAppST *pSelf, zzU16 argc, zz_char **argv)
-{  
+{
     zzStatus  sts = ZZ_ERR_NONE;
 
     sts = ZZDispatch_Run(&GetAPP()->dispatch, argc, argv);
@@ -116,7 +115,7 @@ zzStatus ZZApp_PrintHelp(zzAppST  *pSelf)
     zzStatus  sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-    
+
     return sts;
 }
 

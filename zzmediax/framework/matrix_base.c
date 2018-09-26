@@ -1,4 +1,3 @@
-
 #include "matrix_base.h"
 
 zzStatus ZZMatrixBase_FindCell(zzMatrixBaseST *pSelf, zzEventID id, zzMatrixCellST **ppCell)
@@ -9,7 +8,7 @@ zzStatus ZZMatrixBase_FindCell(zzMatrixBaseST *pSelf, zzEventID id, zzMatrixCell
     zzBOOL         bFound = FALSE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
-    
+
     for (i = 0; i < pSelf->cell_num; i++)
     {
         if (id == pSelf->cell_list[i].id)
@@ -19,7 +18,7 @@ zzStatus ZZMatrixBase_FindCell(zzMatrixBaseST *pSelf, zzEventID id, zzMatrixCell
             break;
         }
     }
-    
+
     if (TRUE == bFound)
     {
         *ppCell = pTemp;

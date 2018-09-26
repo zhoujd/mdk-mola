@@ -11,6 +11,7 @@ static zzStatus ZZTask2001_ExecInit(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask2001_Release(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask2001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 
+static zzStatus ZZTask2001_ParseInputString(zzTask2001ST  *pSelf, int nArgNum, char **strInput);
 static zzStatus ZZTask2001_InitMatrix(zzTask2001ST  *pSelf, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_CreateSurface(zzTask2001ST  *pSelf);
 static zzStatus ZZTask2001_ReleaseSurface(zzTask2001ST  *pSelf);
@@ -97,10 +98,17 @@ zzStatus ZZTask2001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
     zzTask2001ST  *pSelf = GET_TASK2001(pTaskBase);
 
     //use default context
-    sts  = ZZTaskBase_Init(pTaskBase, argc, argv);
+    sts = ZZTaskBase_Init(pTaskBase, argc, argv);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTaskBase_Init  error\n");
+        goto END;
+    }
+
+    sts = ZZTask2001_ParseInputString(pSelf, argc, argv);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTask2001_ParseInputString  error\n");
         goto END;
     }
 
@@ -301,5 +309,20 @@ zzStatus ZZTask2001_InitMatrix(zzTask2001ST  *pSelf, zzU16 argc, zz_char **argv)
     }
 
 END:
+    return sts;
+}
+
+zzStatus ZZTask2001_ParseInputString(zzTask2001ST  *pSelf, int nArgNum, char **strInput)
+{
+    zzStatus           sts     = ZZ_ERR_NONE;
+    zzU8               i       = 1;
+
+    for (i = 1; i < nArgNum; i++ )
+    {
+        CHECK_POINTER(strInput[i], ZZ_ERR_NULL_PTR);
+        {
+        }
+    }
+
     return sts;
 }
