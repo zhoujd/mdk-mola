@@ -9,9 +9,9 @@ fi
 
 run_task_1101()
 {
-    echo "run task 1101 start ..."
-    ./zzmediaxapp -task 1101
-    echo "run task 1101 end ..."
+    echo "run task 2001 start ..."
+    ./zzmediaxapp -task 2001
+    echo "run task 2001 end ..."
 }
 
 run_task_1001()
