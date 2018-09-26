@@ -98,11 +98,14 @@ zzStatus ZZMatrix1101_Release(zzMatrix1101ST *pSelf)
 }
 
 
-zzStatus ZZMatrix1101_Init(zzMatrix1101ST *pSelf, zzU16 argc, zz_char **argv)
+zzStatus ZZMatrix1101_Init(zzMatrix1101ST *pSelf, zzU16 argc, zz_char **argv,
+                           zzPipeCtrlST *pPipeCtrl)
 {
     zzStatus  sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
+
+    pSelf->base.pipe_ctrl = pPipeCtrl;
 
     FREEIF(pSelf);
 

@@ -1,4 +1,4 @@
-/* matrix_defs.h --- 
+/* matrix_defs.h ---
  */
 
 #ifndef INCLUDED_ZZ_PROC_DEFS_H
@@ -15,9 +15,16 @@ extern zzStatus ZZMatrix1101_HelpRegister();  //for linux
 typedef struct _zzMatrixBaseST  zzMatrixBaseST;
 typedef struct _zzMatrixCellST  zzMatrixCellST;
 
+typedef struct _zzPipeCtrlST zzPipeCtrlST;
+
 typedef zzStatus   (*zzFunctionPreExec)(zzMatrixBaseST *pSelf);
 typedef zzStatus   (*zzFunctionExec)(zzMatrixBaseST *pSelf);
 typedef zzStatus   (*zzFunctionPostExec)(zzMatrixBaseST *pSelf);
+
+struct _zzPipeCtrlST {
+    zzU16      head_matrix;
+    zzEventID  head_matrix_event;
+};
 
 struct _zzMatrixBaseST
 {
@@ -26,8 +33,9 @@ struct _zzMatrixBaseST
 
     zzMatrixCellST     *cell_list;
     zzU16               cell_num;
-    
+
     zzEventID           next_event;    //to store event for the next
+    zzPipeCtrlST       *pipe_ctrl;
 
     zz_list             matrix_list;
 };
@@ -42,4 +50,3 @@ struct _zzMatrixCellST
 };
 
 #endif /* INCLUDED_ZZ_PROC_DEFS_H */
-

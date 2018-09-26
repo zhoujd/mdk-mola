@@ -285,7 +285,7 @@ zzStatus ZZTask1101_InitMatrix(zzTask1101ST  *pSelf, zzU16 argc, zz_char **argv)
     }
 
     //init martix 1101
-    sts = ZZMatrix1101_Init(pSelf->pMatrix1101, argc, argv);
+    sts = ZZMatrix1101_Init(pSelf->pMatrix1101, argc, argv, &pSelf->base.pipe_ctrl);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZMatrix1101_Init  error\n");

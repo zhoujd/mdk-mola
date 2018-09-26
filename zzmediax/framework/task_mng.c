@@ -117,7 +117,7 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
         if (ZZ_EVENT_END == pMatrix->next_event)
         {
             ZZPRINTF("Skip Matrix for it is done: %d\n", pMatrix->matrix_id);
-            continue;   //end loop
+            continue;
         }
 
         pSelf->curr_task_alive = TRUE;

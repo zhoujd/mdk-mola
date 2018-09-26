@@ -12,6 +12,7 @@
 
 typedef struct _zzTaskBaseST zzTaskBaseST;
 
+
 typedef zzStatus (*zzTaskInitFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
 typedef zzStatus (*zzTaskExecInitFn)(zzTaskBaseST *pSelf);
 typedef zzStatus (*zzTaskReleaseFn)(zzTaskBaseST *pSelf);
@@ -32,6 +33,7 @@ struct _zzTaskBaseST
 
     //matrix list
     zz_list                 matrix_head;
+    zzPipeCtrlST            pipe_ctrl;
 };
 
 zzStatus ZZTaskBase_DefaultFP(zzTaskBaseST *pSelf);
