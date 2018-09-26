@@ -13,6 +13,7 @@ static zzStatus ZZTask2001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **a
 
 static zzStatus ZZTask2001_ParseInputString(zzTask2001ST  *pSelf, int nArgNum, char **strInput);
 static zzStatus ZZTask2001_ParseOutputInfo(zzTask2001ST  *pSelf, int nArgNum, char **strInput);
+static zzStatus ZZTask2001_DefaultParam(zzTask2001ST  *pSelf);
 
 static zzStatus ZZTask2001_InitMatrix(zzTask2001ST  *pSelf, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_ReleaseMatrix(zzTask2001ST  *pSelf);
@@ -23,6 +24,21 @@ static zzStatus ZZTask2001_InitMatrix9002(zzTask2001ST  *pSelf, zzU16 argc, zz_c
 
 static zzStatus ZZTask2001_CreateSurface(zzTask2001ST  *pSelf);
 static zzStatus ZZTask2001_ReleaseSurface(zzTask2001ST  *pSelf);
+
+
+//default parameter
+const static zzOwnFrameInfoST  taskParam[VPP_COUNT] =
+{
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+    {352, 0, 288, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, 0, NOT_INIT_VALUE, NOT_INIT_VALUE, 0, ZZ_FOURCC_NV12, ZZ_PICSTRUCT_UNKNOWN, 30},
+};
 
 
 zzStatus ZZTask2001_Register()
@@ -104,6 +120,14 @@ zzStatus ZZTask2001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
 {
     zzStatus       sts   = ZZ_ERR_NONE;
     zzTask2001ST  *pSelf = GET_TASK2001(pTaskBase);
+
+    //set default param
+    sts = ZZTask2001_DefaultParam(pSelf);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTask2001_DefaultParam  error\n");
+        goto END;
+    }
 
     //use default context
     sts = ZZTaskBase_Init(pTaskBase, argc, argv);
@@ -388,6 +412,23 @@ zzStatus ZZTask2001_ParseOutputInfo(zzTask2001ST  *pSelf, int nArgNum, char **st
             }
         }
     }
+
+    return sts;
+}
+
+zzStatus ZZTask2001_DefaultParam(zzTask2001ST  *pSelf)
+{
+    zzStatus sts = ZZ_ERR_NONE;
+    zzU8        i   = 0;
+
+    for (i = 0; i < VPP_COUNT; i++)
+    {
+        pSelf->params.frameInfo[i] = taskParam[i];
+    }
+
+    //file name
+    zz_strncpy(pSelf->params.strSrcFile,   "ice_10.nv12", MAX_FILENAME_LEN - 1);
+    zz_strncpy(pSelf->params.strDstFile,   "output.nv12", MAX_FILENAME_LEN - 1);
 
     return sts;
 }
