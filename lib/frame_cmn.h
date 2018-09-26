@@ -173,6 +173,7 @@ zz_char* ZZ_FourCC2Str(zzU32 fourcc);
 zz_char* ZZ_PicStruct2Str(zzU8 picStruct);
 zzStatus ZZ_DumpFrameInfo(zzFrameInfo *pFrameInfo);
 zzStatus ZZ_ParseOwnFrameInfo(zzOwnFrameInfoST *frameInfo, int nArgNum, char **strInput);
+zzStatus ZZ_ParamInfo2SurfInfo(zzFrameInfo *pSurfFrameInfo, zzOwnFrameInfoST *pParamFrameInfo);
 
 
 #endif /* INCLUDED_ZZ_FRAME_OP_H */

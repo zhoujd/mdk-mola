@@ -265,25 +265,19 @@ zzStatus ZZTask2001_CreateSurface(zzTask2001ST  *pSelf)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
 
-    pSelf->surface[TASK2001_SCALING_SRC].frameInfo.Width      = 720;
-    pSelf->surface[TASK2001_SCALING_SRC].frameInfo.Height     = 576;
-    pSelf->surface[TASK2001_SCALING_SRC].frameInfo.FourCC     = ZZ_FOURCC_NV12;
+    sts = ZZ_ParamInfo2SurfInfo(&pSelf->surface[TASK2001_SCALING_SRC].frameInfo, &pSelf->params.frameInfo[VPP_IN]);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZ_ParamInfo2SurfInfo  error\n");
+        goto END;
+    }
 
-    pSelf->surface[TASK2001_SCALING_SRC].frameInfo.CropX      = 0;
-    pSelf->surface[TASK2001_SCALING_SRC].frameInfo.CropY      = 0;
-    pSelf->surface[TASK2001_SCALING_SRC].frameInfo.CropW      = 720;
-    pSelf->surface[TASK2001_SCALING_SRC].frameInfo.CropH      = 576;
-    pSelf->surface[TASK2001_SCALING_SRC].frameInfo.PicStruct  = ZZ_PICSTRUCT_PROGRESSIVE;
-
-    pSelf->surface[TASK2001_SCALING_DST].frameInfo.Width      = 1440;
-    pSelf->surface[TASK2001_SCALING_DST].frameInfo.Height     = 1152;
-    pSelf->surface[TASK2001_SCALING_DST].frameInfo.FourCC     = ZZ_FOURCC_NV12;
-
-    pSelf->surface[TASK2001_SCALING_DST].frameInfo.CropX      = 0;
-    pSelf->surface[TASK2001_SCALING_DST].frameInfo.CropY      = 0;
-    pSelf->surface[TASK2001_SCALING_DST].frameInfo.CropW      = 1440;
-    pSelf->surface[TASK2001_SCALING_DST].frameInfo.CropH      = 1152;
-    pSelf->surface[TASK2001_SCALING_DST].frameInfo.PicStruct  = ZZ_PICSTRUCT_PROGRESSIVE;
+    sts = ZZ_ParamInfo2SurfInfo(&pSelf->surface[TASK2001_SCALING_DST].frameInfo, &pSelf->params.frameInfo[VPP_OUT]);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZ_ParamInfo2SurfInfo  error\n");
+        goto END;
+    }
 
     ZZPRINTF("Task2001 scc frameInfo\n");
     sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_SRC].frameInfo);

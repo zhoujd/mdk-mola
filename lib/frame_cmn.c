@@ -1133,5 +1133,32 @@ zzStatus ZZ_ParseOwnFrameInfo(zzOwnFrameInfoST *frameInfo, int nArgNum, char **s
     }
 END:
     return sts;
+}
 
+zzStatus ZZ_ParamInfo2SurfInfo(zzFrameInfo *pSurfFrameInfo, zzOwnFrameInfoST *pParamFrameInfo)
+{
+    zzStatus sts    = ZZ_ERR_NONE;
+
+    CHECK_POINTER(pSurfFrameInfo, ZZ_ERR_ABORTED);
+    CHECK_POINTER(pParamFrameInfo, ZZ_ERR_ABORTED);
+
+    pSurfFrameInfo->Width     = pParamFrameInfo->Width;
+    pSurfFrameInfo->Pitch     = pParamFrameInfo->Pitch;
+    pSurfFrameInfo->Height    = pParamFrameInfo->Height;
+    pSurfFrameInfo->FourCC    = pParamFrameInfo->FourCC;
+
+    pSurfFrameInfo->CropX     = pParamFrameInfo->CropX;
+    pSurfFrameInfo->CropY     = pParamFrameInfo->CropY;
+    pSurfFrameInfo->CropW     = pParamFrameInfo->CropW;
+    pSurfFrameInfo->CropH     = pParamFrameInfo->CropH;
+
+    pSurfFrameInfo->OutCropX     = pParamFrameInfo->OutCropX;
+    pSurfFrameInfo->OutCropY     = pParamFrameInfo->OutCropY;
+    pSurfFrameInfo->OutCropW     = pParamFrameInfo->OutCropW;
+    pSurfFrameInfo->OutCropH     = pParamFrameInfo->OutCropH;
+    pSurfFrameInfo->MultiSrcWorktaskflowId     = pParamFrameInfo->MultiSrcWorktaskflowId;
+
+    pSurfFrameInfo->PicStruct = pParamFrameInfo->PicStruct;
+
+    return sts;
 }
