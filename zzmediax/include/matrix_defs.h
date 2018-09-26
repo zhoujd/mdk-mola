@@ -8,10 +8,6 @@
 #include "help.h"
 #include "event.h"
 
-//help register function
-extern zzStatus ZZMatrix1001_HelpRegister();
-extern zzStatus ZZMatrix1101_HelpRegister();  //for linux
-
 typedef struct _zzMatrixBaseST  zzMatrixBaseST;
 typedef struct _zzMatrixCellST  zzMatrixCellST;
 
