@@ -43,6 +43,8 @@ ZZ_SRC_FILES = \
 	matrix/matrix_4001.c \
 	matrix/matrix_9001.c \
 	matrix/matrix_1002.c \
+	matrix/matrix_2002.c \
+	matrix/matrix_9002.c \
 	lib/frame_cmn.c \
 	lib/frame_reader.c \
 	lib/frame_writer.c \
