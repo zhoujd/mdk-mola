@@ -144,11 +144,11 @@ zzStatus ZZMatrix2002_Start(zzMatrixBaseST *pMatrixBase)
     zzMatrix2002ST *pSelf = GET_MATRIX2002(pMatrixBase);
 
 
-    //ZZPRINTF("Matrix %d Start\n", pSelf->base.matrix_id);
+    ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
 
     if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
     {
-        //ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
+        ZZDEBUG("(%s) get exist event\n", __FUNCTION__);
         pMatrixBase->next_event = ZZ_EVENT_END;
         goto END;
     }
@@ -173,11 +173,11 @@ zzStatus ZZMatrix2002_PartStart(zzMatrixBaseST *pMatrixBase)
     zzStatus       sts    = ZZ_ERR_NONE;
     zzMatrix2002ST *pSelf = GET_MATRIX2002(pMatrixBase);
 
-    //ZZPRINTF("Matrix %d PartStart\n", pSelf->base.matrix_id);
+    ZZDEBUG("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
     if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
     {
-        //ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
+        ZZDEBUG("(%s) get exist event\n", __FUNCTION__);
         pMatrixBase->next_event = ZZ_EVENT_END;
         goto END;
     }

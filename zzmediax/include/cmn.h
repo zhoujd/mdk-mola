@@ -10,6 +10,7 @@
 
 #ifndef ANDROID
 #define ZZPRINTF           printf
+#define ZZDEBUG(...)
 #else
 #define ZZPRINTF(...)      __android_log_print(ANDROID_LOG_ERROR, "ZZMEDIAX", __VA_ARGS__)
 #endif //ANDROID
@@ -18,7 +19,7 @@
 extern void*      ZZAllocAndZeroMem(size_t size);
 extern zzStatus   ZZInfoPrint(zz_char*  pStrInfoFile, zz_char* format, ...);
 
-#define ZZINFO(...)        ZZInfoPrint("zzokapi_info.txt", __VA_ARGS__)
+#define ZZINFO(...)        ZZInfoPrint("zz_info.txt", __VA_ARGS__)
 #define AllocAndZeroMem    ZZAllocAndZeroMem
 
 #define ZZ_ALIGN(x,a)        (((x)+((a)-1))&~((a)-1))
