@@ -19,7 +19,7 @@ zzStatus ZZSurface_CreateSurface(VADisplay display,  int format, int width, int 
     attrib.value.type    = VAGenericValueTypeInteger;
     attrib.value.value.i = format;
     attrib.flags         = VA_SURFACE_ATTRIB_SETTABLE;
-    
+
     va_res = vaCreateSurfaces(display, VA_RT_FORMAT_YUV420, width, height, pSurfaceID,
                               surface_cnt, &attrib, 1);
 
@@ -61,7 +61,7 @@ zzStatus ZZSurface_Create(zzSurfaceST *pSurface)
         ZZPRINTF("ZZSurface_GetGenericFormat error\n");
         goto END;
     }
-    
+
     va_res = vaCreateSurfaces(GetVaDisplay(pSurface),
                               format_va,
                               pSurface->frameInfo.Width,
@@ -79,8 +79,8 @@ zzStatus ZZSurface_Create(zzSurfaceST *pSurface)
     }
 
     ZZPRINTF("%s pSurface->id = %d\n", __FUNCTION__, pSurface->id);
-    
-END:    
+
+END:
     return sts;
 
 }
@@ -92,7 +92,7 @@ zzStatus ZZSurface_Release(zzSurfaceST *pSurface)
 
 
     ZZPRINTF("%s pSurface->id = %d\n", __FUNCTION__, pSurface->id);
-    
+
     va_res = vaDestroySurfaces(GetVaDisplay(pSurface), &pSurface->id, 1);
     sts = va_to_zz_status(va_res);
     if (sts != ZZ_ERR_NONE)
@@ -100,11 +100,11 @@ zzStatus ZZSurface_Release(zzSurfaceST *pSurface)
         ZZPRINTF("vaDestroySurfaces error\n");
         goto END;
     }
-    
-    
+
+
     pSurface->id = VA_INVALID_ID;
-    
-END:    
+
+END:
     return sts;
 }
 
@@ -125,7 +125,7 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
     }
 
     pSurface->map_flag = TRUE;
-    
+
     va_res = vaMapBuffer(GetVaDisplay(pSurface), pSurface->va_image.buf, (void *)&image_data);
     sts     = va_to_zz_status(va_res);
     if (sts != ZZ_ERR_NONE)
@@ -137,7 +137,7 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
     ptr = &pSurface->frameData;
     Frame_B(ptr) = Frame_Y(ptr) = image_data;
 
-    switch (pSurface->va_image.format.fourcc) 
+    switch (pSurface->va_image.format.fourcc)
     {
     case ZZ_FOURCC_400P:
         ptr->Pitch = (zzU16)pSurface->va_image.pitches[0];
@@ -183,9 +183,9 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
         goto END;
     }
 
-END:    
+END:
     return sts;
-    
+
 }
 
 zzStatus ZZSurface_UnLock(zzSurfaceST *pSurface)
@@ -206,7 +206,7 @@ zzStatus ZZSurface_UnLock(zzSurfaceST *pSurface)
         ZZPRINTF("vaUnmapBuffer error\n");
         goto END;
     }
-    
+
     va_res = vaDestroyImage(GetVaDisplay(pSurface), pSurface->va_image.image_id);
     sts     = va_to_zz_status(va_res);
     if (sts != ZZ_ERR_NONE)
@@ -216,10 +216,10 @@ zzStatus ZZSurface_UnLock(zzSurfaceST *pSurface)
     }
 
 END:
-    
+
     return sts;
 
-}    
+}
 
 
 zzStatus ZZSurface_GetGenericFormat(zzU32 format_fourcc, zzU32 *pformat_va)
@@ -242,7 +242,7 @@ zzStatus ZZSurface_GetGenericFormat(zzU32 format_fourcc, zzU32 *pformat_va)
         break;
     case ZZ_FOURCC_ABGR:
     case ZZ_FOURCC_ARGB:
-    case ZZ_FOURCC_XRGB:    
+    case ZZ_FOURCC_XRGB:
         *pformat_va = VA_RT_FORMAT_RGB32;
         break;
     case ZZ_FOURCC_R5G6B5:
@@ -263,9 +263,9 @@ zzStatus ZZSurface_GetGenericFormat(zzU32 format_fourcc, zzU32 *pformat_va)
         sts = ZZ_ERR_UNSUPPORTED;
         break;
     }
-    
+
     return sts;
-    
+
 }
 
 
@@ -281,11 +281,11 @@ zzStatus ZZSurface_FourCC2VaFourCC(zzU32 format_fourcc, int *pformat_va)
     case ZZ_FOURCC_IMC3:
         *pformat_va = VA_FOURCC_IMC3;
         break;
-#if 0 //zhoujd        
+#if 0 //zhoujd
     case ZZ_FOURCC_400P:
         *pformat_va = VA_FOURCC_400P;
         break;
-#endif //zhoujd        
+#endif //zhoujd
     case ZZ_FOURCC_411P:
         *pformat_va = VA_FOURCC_411P;
         break;
@@ -326,7 +326,54 @@ zzStatus ZZSurface_FourCC2VaFourCC(zzU32 format_fourcc, int *pformat_va)
         sts = ZZ_ERR_UNSUPPORTED;
         break;
     }
-    
+
     return sts;
-    
+
+}
+
+zzStatus ZZSurface_GetNextInputFrame(zzSurfaceST *pSurface, zzFrameReaderST *pFrameReader)
+{
+    zzStatus  sts       = ZZ_ERR_NONE;
+    zzStatus  readSts   = ZZ_ERR_NONE;
+    zzBOOL    lock_flag = TRUE;
+
+    CHECK_POINTER(pSurface, ZZ_ERR_NOT_INITIALIZED);
+    CHECK_POINTER(pFrameReader, ZZ_ERR_NOT_INITIALIZED);
+
+    sts = ZZSurface_Lock(pSurface);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZSurface_Lock error\n");
+        goto END;
+    }
+
+    lock_flag = TRUE;
+
+
+    readSts = ZZFrameReader_GetNextInputFrame(pFrameReader,
+                                                &pSurface->frameData,
+                                                &pSurface->frameInfo);
+    if ((readSts != ZZ_ERR_NONE) && (readSts != ZZ_ERR_EOF_STREAM))
+    {
+        ZZPRINTF("ZZFrameReader_GetNextInputFrame error\n");
+        sts = readSts;
+        goto END;
+    }
+
+END:
+    if (lock_flag == TRUE)
+    {
+        sts = ZZSurface_UnLock(pSurface);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("ZZSurface_UnLock error\n");
+        }
+    }
+
+    if (readSts == ZZ_ERR_EOF_STREAM)
+    {
+        sts = readSts;
+    }
+
+    return sts;
 }

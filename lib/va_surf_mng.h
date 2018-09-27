@@ -5,6 +5,8 @@
 #include "va_utils.h"
 #include "frame_cmn.h"
 #include "va_ctx_mng.h"
+#include "frame_reader.h"
+#include "frame_writer.h"
 
 typedef struct _zzSurfaceST zzSurfaceST;
 
@@ -29,5 +31,9 @@ zzStatus ZZSurface_Release(zzSurfaceST *pSurface);
 
 zzStatus ZZSurface_Lock(zzSurfaceST *pSurface);
 zzStatus ZZSurface_UnLock(zzSurfaceST *pSurface);
+
+zzStatus ZZSurface_GetNextInputFrame(zzSurfaceST *pSurface, zzFrameReaderST *pFrameReader);
+zzStatus ZZSurface_WriteOutputFrame(zzSurfaceST *pSurface, zzFrameWriterST *pFrameWriter);
+
 
 #endif //ZZSURFMNG_H

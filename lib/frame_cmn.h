@@ -164,7 +164,6 @@ struct _zzFrameInfo
     zzU16  MultiSrcWorktaskflowId;
 };
 
-
 zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
 zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, zzBOOL bWithBox);
 

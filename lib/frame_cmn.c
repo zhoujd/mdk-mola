@@ -5,7 +5,6 @@
 
 #include "frame_cmn.h"
 
-
 zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc)
 {
     zzU32 w, h, i, pitch;

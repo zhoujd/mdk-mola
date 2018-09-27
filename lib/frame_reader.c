@@ -65,7 +65,6 @@ zzStatus ZZFrameReader_GetNextInputFrame(zzFrameReaderST *pSelf, zzFrameData *pD
 
     }
 
-
 END:
     return sts;
 }

@@ -149,8 +149,16 @@ zzStatus ZZMatrix1002_Start(zzMatrixBaseST *pMatrixBase)
 
     ZZPRINTF("Matrix %d Start\n", pSelf->base.matrix_id);
 
+    sts = ZZSurface_GetNextInputFrame(&pSelf->dst_surf, pSelf->pFrameReader);
+    if ((sts != ZZ_ERR_NONE) && (sts != ZZ_ERR_EOF_STREAM))
+    {
+        ZZPRINTF("ZZ_GetNextInputFrame error\n");
+        goto END;
+    }
+
     pMatrixBase->next_event = ZZ_EVENT_TASK1002_TEST;
 
+END:
     return sts;
 }
 
