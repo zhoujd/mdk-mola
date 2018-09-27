@@ -50,6 +50,8 @@ ZZ_SRC_FILES = \
 	lib/frame_writer.c \
 	lib/va_ctx_mng.c \
 	lib/va_utils.c \
+	lib/va_render_utils.c \
+	lib/va_render_parser.c \
 	lib/va_surf_mng.c
 
 bin_PROGRAMS        = zzmediaxapp
