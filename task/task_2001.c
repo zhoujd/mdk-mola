@@ -198,7 +198,7 @@ zzStatus ZZTask2001_Release(zzTaskBaseST *pTaskBase)
     zzStatus       sts   = ZZ_ERR_NONE;
     zzTask2001ST  *pSelf = GET_TASK2001(pTaskBase);
 
-    ZZPRINTF("ZZTask2001_Release\n");
+    ZZDEBUG("ZZTask2001_Release\n");
 
     sts = ZZTask2001_ReleaseSurface(pSelf);
     if (sts != ZZ_ERR_NONE)

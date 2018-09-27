@@ -54,15 +54,14 @@ zzStatus ZZFrameReader_GetNextInputFrame(zzFrameReaderST *pSelf, zzFrameData *pD
     {
         if (zz_file_feof(pSelf->srcFile))
         {
+            ZZDEBUG("Read end of file:%s\n", pSelf->srcFileName);
             sts = ZZ_ERR_EOF_STREAM;
-            ZZPRINTF("Read end of file:%s\n", pSelf->srcFileName);
         }
         else
         {
             ZZPRINTF("LoadNextFrame error\n");
             goto END;
         }
-
     }
 
 END:
