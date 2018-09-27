@@ -90,10 +90,9 @@ zzStatus ZZTask2001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
     int                    i  = 0;
     const static zz_char*  help_doc[] = {
         ZZ_STRING("Task 2001 help welcome"),
-
-        ZZ_STRING("Task 2001 example:"),
         ZZ_STRING("Task 2001 = Matrix1002 + Matrix2002 + Matrix9002"),
-        ZZ_STRING("-task 2001 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 -angle 1"),
+        ZZ_STRING("Task 2001 example:"),
+         ZZ_STRING("-task 2001 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 -angle 1"),
         ZZ_STRING("-task 2001 -sw 352 -sh 288 -dw 352 -dh 288 -scc nv12 -dcc nv12 -spic 0 -dpic 1  -i input.nv12 -o output.nv12 --deinterlace algo=bob"),
         ZZ_STRING("-task 2001 -sw 720 -sh 576 -dw 1440 -dh 1152 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 --sharpness factor=64"),
         ZZ_STRING("-task 2001 -sw 720 -sh 576 -dw 1440 -dh 1152 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 --amp hue=20:contrast=2:brightness=50:saturation=2"),
