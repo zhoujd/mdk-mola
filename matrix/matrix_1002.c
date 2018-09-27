@@ -157,6 +157,8 @@ zzStatus ZZMatrix1002_Start(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
+    pSelf->frame_num++;
+
 END:
     return sts;
 }
@@ -173,11 +175,14 @@ zzStatus ZZMatrix1002_PartStart(zzMatrixBaseST *pMatrixBase)
     {
     case ZZ_ERR_NONE:
         pMatrixBase->next_event = ZZ_EVENT_PART_END;
+        pSelf->frame_num++;
         break;
     case ZZ_ERR_EOF_STREAM:
         pMatrixBase->next_event = ZZ_EVENT_END;
         pSelf->base.pipe_ctrl->pipe_event = ZZ_EVENT_PIPE_EXIT;
         sts = ZZ_ERR_NONE;
+
+        ZZPRINTF("Frame Number: %d\n", pSelf->frame_num);
         break;
     default:
         ZZPRINTF("ZZ_GetNextInputFrame error\n");
