@@ -7,24 +7,18 @@
 #include "task_base.h"
 
 static zzStatus ZZMatrix2002_Start(zzMatrixBaseST *pSelf);
-static zzStatus ZZMatrix2002_Test(zzMatrixBaseST *pSelf);
-static zzStatus ZZMatrix2002_End(zzMatrixBaseST *pSelf);
+static zzStatus ZZMatrix2002_PartStart(zzMatrixBaseST *pSelf);
 
+static zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf);
 static zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST  *pSelf, int nArgNum, char **strInput);
 static zzStatus ZZMatrix2002_ParseVpString(zzMatrix2002ST  *pSelf, int nArgNum, char **strInput);
 
-enum MATRIX2002_EVENT_EN
-{
-    ZZ_EVENT_TASK2002_TEST = ZZ_EVENT_USER + 1,
-    ZZ_EVENT_TASK2002_DONE,
-};
 
 //Matrix Cells
 static zzMatrixCellST matrix_cells[] =
 {
-    {ZZ_EVENT_START,         NULL, ZZMatrix2002_Start, NULL},     //ZZ_EVENT_START
-    {ZZ_EVENT_TASK2002_TEST, NULL, ZZMatrix2002_Test,  NULL},     //ZZ_EVENT_TEST
-    {ZZ_EVENT_TASK2002_DONE, NULL, ZZMatrix2002_End,   NULL},     //ZZ_EVENT_END
+    {ZZ_EVENT_START,      NULL, ZZMatrix2002_Start,      NULL},
+    {ZZ_EVENT_PART_START, NULL, ZZMatrix2002_PartStart,  NULL},
 };
 
 
@@ -138,38 +132,56 @@ zzStatus ZZMatrix2002_Start(zzMatrixBaseST *pMatrixBase)
 
     ZZPRINTF("Matrix %d Start\n", pSelf->base.matrix_id);
 
-    pMatrixBase->next_event = ZZ_EVENT_TASK2002_TEST;
+    if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
+    {
+        ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
+        pMatrixBase->next_event = ZZ_EVENT_END;
+        goto END;
+    }
 
+    sts = ZZMatrix2002_ProcNextFrame(pSelf);
+    switch (sts)
+    {
+    case ZZ_ERR_NONE:
+        pMatrixBase->next_event = ZZ_EVENT_PART_END;
+        break;
+    default:
+        ZZPRINTF("ZZMatrix2002_ProcNextFrame error\n");
+        goto END;
+    }
+
+END:
     return sts;
 }
 
-zzStatus ZZMatrix2002_Test(zzMatrixBaseST *pMatrixBase)
+zzStatus ZZMatrix2002_PartStart(zzMatrixBaseST *pMatrixBase)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
     zzMatrix2002ST *pSelf = GET_MATRIX2002(pMatrixBase);
 
-    ZZPRINTF("Matrix %d Test\n", pSelf->base.matrix_id);
+    ZZPRINTF("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
-    pMatrixBase->next_event = ZZ_EVENT_TASK2002_DONE;
+    if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
+    {
+        ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
+        pMatrixBase->next_event = ZZ_EVENT_END;
+        goto END;
+    }
 
+    sts = ZZMatrix2002_ProcNextFrame(pSelf);
+    switch (sts)
+    {
+    case ZZ_ERR_NONE:
+        pMatrixBase->next_event = ZZ_EVENT_PART_END;
+        break;
+    default:
+        ZZPRINTF("ZZMatrix2002_ProcNextFrame error\n");
+        goto END;
+    }
+
+END:
     return sts;
-
 }
-
-
-zzStatus ZZMatrix2002_End(zzMatrixBaseST *pMatrixBase)
-{
-    zzStatus       sts    = ZZ_ERR_NONE;
-    zzMatrix2002ST *pSelf = GET_MATRIX2002(pMatrixBase);
-
-    ZZPRINTF("Matrix %d End\n", pSelf->base.matrix_id);
-
-    pMatrixBase->next_event = ZZ_EVENT_END;
-
-    return sts;
-
-}
-
 
 zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
 {
