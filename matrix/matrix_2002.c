@@ -6,6 +6,20 @@
 #include "matrix_2002.h"
 #include "task_base.h"
 
+#define ZZ_ROTATION_SUPPORT      1
+#define ZZ_BLEND_ALPHA_SUPPORT   1
+
+#if ZZ_BLEND_ALPHA_SUPPORT
+// Blend State
+static VABlendState blend_state = { /** \brief Video blending flags. */
+    .flags        = VA_BLEND_PREMULTIPLIED_ALPHA, //VA_BLEND_GLOBAL_ALPHA,
+    .global_alpha = 1,
+    .min_luma     = 0,
+    .max_luma     = 1
+};
+#endif //ZZ_BLEND_ALPHA_SUPPORT
+
+
 static zzStatus ZZMatrix2002_Start(zzMatrixBaseST *pSelf);
 static zzStatus ZZMatrix2002_PartStart(zzMatrixBaseST *pSelf);
 
