@@ -116,7 +116,7 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
 
         if (ZZ_EVENT_END == pMatrix->next_event)
         {
-            ZZPRINTF("Skip Matrix for it is done: %d\n", pMatrix->matrix_id);
+            //ZZPRINTF("Skip Matrix for it is done: %d\n", pMatrix->matrix_id);
             continue;
         }
 
@@ -139,12 +139,12 @@ zzStatus ZZTaskMng_ExecuteMatrix(zzTaskMngST *pSelf)
 
             if (ZZ_EVENT_END == pMatrix->next_event)
             {
-                ZZPRINTF("This Matrix is done: %d\n", pMatrix->matrix_id);
+                //ZZPRINTF("This Matrix is done: %d\n", pMatrix->matrix_id);
                 break;
             }
             else if (ZZ_EVENT_PART_END == pMatrix->next_event)
             {
-                ZZPRINTF("This Matrix is part done: %d\n", pMatrix->matrix_id);
+                //ZZPRINTF("This Matrix is part done: %d\n", pMatrix->matrix_id);
                 break;
             }
 

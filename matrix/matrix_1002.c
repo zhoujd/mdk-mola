@@ -139,7 +139,7 @@ zzStatus ZZMatrix1002_Start(zzMatrixBaseST *pMatrixBase)
     zzMatrix1002ST *pSelf = GET_MATRIX1002(pMatrixBase);
 
 
-    ZZPRINTF("Matrix %d Start\n", pSelf->base.matrix_id);
+    //ZZPRINTF("Matrix %d Start\n", pSelf->base.matrix_id);
 
     sts = ZZSurface_GetNextInputFrame(&pSelf->dst_surf, pSelf->pFrameReader);
     switch (sts)
@@ -166,7 +166,7 @@ zzStatus ZZMatrix1002_PartStart(zzMatrixBaseST *pMatrixBase)
     zzStatus       sts    = ZZ_ERR_NONE;
     zzMatrix1002ST *pSelf = GET_MATRIX1002(pMatrixBase);
 
-    ZZPRINTF("Matrix %d PartStart\n", pSelf->base.matrix_id);
+    //ZZPRINTF("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
     sts = ZZSurface_GetNextInputFrame(&pSelf->dst_surf, pSelf->pFrameReader);
     switch (sts)

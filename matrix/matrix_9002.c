@@ -128,11 +128,11 @@ zzStatus ZZMatrix9002_Start(zzMatrixBaseST *pMatrixBase)
     zzStatus        sts   = ZZ_ERR_NONE;
     zzMatrix9002ST *pSelf = GET_MATRIX9002(pMatrixBase);
 
-    ZZPRINTF("Matrix 9002 Start\n");
+    //ZZPRINTF("Matrix 9002 Start\n");
 
     if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
     {
-        ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
+        //ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
         pMatrixBase->next_event = ZZ_EVENT_END;
         goto END;
     }
@@ -157,11 +157,11 @@ zzStatus ZZMatrix9002_PartStart(zzMatrixBaseST *pMatrixBase)
     zzStatus       sts    = ZZ_ERR_NONE;
     zzMatrix9002ST *pSelf = GET_MATRIX9002(pMatrixBase);
 
-    ZZPRINTF("Matrix 9002 PartStart\n");
+    //ZZPRINTF("Matrix 9002 PartStart\n");
 
     if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
     {
-        ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
+        //ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
         pMatrixBase->next_event = ZZ_EVENT_END;
         goto END;
     }
