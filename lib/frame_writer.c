@@ -8,7 +8,7 @@
 zzStatus ZZFrameWriter_Create(zzFrameWriterST **ppRet)
 {
     zzStatus sts = ZZ_ERR_NONE;
-    
+
     *ppRet = (zzFrameWriterST *)AllocAndZeroMem(sizeof(zzFrameWriterST));
     if (*ppRet == NULL)
     {
@@ -20,7 +20,7 @@ zzStatus ZZFrameWriter_Create(zzFrameWriterST **ppRet)
 
 END:
     return sts;
-    
+
 }
 
 zzStatus ZZFrameWriter_Init(zzFrameWriterST *pSelf, zz_char *strFileName)
@@ -34,26 +34,26 @@ zzStatus ZZFrameWriter_Init(zzFrameWriterST *pSelf, zz_char *strFileName)
 
     //copy file name
     strncpy(pSelf->dstFileName, strFileName, MAX_FILENAME_LEN);
-    
+
     return sts;
-    
+
 }
 
-zzStatus ZZFrameWriter_WriteFrame(zzFrameWriterST *pSelf, zzFrameData *pData, zzFrameInfo *pInfo, zzBOOL bWithBox)
+zzStatus ZZFrameWriter_WriteFrame(zzFrameWriterST *pSelf, zzFrameData *pData, zzFrameInfo *pInfo)
 {
     zzStatus sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
-    sts = ZZ_WriteFrame(pData, pInfo, pSelf->dstFile, bWithBox);
+    sts = ZZ_WriteFrame(pData, pInfo, pSelf->dstFile);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("WriteFrame error\n");
         goto END;
     }
 
-    
-END:    
+
+END:
     return sts;
 
 }
@@ -70,5 +70,5 @@ zzStatus ZZFrameWriter_Release(zzFrameWriterST *pSelf)
     }
 
     return sts;
-    
+
 }

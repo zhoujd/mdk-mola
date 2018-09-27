@@ -377,3 +377,38 @@ END:
 
     return sts;
 }
+
+zzStatus ZZSurface_WriteOutputFrame(zzSurfaceST *pSurface, zzFrameWriterST *pFrameWriter)
+{
+    zzStatus  sts       = ZZ_ERR_NONE;
+    zzBOOL    lock_flag = FALSE;
+
+    sts = ZZSurface_Lock(pSurface);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZSurface_Lock error\n");
+        goto END;
+    }
+
+    lock_flag = TRUE;
+
+    sts = ZZFrameWriter_WriteFrame(pFrameWriter, &pSurface->frameData, &pSurface->frameInfo);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZFrameWriter_WriteFrame error\n");
+        goto END;
+    }
+
+END:
+    if (lock_flag == TRUE)
+    {
+        sts = ZZSurface_UnLock(pSurface);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("ZZSurface_UnLock error\n");
+        }
+    }
+
+    return sts;
+
+}

@@ -466,7 +466,7 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
     return ZZ_ERR_NONE;
 }
 
-zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, zzBOOL bWithBox)
+zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
 {
     zzI32 nBytesRead   = 0;
 
@@ -476,31 +476,8 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, z
     CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
     CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
 
-
-    if(pInfo->MultiSrcWorktaskflowId == 2201)
-    {
-      pInfo->CropX = 0;
-      pInfo->CropY = 0;
-    }
-    if (pInfo->CropH > 0 && pInfo->CropW > 0 && bWithBox == FALSE)
-    {
-     if(pInfo->MultiSrcWorktaskflowId == 2201)
-     {
-        w = pInfo->Width;
-              h = pInfo->Height;
-     }
-     else
-     {
-             w = pInfo->CropW;
-             h = pInfo->CropH;
-     }
-    }
-    else
-    {
-        w = pInfo->Width;
-        h = pInfo->Height;
-    }
-
+    w = pInfo->Width;
+    h = pInfo->Height;
     pitch = pData->Pitch;
 
     if(pInfo->FourCC == ZZ_FOURCC_YV12)

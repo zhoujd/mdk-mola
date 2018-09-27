@@ -165,7 +165,7 @@ struct _zzFrameInfo
 };
 
 zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
-zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst, zzBOOL bWithBox);
+zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 
 zzStatus ZZ_Str2FourCC(zz_char* strInput, zzU32 *pFourCC);
 zz_char* ZZ_FourCC2Str(zzU32 fourcc);
