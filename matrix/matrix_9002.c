@@ -21,7 +21,7 @@ zzStatus ZZMatrix9002_Help(zzHelpInfoST *pSelf, zzU16 argc, zz_char **argv)
 {
     zzStatus  sts    = ZZ_ERR_NONE;
 
-    ZZPRINTF("Matrix 9002 help\n");
+    ZZPRINTF("Matrix 9002 : output frame to file\n");
 
     return sts;
 }

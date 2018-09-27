@@ -1,4 +1,4 @@
-/* help.h --- 
+/* help.h ---
  */
 
 #ifndef INCLUDED_ZZ_HELP_H
@@ -40,4 +40,3 @@ zzStatus ZZHelp_MatrixHelp(zzHelpST               *pSelf,
                            zzU16                  matrix_id);
 
 #endif /* INCLUDED_ZZ_HELP_H */
-

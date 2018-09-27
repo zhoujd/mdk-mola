@@ -39,6 +39,23 @@ zzStatus ZZMediaxApp_MatrixHelpRegister(zzAppST *pApp)
     }
 
 
+    //init Matrix 1002
+    sts = ZZMatrix2002_HelpRegister();
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrix2002_HelpRegister error\n");
+        goto END;
+    }
+
+    //init Matrix 9002
+    sts = ZZMatrix9002_HelpRegister();
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrix9002_HelpRegister error\n");
+        goto END;
+    }
+
+
 END:
     return sts;
 }

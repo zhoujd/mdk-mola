@@ -35,9 +35,9 @@ struct _zzAppST
     void                *data;   //for extend using
 };
 
-zzStatus ZZApp_Init(zzAppST                *pSelf,
-                    zzU16                  argc,
-                    zz_char                **argv,
+zzStatus ZZApp_Init(zzAppST             *pSelf,
+                    zzU16               argc,
+                    zz_char             **argv,
                     zzSelectTaskIdFP    pfnSelectFlowID,
                     zzTaskRegisterFP    pfnTaskRegister,
                     zzHelpRegisterFP    pfnHelpRegister);
