@@ -151,10 +151,29 @@ zzStatus ZZApp_TaskHelp(zzAppST               *pSelf,
                         zz_char               **argv,
                         zzU16                 taskID)
 {
-    zzStatus  sts = ZZ_ERR_NONE;
+    zzStatus     sts        = ZZ_ERR_NONE;
+    zzTaskBaseST *pFlowInfo = NULL;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
+    sts = ZZTaskDB_SelectFlow(&pSelf->task_db, taskID, &pFlowInfo);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskDB_SelectFlow  error\n");
+        goto END;
+    }
+
+    if (NULL != pFlowInfo->pfnZZTaskHelp)
+    {
+        sts = pFlowInfo->pfnZZTaskHelp(pFlowInfo, argc, argv);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("pFlowInfo->pfnZZTaskHelp  error\n");
+            goto END;
+        }
+    }
+
+END:
     return sts;
 }
 
