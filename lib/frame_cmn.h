@@ -45,7 +45,6 @@ struct _zzOwnFrameInfoST
     zzU16  OutCropY;
     zzU16  OutCropW;
     zzU16  OutCropH;
-    zzU16  MultiSrcWorktaskflowId;
     zzU32  FourCC;
     zzU8   PicStruct;
     zzF64  dFrameRate;
@@ -161,7 +160,6 @@ struct _zzFrameInfo
 
     zzU16  PicStruct;
     zzU16  ChromaFormat;
-    zzU16  MultiSrcWorktaskflowId;
 };
 
 zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);

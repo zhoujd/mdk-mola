@@ -19,15 +19,9 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
 
     pitch = pData->Pitch;
 
-    if(pInfo->MultiSrcWorktaskflowId == 2201)
-    {
-            pInfo->CropX = 0;
-            pInfo->CropY = 0;
-    }
-
     if(pInfo->FourCC == ZZ_FOURCC_YV12)
     {
-     ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
+        ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
         // read luminance plane
         for(i = 0; i < h; i++)
         {
@@ -203,7 +197,7 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
     }
     else if(pInfo->FourCC == ZZ_FOURCC_IMC3)
     {
-       ZZPRINTF("%s imc3 w=%d pitch=%d h=%d\n", __FUNCTION__, w, pitch, h);
+        ZZPRINTF("%s imc3 w=%d pitch=%d h=%d\n", __FUNCTION__, w, pitch, h);
         ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
 
         // read luminance plane
@@ -361,7 +355,7 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
         }
     }
-   else if( pInfo->FourCC == ZZ_FOURCC_NV12_LINEAR)
+    else if( pInfo->FourCC == ZZ_FOURCC_NV12_LINEAR)
     {
         ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
 
@@ -590,8 +584,8 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
     }
     else if(pInfo->FourCC == ZZ_FOURCC_IMC3)
     {
-      static int count = 1;
-      printf("%s: %s frame=[%d] w=[%d] h=[%d] pitch=[%d]\n", __FUNCTION__, "ZZ_FOURCC_IMC3", count, w, h, pitch);
+        static int count = 1;
+        printf("%s: %s frame=[%d] w=[%d] h=[%d] pitch=[%d]\n", __FUNCTION__, "ZZ_FOURCC_IMC3", count, w, h, pitch);
         ptr   = Frame_Y(pData) + (pInfo->CropX ) + (pInfo->CropY ) * pitch;
 
         for (i = 0; i < h; i++)
@@ -611,7 +605,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
         ptr  = Frame_V(pData) + pInfo->CropX + pInfo->CropY * pitch;
         for(i = 0; i < h; i++)
         {
-          //            CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ (i + 16) * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
+            //            CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ (i + 16) * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
         count ++;
@@ -658,7 +652,7 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
 
-     ptr  = Frame_U(pData) + (pInfo->CropX >> 1) + (pInfo->CropY) * pitch;
+        ptr  = Frame_U(pData) + (pInfo->CropX >> 1) + (pInfo->CropY) * pitch;
         for(i = 0; i < h; i++)
         {
             nBytesRead = (zzU32)zz_file_fwrite(ptr + i * pitch, 1, w, fDst);
@@ -1128,11 +1122,10 @@ zzStatus ZZ_ParamInfo2SurfInfo(zzFrameInfo *pSurfFrameInfo, zzOwnFrameInfoST *pP
     pSurfFrameInfo->CropW     = pParamFrameInfo->CropW;
     pSurfFrameInfo->CropH     = pParamFrameInfo->CropH;
 
-    pSurfFrameInfo->OutCropX     = pParamFrameInfo->OutCropX;
-    pSurfFrameInfo->OutCropY     = pParamFrameInfo->OutCropY;
-    pSurfFrameInfo->OutCropW     = pParamFrameInfo->OutCropW;
-    pSurfFrameInfo->OutCropH     = pParamFrameInfo->OutCropH;
-    pSurfFrameInfo->MultiSrcWorktaskflowId     = pParamFrameInfo->MultiSrcWorktaskflowId;
+    pSurfFrameInfo->OutCropX  = pParamFrameInfo->OutCropX;
+    pSurfFrameInfo->OutCropY  = pParamFrameInfo->OutCropY;
+    pSurfFrameInfo->OutCropW  = pParamFrameInfo->OutCropW;
+    pSurfFrameInfo->OutCropH  = pParamFrameInfo->OutCropH;
 
     pSurfFrameInfo->PicStruct = pParamFrameInfo->PicStruct;
 
