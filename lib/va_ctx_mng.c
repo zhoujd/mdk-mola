@@ -19,7 +19,7 @@ zzStatus ZZVAContext_CreateVppCtx(VADisplay va_dpy, zzU16 width, zzU16 height, z
     int          entrycount = 0;
     int          idx        = 0;
     int          support    = 0;
-    
+
     VAEntrypoint         *entrypoints = NULL;
     VAConfigAttrib        attributes;
     VAConfigID            config_id;
@@ -33,7 +33,7 @@ zzStatus ZZVAContext_CreateVppCtx(VADisplay va_dpy, zzU16 width, zzU16 height, z
         sts = ZZ_ERR_MEMORY_ALLOC;
         goto END;
     }
-    
+
     va_res = vaQueryConfigEntrypoints(va_dpy,
                                       VAProfileNone,
                                       entrypoints,
@@ -66,12 +66,12 @@ zzStatus ZZVAContext_CreateVppCtx(VADisplay va_dpy, zzU16 width, zzU16 height, z
         sts = ZZ_ERR_UNSUPPORTED;
         goto END;
     }
-    
+
     //configuration
-    va_res = vaGetConfigAttributes(va_dpy, 
-                                   VAProfileNone, 
-                                   VAEntrypointVideoProc, 
-                                   &attributes, 
+    va_res = vaGetConfigAttributes(va_dpy,
+                                   VAProfileNone,
+                                   VAEntrypointVideoProc,
+                                   &attributes,
                                    1);
 
     sts = va_to_zz_status(va_res);
@@ -87,7 +87,7 @@ zzStatus ZZVAContext_CreateVppCtx(VADisplay va_dpy, zzU16 width, zzU16 height, z
                             &attributes,
                             1,
                             &config_id);
-    
+
     sts = va_to_zz_status(va_res);
     if (sts != ZZ_ERR_NONE)
     {
@@ -110,8 +110,8 @@ zzStatus ZZVAContext_CreateVppCtx(VADisplay va_dpy, zzU16 width, zzU16 height, z
         ZZPRINTF("vaCreateContext error\n");
         goto END;
     }
-    
-END:    
+
+END:
     return sts;
 }
 
@@ -128,26 +128,26 @@ zzStatus ZZVAContext_Create(zzVAContextST *pSelf)
         ZZPRINTF("InitVA error\n");
         goto END;
     }
-    
+
     //create vpp context
     pSelf->width  = ZZ_CTX_DEF_WIDTH;    //screen height
     pSelf->height = ZZ_CTX_DEF_HEIGHT;   //screen width
-    
+
     sts = ZZVA_GetScreenInfo(&pSelf->width, &pSelf->height);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZVA_GetScreenInfo error\n");
         goto END;
     }
-    
+
     sts = ZZVAContext_CreateVppCtx(pSelf->va_dpy, pSelf->width, pSelf->height, &pSelf->id);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("VAContext_Create error\n");
         goto END;
     }
-    
-END:    
+
+END:
     return sts;
 
 }
@@ -166,7 +166,7 @@ zzStatus ZZVAContext_Release(zzVAContextST *pSelf)
     }
 
     pSelf->id = VA_INVALID_ID;
-    
-END:    
+
+END:
     return sts;
 }

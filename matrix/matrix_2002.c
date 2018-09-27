@@ -90,16 +90,23 @@ END:
 zzStatus ZZMatrix2002_Release(zzMatrix2002ST *pSelf)
 {
     zzStatus  sts = ZZ_ERR_NONE;
+    int       i   = 0;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
+    for (i = 0; i < pSelf->numFilterBufs; i++)
+    {
+        vaDestroyBuffer(pSelf->ctx->va_dpy, pSelf->filterBufs[i]);
+        pSelf->filterBufs[i] =  VA_INVALID_ID;
+    }
 
     return sts;
 }
 
 
 zzStatus ZZMatrix2002_Init(zzMatrix2002ST *pSelf, zzU16 argc, zz_char **argv,
-                           zzPipeCtrlST *pPipeCtrl)
+                           zzPipeCtrlST   *pPipeCtrl, zzVAContextST *pCtx,
+                           zzSurfaceST    *pSrcSurf, zzSurfaceST *pDstSurf)
 {
     zzStatus  sts = ZZ_ERR_NONE;
 
@@ -113,7 +120,10 @@ zzStatus ZZMatrix2002_Init(zzMatrix2002ST *pSelf, zzU16 argc, zz_char **argv,
     }
 
     pSelf->base.pipe_ctrl = pPipeCtrl;
-
+    pSelf->ctx            = pCtx;
+    pSelf->src_surf       = *pSrcSurf;
+    pSelf->dst_surf       = *pDstSurf;
+    
 END:
     return sts;
 }

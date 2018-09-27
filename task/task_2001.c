@@ -375,7 +375,11 @@ zzStatus ZZTask2001_InitMatrix(zzTask2001ST  *pSelf, zzU16 argc, zz_char **argv)
     }
 
     //init martix 2002
-    sts = ZZMatrix2002_Init(pSelf->pMatrix2002, argc, argv, &pSelf->base.pipe_ctrl);
+    sts = ZZMatrix2002_Init(pSelf->pMatrix2002, argc, argv,
+                            &pSelf->base.pipe_ctrl,
+                            &pSelf->ctx,
+                            &pSelf->surface[TASK2001_SCALING_SRC],
+                            &pSelf->surface[TASK2001_SCALING_DST]);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZMatrix2002_Init  error\n");

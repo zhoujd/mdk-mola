@@ -10,7 +10,7 @@
 #include "va_render_utils.h"
 #include "va_render_parser.h"
 
-#define MATRIX2002_ID (2002)
+#define MATRIX2002_ID    (2002)
 
 typedef struct _zzMatrix2002ST zzMatrix2002ST;
 typedef struct _zzMatrix2002InputParamsST zzMatrix2002InputParamsST;
@@ -37,7 +37,9 @@ struct _zzMatrix2002InputParamsST
 
 struct _zzMatrix2002ST
 {
-    zzMatrixBaseST    base;
+    zzMatrixBaseST                  base;
+
+    zzVAContextST                  *ctx;
 
     zzSurfaceST                     src_surf;
     zzSurfaceST                     dst_surf;
@@ -63,7 +65,8 @@ zzStatus ZZMatrix2002_Create(zzMatrix2002ST **ppRet);
 zzStatus ZZMatrix2002_Release(zzMatrix2002ST *pSelf);
 
 zzStatus ZZMatrix2002_Init(zzMatrix2002ST *pSelf, zzU16 argc, zz_char **argv,
-                           zzPipeCtrlST *pPipeCtrl);
+                           zzPipeCtrlST *pPipeCtrl, zzVAContextST *pCtx,
+                           zzSurfaceST *pSrcSurf, zzSurfaceST *pDstSurf);
 
 zzStatus ZZMatrix2002_Help(zzHelpInfoST *pSelf, zzU16 argc, zz_char **argv);
 zzStatus ZZMatrix2002_HelpRegister();
