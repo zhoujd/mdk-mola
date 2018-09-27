@@ -149,6 +149,7 @@ zzStatus ZZMatrix1002_Start(zzMatrixBaseST *pMatrixBase)
         break;
     case ZZ_ERR_EOF_STREAM:
         pMatrixBase->next_event = ZZ_EVENT_END;
+        pSelf->base.pipe_ctrl->pipe_event = ZZ_EVENT_PIPE_EXIT;
         sts = ZZ_ERR_NONE;
         break;
     default:
@@ -175,6 +176,7 @@ zzStatus ZZMatrix1002_PartStart(zzMatrixBaseST *pMatrixBase)
         break;
     case ZZ_ERR_EOF_STREAM:
         pMatrixBase->next_event = ZZ_EVENT_END;
+        pSelf->base.pipe_ctrl->pipe_event = ZZ_EVENT_PIPE_EXIT;
         sts = ZZ_ERR_NONE;
         break;
     default:

@@ -13,6 +13,8 @@ enum zzEventEN
     ZZ_EVENT_PART_END,
 
 
+    ZZ_EVENT_PIPE_EXIT,
+
     //custom event
     ZZ_EVENT_USER   = 0x1000,
 

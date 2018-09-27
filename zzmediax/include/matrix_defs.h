@@ -18,8 +18,7 @@ typedef zzStatus   (*zzFunctionExec)(zzMatrixBaseST *pSelf);
 typedef zzStatus   (*zzFunctionPostExec)(zzMatrixBaseST *pSelf);
 
 struct _zzPipeCtrlST {
-    zzU16      head_matrix;
-    zzEventID  head_matrix_event;
+    zzEventID  pipe_event;
 };
 
 struct _zzMatrixBaseST

@@ -6,23 +6,14 @@
 #include "matrix_9002.h"
 #include "task_base.h"
 
-
 static zzStatus ZZMatrix9002_Start(zzMatrixBaseST *pSelf);
-static zzStatus ZZMatrix9002_Test(zzMatrixBaseST *pSelf);
-static zzStatus ZZMatrix9002_End(zzMatrixBaseST *pSelf);
-
-enum MATRIX9002_EVENT_EN
-{
-    ZZ_EVENT_TASK9002_DONE = ZZ_EVENT_USER + 1,
-    ZZ_EVENT_TASK9002_TEST,
-};
+static zzStatus ZZMatrix9002_PartStart(zzMatrixBaseST *pSelf);
 
 //Matrix Cells
 static zzMatrixCellST matrix_cells[] =
 {
-    {ZZ_EVENT_START,         NULL,  ZZMatrix9002_Start, NULL},      //ZZ_EVENT_START
-    {ZZ_EVENT_TASK9002_TEST, NULL,  ZZMatrix9002_Test,  NULL },     //ZZ_EVENT_TASK9002_TEST
-    {ZZ_EVENT_TASK9002_DONE, NULL,  ZZMatrix9002_End,   NULL},      //ZZ_EVENT_TASK9002_DONE
+    {ZZ_EVENT_START,         NULL,  ZZMatrix9002_Start,      NULL},
+    {ZZ_EVENT_PART_START,    NULL,  ZZMatrix9002_PartStart,  NULL},
 };
 
 
@@ -132,37 +123,58 @@ END:
     return sts;
 }
 
-zzStatus ZZMatrix9002_Start(zzMatrixBaseST *pSelf)
+zzStatus ZZMatrix9002_Start(zzMatrixBaseST *pMatrixBase)
 {
-    zzStatus  sts = ZZ_ERR_NONE;
+    zzStatus        sts   = ZZ_ERR_NONE;
+    zzMatrix9002ST *pSelf = GET_MATRIX9002(pMatrixBase);
 
     ZZPRINTF("Matrix 9002 Start\n");
 
-    pSelf->next_event = ZZ_EVENT_TASK9002_TEST;
+    //sts = ZZSurface_WriteOutputFrame(&pSelf->src_surf, pSelf->pFrameWriter);
+    switch (sts)
+    {
+    case ZZ_ERR_NONE:
+        pMatrixBase->next_event = ZZ_EVENT_PART_END;
+        break;
+    default:
+        ZZPRINTF("ZZ_GetNextInputFrame error\n");
+        goto END;
+    }
 
+    if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
+    {
+        ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
+        pMatrixBase->next_event = ZZ_EVENT_END;
+    }
+
+END:
     return sts;
 }
 
-zzStatus ZZMatrix9002_Test(zzMatrixBaseST *pSelf)
+zzStatus ZZMatrix9002_PartStart(zzMatrixBaseST *pMatrixBase)
 {
-    zzStatus  sts = ZZ_ERR_NONE;
+    zzStatus       sts    = ZZ_ERR_NONE;
+    zzMatrix9002ST *pSelf = GET_MATRIX9002(pMatrixBase);
 
     ZZPRINTF("Matrix 9002 Test\n");
 
-    pSelf->next_event = ZZ_EVENT_TASK9002_DONE;
+    //sts = ZZSurface_WriteOutputFrame(&pSelf->src_surf, pSelf->pFrameWriter);
+    switch (sts)
+    {
+    case ZZ_ERR_NONE:
+        pMatrixBase->next_event = ZZ_EVENT_PART_END;
+        break;
+    default:
+        ZZPRINTF("ZZ_GetNextInputFrame error\n");
+        goto END;
+    }
 
+    if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
+    {
+        ZZPRINTF("(%s) get exist event\n", __FUNCTION__);
+        pMatrixBase->next_event = ZZ_EVENT_END;
+    }
 
-    return sts;
-}
-
-zzStatus ZZMatrix9002_End(zzMatrixBaseST *pSelf)
-{
-    zzStatus  sts = ZZ_ERR_NONE;
-
-    ZZPRINTF("Matrix 9002 End\n");
-
-    pSelf->next_event = ZZ_EVENT_END;
-
-
+END:
     return sts;
 }
