@@ -93,12 +93,12 @@ zzStatus ZZTask2001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
 
         ZZ_STRING("Task 2001 example:"),
         ZZ_STRING("Task 2001 = Matrix1002 + Matrix2002 + Matrix9002"),
-        ZZ_STRING("./zzmediaxapp -task 2001 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc nv12 -i input-stream/foreman_352x288_20.nv12 -o output/output.nv12 -sf 30 -angle 1"),
-        ZZ_STRING("./zzmediaxapp -task 2001 -sw 352 -sh 288 -dw 352 -dh 288 -scc nv12 -dcc nv12 -spic 0 -dpic 1  -i input-stream/foreman_352x288_20.nv12 -o output/output.nv12 -sf 30 --deinterlace algo=bob"),
-        ZZ_STRING("./zzmediaxapp -task 2001 -sw 720 -sh 576 -dw 1440 -dh 1152 -scc nv12 -dcc nv12 -i input-stream/foreman_352x288_20.nv12 -o output/output.nv12 -sf 30 --sharpness factor=64"),
-        ZZ_STRING("./zzmediaxapp -task 2001 -sw 720 -sh 576 -dw 1440 -dh 1152 -scc nv12 -dcc nv12 -i input-stream/foreman_352x288_20.nv12 -o output/output.nv12 -sf 30 --amp hue=20:contrast=2:brightness=50:saturation=2"),
-        ZZ_STRING("./zzmediaxapp -task 2001 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input-stream/noised_720x480_10.nv12 -o output/output.nv12 -sf 30 --denoise factor=64"),
-        ZZ_STRING("./zzmediaxapp -task 2001 -sw 720 -sh 576 -dw 1440 -dh 1152 -scc nv12 -dcc argb -i input-stream/foreman_352x288_20.nv12 -o output/output.nv12 -sf 30 --comp alpha=0.5:row=1:col=2"),
+        ZZ_STRING("-task 2001 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 -angle 1"),
+        ZZ_STRING("-task 2001 -sw 352 -sh 288 -dw 352 -dh 288 -scc nv12 -dcc nv12 -spic 0 -dpic 1  -i input.nv12 -o output.nv12 --deinterlace algo=bob"),
+        ZZ_STRING("-task 2001 -sw 720 -sh 576 -dw 1440 -dh 1152 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 --sharpness factor=64"),
+        ZZ_STRING("-task 2001 -sw 720 -sh 576 -dw 1440 -dh 1152 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 --amp hue=20:contrast=2:brightness=50:saturation=2"),
+        ZZ_STRING("-task 2001 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 --denoise factor=64"),
+        ZZ_STRING("-task 2001 -sw 720 -sh 576 -dw 1440 -dh 1152 -scc nv12 -dcc argb -i input.nv12 -o output.nv12 --comp alpha=0.5:row=1:col=2"),
         NULL,
     };
 
