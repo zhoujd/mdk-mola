@@ -13,7 +13,7 @@ struct _zzSurfaceST
     VASurfaceID       id;
 
     zzVAContextST     *context;
-    
+
     zzFrameInfo       frameInfo;
     zzFrameData       frameData;
 

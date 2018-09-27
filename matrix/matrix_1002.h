@@ -9,24 +9,17 @@
 #include "frame_reader.h"
 #include "va_surf_mng.h"
 
-#define MATRIX1002_ID (1002)
+#define MATRIX1002_ID    (1002)
 
 typedef struct _zzMatrix1002ST zzMatrix1002ST;
 typedef struct _zzMatrix1002InputParamsST zzMatrix1002InputParamsST;
-
-struct _zzMatrix1002InputParamsST
-{
-    int i;
-};
 
 struct _zzMatrix1002ST
 {
     zzMatrixBaseST    base;
 
-    zzSurfaceST       *pDestSurface;
+    zzSurfaceST       dst_surf;
     zzFrameReaderST   *pFrameReader;  //frame reader
-
-    zzMatrix1002InputParamsST params;
 };
 
 
@@ -36,7 +29,8 @@ zzStatus ZZMatrix1002_Create(zzMatrix1002ST **ppRet);
 zzStatus ZZMatrix1002_Release(zzMatrix1002ST *pSelf);
 
 zzStatus ZZMatrix1002_Init(zzMatrix1002ST *pSelf, zzU16 argc, zz_char **argv,
-                           zzPipeCtrlST *pPipeCtrl);
+                           zzPipeCtrlST   *pPipeCtrl,
+                           zzSurfaceST    *pSurf, zz_char *pFilename);
 
 zzStatus ZZMatrix1002_Help(zzHelpInfoST *pSelf, zzU16 argc, zz_char **argv);
 zzStatus ZZMatrix1002_HelpRegister();

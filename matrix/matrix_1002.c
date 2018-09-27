@@ -83,6 +83,13 @@ zzStatus ZZMatrix1002_Create(zzMatrix1002ST **ppRet)
 
     (*ppRet)->base.matrix_id     = MATRIX1002_ID;
 
+    sts = ZZFrameReader_Create(&(*ppRet)->pFrameReader);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZFrameReader_Create error\n");
+        goto END;
+    }
+
 END:
     return sts;
 }
@@ -93,13 +100,21 @@ zzStatus ZZMatrix1002_Release(zzMatrix1002ST *pSelf)
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
+    sts = ZZFrameReader_Release(pSelf->pFrameReader);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZFrameReader_Release error\n");
+        goto END;
+    }
 
+END:
     return sts;
 }
 
 
 zzStatus ZZMatrix1002_Init(zzMatrix1002ST *pSelf, zzU16 argc, zz_char **argv,
-                           zzPipeCtrlST *pPipeCtrl)
+                           zzPipeCtrlST   *pPipeCtrl,
+                           zzSurfaceST    *pSurf, zz_char *pFilename)
 {
     zzStatus  sts = ZZ_ERR_NONE;
 
@@ -113,6 +128,14 @@ zzStatus ZZMatrix1002_Init(zzMatrix1002ST *pSelf, zzU16 argc, zz_char **argv,
     }
 
     pSelf->base.pipe_ctrl = pPipeCtrl;
+    pSelf->dst_surf       = *pSurf;
+
+    sts = ZZFrameReader_Init(pSelf->pFrameReader, pFilename);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZFrameReader_Init error\n");
+        goto END;
+    }
 
 END:
     return sts;
