@@ -43,7 +43,7 @@ zzStatus va_to_zz_status(VAStatus va_res)
     case VA_STATUS_ERROR_INVALID_PARAMETER:
         zzRes = ZZ_ERR_INVALID_VIDEO_PARAM;
     case VA_STATUS_ERROR_UNIMPLEMENTED:
-        ZZPRINTF("VPPG status: VA_STATUS_ERROR_UNIMPLEMENTED\n");
+        ZZPRINTF("ZZ status: VA_STATUS_ERROR_UNIMPLEMENTED\n");
         zzRes = ZZ_ERR_UNSUPPORTED;
     default:
         zzRes = ZZ_ERR_UNKNOWN;
@@ -231,7 +231,7 @@ zzStatus ZZVA_GetScreenInfo(zzU16 *pWidth, zzU16 *pHeight)
 #else
     *pWidth  = ZZ_CTX_DEF_WIDTH;
     *pHeight = ZZ_CTX_DEF_HEIGHT;
-#endif //VPPG_LIBVA_USE_X11
+#endif //ZZ_LIBVA_USE_X11
 
 #else
     *pWidth  = ZZ_CTX_DEF_WIDTH;
