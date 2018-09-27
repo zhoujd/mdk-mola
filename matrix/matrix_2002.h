@@ -14,19 +14,45 @@
 typedef struct _zzMatrix2002ST zzMatrix2002ST;
 typedef struct _zzMatrix2002InputParamsST zzMatrix2002InputParamsST;
 
+typedef struct _zzMatrix2002InputParamsST  zzMatrix2002InputParamsST;
+typedef struct _zzMatrix2002VpParamsST     zzMatrix2002VpParamsST;
+
+struct _zzMatrix2002VpParamsST
+{
+    zzDeinterlaceParamST    deinterlace;
+    zzSharpnessParamST      sharpness;
+    zzAmpParamST            amp;
+    zzDenoiseParamST        denoise;
+    zzCompParamST           composition;
+};
+
+
 struct _zzMatrix2002InputParamsST
 {
-    int i;
+    zzMatrix2002VpParamsST  vp_params;
+    zzU32                   rota_angle;
 };
+
 
 struct _zzMatrix2002ST
 {
     zzMatrixBaseST    base;
 
-    zzSurfaceST       *pDestSurface;
-    zzFrameReaderST   *pFrameReader;  //frame reader
+    zzSurfaceST                     src_surf;
+    zzSurfaceST                     dst_surf;
 
-    zzMatrix2002InputParamsST params;
+    VABufferID                      filterBufs[VAProcFilterCount];
+    zzU32                           numFilterBufs;
+
+    VAProcPipelineParameterBuffer   pipelineParam;
+    VABufferID                      pipelineParamID;
+
+    VAProcPipelineParameterBuffer   subpicParam;
+    VABufferID                      subpicParamID;
+
+    zzBOOL                          bCompFlag;
+
+    zzProc2012InputParamsST         params;
 };
 
 
