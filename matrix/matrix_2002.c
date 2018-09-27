@@ -120,10 +120,11 @@ zzStatus ZZMatrix2002_Init(zzMatrix2002ST *pSelf, zzU16 argc, zz_char **argv,
         goto END;
     }
 
-    pSelf->base.pipe_ctrl = pPipeCtrl;
-    pSelf->ctx            = pCtx;
-    pSelf->src_surf       = *pSrcSurf;
-    pSelf->dst_surf       = *pDstSurf;
+    pSelf->base.pipe_ctrl  = pPipeCtrl;
+    pSelf->ctx             = pCtx;
+    pSelf->src_surf        = *pSrcSurf;
+    pSelf->dst_surf        = *pDstSurf;
+    pSelf->pipelineParamID = VA_INVALID_ID;
 
 END:
     return sts;
