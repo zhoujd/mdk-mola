@@ -6,6 +6,9 @@
 
 #include "cmn.h"
 #include "utils.h"
+#include <va/va.h>
+#include <va/va_vpp.h>
+
 
 #define ZZ_VP_DEF_COLOR_FILL 0xff108080
 #define ZZ_VP_MAX_FILTER     9

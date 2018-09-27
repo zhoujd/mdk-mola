@@ -21,12 +21,12 @@ zzStatus  render_picture_vp_frc(VADisplay display, VAContextID ctx_id, VABufferI
     VAStatus   ret = VA_STATUS_SUCCESS;
     zzStatus sts = ZZ_ERR_NONE;
 
+#if ZZ_FRC_SUPPORT //zhoujd
     VAProcFilterParameterBufferFrameRateConversion frc_param;
 
     //init
     ZERO_MEMORY(frc_param);
 
-#if ZZ_FRC_SUPPORT //zhoujd
     frc_param.type              = VAProcFilterFrameRateConversion;
     frc_param.input_fps         = input_fps;
     frc_param.output_fps        = output_fps;

@@ -47,6 +47,8 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_ctx_mng.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_utils.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_surf_mng.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_render_utils.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_render_parser.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_cmn.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_reader.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_writer.c

@@ -6,8 +6,9 @@
 
 #include "cmn.h"
 #include "matrix_defs.h"
-#include "frame_reader.h"
 #include "va_surf_mng.h"
+#include "va_render_utils.h"
+#include "va_render_parser.h"
 
 #define MATRIX2002_ID (2002)
 
@@ -52,7 +53,7 @@ struct _zzMatrix2002ST
 
     zzBOOL                          bCompFlag;
 
-    zzProc2012InputParamsST         params;
+    zzMatrix2002InputParamsST       params;
 };
 
 

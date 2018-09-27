@@ -3,7 +3,7 @@
  */
 
 #include "va_render_parser.h"
-#include "splitstr.h"
+#include "split_str.h"
 
 zzStatus render_parser_deinterlace(zzDeinterlaceParamST *pDif, zz_char *pszParams)
 {
@@ -95,7 +95,7 @@ zzStatus render_parser_sharpness(zzSharpnessParamST *pSharp, zz_char *pszParams)
         {
             if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "factor") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%hd"), &pSharp->factor);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pSharp->factor);
             }
         }
     }
@@ -123,19 +123,19 @@ zzStatus render_parser_amp(zzAmpParamST *pAmp, zz_char *pszParams)
         {
             if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "hue") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%lf"), &pAmp->hue);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%lf"), &pAmp->hue);
             }
             else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "saturation") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%lf"), &pAmp->saturation);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%lf"), &pAmp->saturation);
             }
             else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "brightness") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%lf"), &pAmp->brightness);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%lf"), &pAmp->brightness);
             }
             else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "contrast") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%lf"), &pAmp->contrast);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%lf"), &pAmp->contrast);
             }
         }
     }
@@ -163,7 +163,7 @@ zzStatus render_parser_denoise(zzDenoiseParamST  *pDN, zz_char *pszParams)
         {
             if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "factor") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%hd"), &pDN->factor);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pDN->factor);
             }
         }
     }
@@ -191,15 +191,15 @@ zzStatus render_parser_comp(zzCompParamST  *pComp, zz_char *pszParams)
         {
             if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "alpha") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%f"), &pComp->comp_alpha);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%f"), &pComp->comp_alpha);
             }
             else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "row") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%hd"), &pComp->row_num);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pComp->row_num);
             }
             else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "col") == 0)
             {
-                zz_string_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), VM_STRING("%hd"), &pComp->col_num);
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pComp->col_num);
             }
         }
     }
