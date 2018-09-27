@@ -10,7 +10,7 @@ fi
 run_task_2001()
 {
     echo "run task 2001 start ..."
-    ./zzmediaxapp -task 2001
+    ./zzmediaxapp -task 2001 -i input-stream/foreman_352x288_20.nv12
     echo "run task 2001 end ..."
 }
 
