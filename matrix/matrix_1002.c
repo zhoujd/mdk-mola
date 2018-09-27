@@ -7,8 +7,7 @@
 #include "task_base.h"
 
 static zzStatus ZZMatrix1002_Start(zzMatrixBaseST *pSelf);
-static zzStatus ZZMatrix1002_Test(zzMatrixBaseST *pSelf);
-static zzStatus ZZMatrix1002_End(zzMatrixBaseST *pSelf);
+static zzStatus ZZMatrix1002_PartStart(zzMatrixBaseST *pSelf);
 
 static zzStatus ZZMatrix1002_ParseInputString(zzMatrix1002ST  *pSelf, int nArgNum, char **strInput);
 
@@ -21,9 +20,8 @@ enum MATRIX1002_EVENT_EN
 //Matrix Cells
 static zzMatrixCellST matrix_cells[] =
 {
-    {ZZ_EVENT_START,         NULL, ZZMatrix1002_Start, NULL},     //ZZ_EVENT_START
-    {ZZ_EVENT_TASK1002_TEST, NULL, ZZMatrix1002_Test,  NULL},     //ZZ_EVENT_TEST
-    {ZZ_EVENT_TASK1002_DONE, NULL, ZZMatrix1002_End,   NULL},     //ZZ_EVENT_END
+    {ZZ_EVENT_START,         NULL, ZZMatrix1002_Start,      NULL},
+    {ZZ_EVENT_PART_START,    NULL, ZZMatrix1002_PartStart,  NULL},
 };
 
 
@@ -150,43 +148,48 @@ zzStatus ZZMatrix1002_Start(zzMatrixBaseST *pMatrixBase)
     ZZPRINTF("Matrix %d Start\n", pSelf->base.matrix_id);
 
     sts = ZZSurface_GetNextInputFrame(&pSelf->dst_surf, pSelf->pFrameReader);
-    if ((sts != ZZ_ERR_NONE) && (sts != ZZ_ERR_EOF_STREAM))
+    switch (sts)
     {
+    case ZZ_ERR_NONE:
+        pMatrixBase->next_event = ZZ_EVENT_PART_END;
+        break;
+    case ZZ_ERR_EOF_STREAM:
+        pMatrixBase->next_event = ZZ_EVENT_END;
+        sts = ZZ_ERR_NONE;
+        break;
+    default:
         ZZPRINTF("ZZ_GetNextInputFrame error\n");
         goto END;
     }
-
-    pMatrixBase->next_event = ZZ_EVENT_TASK1002_TEST;
 
 END:
     return sts;
 }
 
-zzStatus ZZMatrix1002_Test(zzMatrixBaseST *pMatrixBase)
+zzStatus ZZMatrix1002_PartStart(zzMatrixBaseST *pMatrixBase)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
     zzMatrix1002ST *pSelf = GET_MATRIX1002(pMatrixBase);
 
-    ZZPRINTF("Matrix %d Test\n", pSelf->base.matrix_id);
+    ZZPRINTF("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
-    pMatrixBase->next_event = ZZ_EVENT_TASK1002_DONE;
+    sts = ZZSurface_GetNextInputFrame(&pSelf->dst_surf, pSelf->pFrameReader);
+    switch (sts)
+    {
+    case ZZ_ERR_NONE:
+        pMatrixBase->next_event = ZZ_EVENT_PART_END;
+        break;
+    case ZZ_ERR_EOF_STREAM:
+        pMatrixBase->next_event = ZZ_EVENT_END;
+        sts = ZZ_ERR_NONE;
+        break;
+    default:
+        ZZPRINTF("ZZ_GetNextInputFrame error\n");
+        goto END;
+    }
 
+END:
     return sts;
-
-}
-
-
-zzStatus ZZMatrix1002_End(zzMatrixBaseST *pMatrixBase)
-{
-    zzStatus       sts    = ZZ_ERR_NONE;
-    zzMatrix1002ST *pSelf = GET_MATRIX1002(pMatrixBase);
-
-    ZZPRINTF("Matrix %d End\n", pSelf->base.matrix_id);
-
-    pMatrixBase->next_event = ZZ_EVENT_END;
-
-    return sts;
-
 }
 
 zzStatus ZZMatrix1002_ParseInputString(zzMatrix1002ST  *pSelf, int nArgNum, char **strInput)
