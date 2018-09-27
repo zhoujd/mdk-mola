@@ -130,7 +130,7 @@ zzStatus ZZMatrix9002_Start(zzMatrixBaseST *pMatrixBase)
 
     ZZPRINTF("Matrix 9002 Start\n");
 
-    //sts = ZZSurface_WriteOutputFrame(&pSelf->src_surf, pSelf->pFrameWriter);
+    sts = ZZSurface_WriteOutputFrame(&pSelf->src_surf, pSelf->pFrameWriter);
     switch (sts)
     {
     case ZZ_ERR_NONE:
@@ -158,7 +158,7 @@ zzStatus ZZMatrix9002_PartStart(zzMatrixBaseST *pMatrixBase)
 
     ZZPRINTF("Matrix 9002 Test\n");
 
-    //sts = ZZSurface_WriteOutputFrame(&pSelf->src_surf, pSelf->pFrameWriter);
+    sts = ZZSurface_WriteOutputFrame(&pSelf->src_surf, pSelf->pFrameWriter);
     switch (sts)
     {
     case ZZ_ERR_NONE:
