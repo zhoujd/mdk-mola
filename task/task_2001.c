@@ -469,8 +469,8 @@ zzStatus ZZTask2001_DefaultParam(zzTask2001ST  *pSelf)
     }
 
     //file name
-    zz_strncpy(pSelf->params.strSrcFile,   "ice_10.nv12", MAX_FILENAME_LEN - 1);
-    zz_strncpy(pSelf->params.strDstFile,   "output.nv12", MAX_FILENAME_LEN - 1);
+    zz_strncpy(pSelf->params.strSrcFile, ZZ_STRING(""), MAX_FILENAME_LEN - 1);
+    zz_strncpy(pSelf->params.strDstFile, ZZ_STRING(""), MAX_FILENAME_LEN - 1);
 
     return sts;
 }

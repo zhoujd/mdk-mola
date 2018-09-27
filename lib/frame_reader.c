@@ -7,7 +7,7 @@
 zzStatus ZZFrameReader_Create(zzFrameReaderST **ppRet)
 {
     zzStatus sts = ZZ_ERR_NONE;
-    
+
     *ppRet = (zzFrameReaderST *)AllocAndZeroMem(sizeof(zzFrameReaderST));
     if (*ppRet == NULL)
     {
@@ -27,12 +27,19 @@ zzStatus ZZFrameReader_Init(zzFrameReaderST *pSelf, zz_char *strFileName)
 
     CHECK_POINTER(strFileName, ZZ_ERR_NULL_PTR);
 
+    if (0 == strlen(strFileName))
+    {
+        ZZPRINTF("(%s) No input file.\n", __FUNCTION__);
+        goto END;
+    }
+
     zz_file_fopen(pSelf->srcFile, strFileName, ZZ_STRING("rb"));
     CHECK_POINTER(pSelf->srcFile, ZZ_ERR_ABORTED);
 
     //copy file name
     strncpy(pSelf->srcFileName, strFileName, MAX_FILENAME_LEN);
-    
+
+END:
     return sts;
 }
 
@@ -58,8 +65,8 @@ zzStatus ZZFrameReader_GetNextInputFrame(zzFrameReaderST *pSelf, zzFrameData *pD
 
     }
 
-    
-END:    
+
+END:
     return sts;
 }
 
