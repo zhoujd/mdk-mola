@@ -11,6 +11,7 @@ static zzStatus ZZMatrix2002_Test(zzMatrixBaseST *pSelf);
 static zzStatus ZZMatrix2002_End(zzMatrixBaseST *pSelf);
 
 static zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST  *pSelf, int nArgNum, char **strInput);
+static zzStatus ZZMatrix2002_ParseVpString(zzMatrix2002ST  *pSelf, int nArgNum, char **strInput);
 
 enum MATRIX2002_EVENT_EN
 {
@@ -123,7 +124,7 @@ zzStatus ZZMatrix2002_Init(zzMatrix2002ST *pSelf, zzU16 argc, zz_char **argv,
     pSelf->ctx            = pCtx;
     pSelf->src_surf       = *pSrcSurf;
     pSelf->dst_surf       = *pDstSurf;
-    
+
 END:
     return sts;
 }
@@ -168,7 +169,7 @@ zzStatus ZZMatrix2002_End(zzMatrixBaseST *pMatrixBase)
 
 }
 
-zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST  *pSelf, int nArgNum, char **strInput)
+zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST *pSelf, int nArgNum, char **strInput)
 {
     zzStatus           sts     = ZZ_ERR_NONE;
     zzU8               i       = 1;
@@ -177,8 +178,175 @@ zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST  *pSelf, int nArgNum, char
     {
         CHECK_POINTER(strInput[i], ZZ_ERR_NULL_PTR);
         {
+#if ZZ_ROTATION_SUPPORT
+            if ( 0 == zz_strcmp(strInput[i], ZZ_STRING("-angle")) )
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%d"), &pSelf->params.rota_angle);
+            }
+#endif //ZZ_ROTATION_SUPPORT
         }
     }
 
+    sts =  ZZMatrix2002_ParseVpString(pSelf, nArgNum, strInput);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrix2002_ParseVpString error\n");
+        goto END;
+    }
+
+END:
+    return sts;
+}
+
+zzStatus ZZMatrix2002_ParseVpString(zzMatrix2002ST  *pSelf, int nArgNum, char **strInput)
+{
+    zzStatus           sts     = ZZ_ERR_NONE;
+    zzU8               i       = 1;
+
+    zzMatrix2002VpParamsST  *pParams = &pSelf->params.vp_params;
+
+    for (i = 1; i < nArgNum; i++ )
+    {
+        CHECK_POINTER(strInput[i], ZZ_ERR_NULL_PTR);
+        {
+            if ( 0 == zz_strcmp(strInput[i], ZZ_STRING("--sharpness")) )
+            {
+                VABufferID  sharp_buf_id = VA_INVALID_ID;
+
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+
+                sts = render_parser_sharpness(&pParams->sharpness, strInput[i]);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_parser_sharpness  error\n");
+                    goto END;
+                }
+
+                ZZPRINTF("Matrix 2002 sharpness = %d\n", pParams->sharpness.factor);
+                sts = render_picture_vp_ief(pSelf->ctx->va_dpy, pSelf->ctx->id, &sharp_buf_id, pParams->sharpness.factor);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_picture_vp_ief error\n");
+                    goto END;
+                }
+
+                pSelf->filterBufs[pSelf->numFilterBufs] = sharp_buf_id;
+                pSelf->numFilterBufs++;
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("--amp")))
+            {
+                VABufferID  amp_buf_id = VA_INVALID_ID;
+
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+
+                sts = render_parser_amp(&pParams->amp, strInput[i]);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_parser_amp  error\n");
+                    goto END;
+                }
+
+                ZZPRINTF("Matrix 2002 hue        = %f\n", pParams->amp.hue);
+                ZZPRINTF("Matrix 2002 saturation = %f\n", pParams->amp.saturation);
+                ZZPRINTF("Matrix 2002 brightness = %f\n", pParams->amp.brightness);
+                ZZPRINTF("Matrix 2002 contrast   = %f\n", pParams->amp.contrast);
+
+                sts = render_picture_vp_hsbc(pSelf->ctx->va_dpy, pSelf->ctx->id, &amp_buf_id, pParams->amp.hue, pParams->amp.saturation, pParams->amp.brightness, pParams->amp.contrast);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_picture_vp_hsbc error\n");
+                    goto END;
+                }
+
+                pSelf->filterBufs[pSelf->numFilterBufs] = amp_buf_id;
+                pSelf->numFilterBufs++;
+
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("--comp")))
+            {
+                pSelf->bCompFlag = TRUE;
+                ZZPRINTF("Matrix 2002 comp      = TRUE\n");
+
+#if ZZ_BLEND_ALPHA_SUPPORT
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+
+                sts = render_parser_comp(&pParams->composition, strInput[i]);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_parser_cmp  error\n");
+                    goto END;
+                }
+
+                ZZPRINTF("Matrix 2002 alpha     = %lf\n", pParams->composition.comp_alpha);
+                ZZPRINTF("Matrix 2002 row       = %d\n",  pParams->composition.row_num);
+                ZZPRINTF("Matrix 2002 col       = %d\n",  pParams->composition.col_num);
+
+#endif //ZZ_BLEND_ALPHA_SUPPORT
+
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("--denoise")))
+            {
+                VABufferID  dn_buf_id = VA_INVALID_ID;
+
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+
+                sts = render_parser_denoise(&pParams->denoise, strInput[i]);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_parser_denoise  error\n");
+                    goto END;
+                }
+
+                ZZPRINTF("Matrix 2002 denoise factor   = %d\n", pParams->denoise.factor);
+                sts = render_picture_vp_dn(pSelf->ctx->va_dpy, pSelf->ctx->id, &dn_buf_id, pParams->denoise.factor);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_picture_vp_dn error\n");
+                    goto END;
+                }
+
+                pSelf->filterBufs[pSelf->numFilterBufs] = dn_buf_id;
+                pSelf->numFilterBufs++;
+
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("--deinterlace")))
+            {
+                VABufferID   deint_buf_id   = VA_INVALID_ID;
+
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+
+                sts = render_parser_deinterlace(&pParams->deinterlace, strInput[i]);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_parser_deinterlace  error\n");
+                    goto END;
+                }
+
+                ZZPRINTF("Matrix 2002 deinterlace algo   = %d\n", pParams->deinterlace.type);
+                ZZPRINTF("Matrix 2002 deinterlace bff    = %d\n", pParams->deinterlace.bff_flag);
+                ZZPRINTF("Matrix 2002 deinterlace bottom = %d\n", pParams->deinterlace.btm_field_flag);
+                ZZPRINTF("Matrix 2002 deinterlace single = %d\n", pParams->deinterlace.one_field_flag);
+
+                sts = render_picture_vp_di(pSelf->ctx->va_dpy, pSelf->ctx->id, &deint_buf_id, &pParams->deinterlace);
+                if (sts != ZZ_ERR_NONE)
+                {
+                    ZZPRINTF("render_picture_vp_di error\n");
+                    goto END;
+                }
+
+                pSelf->filterBufs[pSelf->numFilterBufs] = deint_buf_id;
+                pSelf->numFilterBufs++;
+            }
+        }
+    }
+
+END:
     return sts;
 }
