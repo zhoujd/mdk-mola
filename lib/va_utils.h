@@ -1,4 +1,4 @@
-/// zz_va_untils.h
+/// va_untils.h
 
 #ifndef VA_UTILS_H
 #define VA_UTILS_H 1
@@ -35,5 +35,5 @@ zzStatus va_to_zz_status(VAStatus va_res);
 zzStatus ZZVA_InitVA(Display **display, VADisplay *va_dpy);
 zzStatus ZZVA_CloseVA(Display *display,VADisplay va_dpy);
 zzStatus ZZVA_GetScreenInfo(zzU16 *pWidth, zzU16 *pHeight);
-    
+
 #endif //VA_UTILS_H

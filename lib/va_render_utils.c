@@ -3,6 +3,9 @@
  */
 
 #include "va_render_utils.h"
+#include "va_utils.h"
+
+#define ZZ_QUERY_CAPS_SUPPORT 1
 
 static zzStatus  render_check_factor(float value, float max_value, float min_value, float step);
 
@@ -58,7 +61,7 @@ zzStatus render_picture_vp_ief(VADisplay display, VAContextID ctx_id, VABufferID
     VAStatus   ret = VA_STATUS_SUCCESS;
     zzStatus sts = ZZ_ERR_NONE;
 
-    zzU32                     caps_num;
+    zzU32                       caps_num;
     VAProcFilterCap             sharp_caps;
     VAProcFilterParameterBuffer sharp_param;
 
@@ -360,15 +363,16 @@ END:
 
 zzStatus render_picture_vp_check_pipeline(VADisplay display, VAContextID ctx_id)
 {
-    VAStatus   ret = VA_STATUS_SUCCESS;
-    zzStatus sts = ZZ_ERR_NONE;
+    zzStatus   sts = ZZ_ERR_NONE;
 
+#if 0 //zhoujd may be check in further
+    VAStatus   ret = VA_STATUS_SUCCESS;
     VAProcPipelineCaps pipeline_cap;
 
     //init
     ZERO_MEMORY(pipeline_cap);
 
-#if 0 //zhoujd may be check in further
+
     //query caps for pipeline
     ret = vaQueryVideoProcPipelineCaps(display,
                                        ctx_id,
@@ -393,7 +397,6 @@ zzStatus render_picture_vp_primary(VADisplay display, VAContextID ctx_id, zzPipe
 {
     VAStatus   ret = VA_STATUS_SUCCESS;
     zzStatus   sts = ZZ_ERR_NONE;
-    int        i   = 0;
 
     VAProcPipelineParameterBuffer primary_param;
 
