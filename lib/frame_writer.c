@@ -29,14 +29,20 @@ zzStatus ZZFrameWriter_Init(zzFrameWriterST *pSelf, zz_char *strFileName)
 
     CHECK_POINTER(strFileName, ZZ_ERR_NULL_PTR);
 
+    if (0 == strlen(strFileName))
+    {
+        ZZPRINTF("(%s) No output file.\n", __FUNCTION__);
+        goto END;
+    }
+
     zz_file_fopen(pSelf->dstFile, strFileName, ZZ_STRING("wb"));
     CHECK_POINTER(pSelf->dstFile, ZZ_ERR_ABORTED);
 
     //copy file name
     strncpy(pSelf->dstFileName, strFileName, MAX_FILENAME_LEN);
 
+END:
     return sts;
-
 }
 
 zzStatus ZZFrameWriter_WriteFrame(zzFrameWriterST *pSelf, zzFrameData *pData, zzFrameInfo *pInfo)

@@ -82,16 +82,35 @@ zzStatus ZZMatrix9002_Create(zzMatrix9002ST **ppRet)
 
     (*ppRet)->base.matrix_id = MATRIX9002_ID;
 
+    sts = ZZFrameWriter_Create(&(*ppRet)->pFrameWriter);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZFrameWriter_Create error\n");
+        goto END;
+    }
+
 END:
     return sts;
 }
 
 
 zzStatus ZZMatrix9002_Init(zzMatrix9002ST *pSelf, zzU16 argc, zz_char **argv,
-                           zzPipeCtrlST *pPipeCtrl)
+                           zzPipeCtrlST   *pPipeCtrl,
+                           zzSurfaceST    *pSurf, zz_char *pFilename)
 {
     zzStatus  sts = ZZ_ERR_NONE;
 
+    pSelf->base.pipe_ctrl = pPipeCtrl;
+    pSelf->src_surf       = *pSurf;
+
+    sts = ZZFrameWriter_Init(pSelf->pFrameWriter, pFilename);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZFrameWriter_Init error\n");
+        goto END;
+    }
+
+END:
     return sts;
 }
 
@@ -102,7 +121,14 @@ zzStatus ZZMatrix9002_Release(zzMatrix9002ST *pSelf)
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
+    sts = ZZFrameWriter_Release(pSelf->pFrameWriter);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZFrameWriter_Release error\n");
+        goto END;
+    }
 
+END:
     return sts;
 }
 

@@ -2,6 +2,8 @@
 
 export DISPLAY=:0.0
 
+mkdir -p output
+
 if [ ! -e ./zzmediaxapp ]; then
     echo "no ./zzmediaxapp, please run build script"
     exit 1
@@ -10,7 +12,7 @@ fi
 run_task_2001()
 {
     echo "run task 2001 start ..."
-    ./zzmediaxapp -task 2001 -i input-stream/foreman_352x288_20.nv12
+    ./zzmediaxapp -task 2001 -i input-stream/foreman_352x288_20.nv12 -o output/test.nv12
     echo "run task 2001 end ..."
 }
 
