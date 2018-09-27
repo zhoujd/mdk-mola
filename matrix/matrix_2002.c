@@ -170,6 +170,221 @@ zzStatus ZZMatrix2002_End(zzMatrixBaseST *pMatrixBase)
 
 }
 
+
+zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
+{
+    zzStatus    sts = ZZ_ERR_NONE;
+    VAStatus    vaSts;
+
+    VASurfaceID* srf = &pSelf->src_surf.id;
+    pSelf->pipelineParam.surface = *srf;
+
+    VARectangle srcRect;
+    srcRect.x = pSelf->src_surf.frameInfo.CropX;
+    srcRect.y = pSelf->src_surf.frameInfo.CropY;
+    srcRect.width = pSelf->src_surf.frameInfo.CropW;
+    srcRect.height= pSelf->src_surf.frameInfo.CropH;
+    pSelf->pipelineParam.surface_region = &srcRect;
+
+    VARectangle dstRect;
+    dstRect.x = pSelf->dst_surf.frameInfo.CropX;
+    dstRect.y = pSelf->dst_surf.frameInfo.CropY;
+    dstRect.width = pSelf->dst_surf.frameInfo.CropW;
+    dstRect.height= pSelf->dst_surf.frameInfo.CropH;
+    pSelf->pipelineParam.output_region = &dstRect;
+
+    pSelf->pipelineParam.output_background_color = 0xff108080; // black
+
+#if ZZ_ROTATION_SUPPORT
+    switch (pSelf->params.rota_angle)
+    {
+    case VA_ROTATION_NONE:
+    case VA_ROTATION_90:
+    case VA_ROTATION_180:
+    case VA_ROTATION_270:
+        pSelf->pipelineParam.rotation_state = pSelf->params.rota_angle; // rotation
+        break;
+    default:
+        ZZPRINTF("VppgProc2012_ProcNextFrame rota_angle unsupport %d\n", pSelf->params.rota_angle);
+        sts = ZZ_ERR_UNSUPPORTED;
+        goto END;
+    }
+#endif //ZZ_ROTATION_SUPPORT
+
+    zzU32  refFourcc = pSelf->src_surf.frameInfo.FourCC;
+    switch (refFourcc)
+    {
+    case ZZ_FOURCC_ABGR:
+    case ZZ_FOURCC_ARGB:
+    case ZZ_FOURCC_XRGB:
+    case ZZ_FOURCC_R5G6B5:
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardNone;
+        break;
+    case ZZ_FOURCC_NV12:
+    case ZZ_FOURCC_YV12:
+    case ZZ_FOURCC_YUY2:
+    case ZZ_FOURCC_400P:
+    case ZZ_FOURCC_411P:
+    case ZZ_FOURCC_IMC3:
+    case ZZ_FOURCC_422H:
+    case ZZ_FOURCC_422V:
+    case ZZ_FOURCC_444P:
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT601;
+        break;
+    default:
+        ZZPRINTF("VppgProc2012_ProcNextFrame target unsupport %d\n", refFourcc);
+        sts = ZZ_ERR_UNSUPPORTED;
+        goto END;
+
+    }
+
+    zzU32  targetFourcc = pSelf->dst_surf.frameInfo.FourCC;
+    switch (targetFourcc)
+    {
+    case ZZ_FOURCC_ABGR:
+    case ZZ_FOURCC_ARGB:
+    case ZZ_FOURCC_XRGB:
+    case ZZ_FOURCC_R5G6B5:
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardNone;
+        break;
+    case ZZ_FOURCC_NV12:
+    case ZZ_FOURCC_YV12:
+    case ZZ_FOURCC_YUY2:
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT601;
+        break;
+    default:
+        ZZPRINTF("VppgProc2012_ProcNextFrame target unsupport %d\n", targetFourcc);
+        sts = ZZ_ERR_UNSUPPORTED;
+        goto END;
+    }
+
+    switch (pSelf->src_surf.frameInfo.PicStruct)
+    {
+    case ZZ_PICSTRUCT_PROGRESSIVE:
+        pSelf->pipelineParam.filter_flags = VA_FRAME_PICTURE;
+        break;
+    case ZZ_PICSTRUCT_FIELD_TFF:
+        pSelf->pipelineParam.filter_flags = VA_TOP_FIELD | VA_FILTER_SCALING_FAST;
+        break;
+    case ZZ_PICSTRUCT_FIELD_BFF:
+        pSelf->pipelineParam.filter_flags = VA_BOTTOM_FIELD | VA_FILTER_SCALING_FAST;
+        break;
+    }
+
+    pSelf->pipelineParam.filters  = pSelf->filterBufs;
+    pSelf->pipelineParam.num_filters  = pSelf->numFilterBufs;
+
+    if ( pSelf->pipelineParamID != VA_INVALID_ID)
+    {
+        vaDestroyBuffer(pSelf->ctx->va_dpy, pSelf->pipelineParamID);
+    }
+
+    vaSts = vaCreateBuffer(pSelf->ctx->va_dpy,
+                           pSelf->ctx->id,
+                           VAProcPipelineParameterBufferType,
+                           sizeof(pSelf->pipelineParam),
+                           1,
+                           &pSelf->pipelineParam,
+                           &pSelf->pipelineParamID);
+    sts     = va_to_zz_status(vaSts);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("vaCreateBuffer error\n");
+        goto END;
+    }
+
+
+    if (pSelf->bCompFlag == TRUE)
+    {
+        //subpic setting
+        pSelf->subpicParam = pSelf->pipelineParam;
+        pSelf->subpicParam.pipeline_flags |= VA_PROC_PIPELINE_FAST;
+        pSelf->subpicParam.filter_flags |= VA_FILTER_SCALING_FAST;
+
+#if ZZ_BLEND_ALPHA_SUPPORT
+        blend_state.global_alpha = pSelf->params.vp_params.composition.comp_alpha;
+        pSelf->subpicParam.blend_state = &blend_state;
+#endif //ZZ_BLEND_ALPHA_SUPPORT
+
+        VARectangle dstSubRect;
+        dstSubRect.x = pSelf->dst_surf.frameInfo.CropX;
+        dstSubRect.y = pSelf->dst_surf.frameInfo.CropY;
+        dstSubRect.width = pSelf->dst_surf.frameInfo.CropW / 2;
+        dstSubRect.height= pSelf->dst_surf.frameInfo.CropH / 2;
+        pSelf->subpicParam.output_region = &dstSubRect;
+
+        vaSts = vaCreateBuffer(pSelf->ctx->va_dpy,
+                               pSelf->ctx->id,
+                               VAProcPipelineParameterBufferType,
+                               sizeof(pSelf->subpicParam),
+                               1,
+                               &pSelf->subpicParam,
+                               &pSelf->subpicParamID);
+        sts     = va_to_zz_status(vaSts);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("vaCreateBuffer error\n");
+            goto END;
+        }
+    }
+
+    VASurfaceID *outputSurface = &pSelf->dst_surf.id;
+    vaSts = vaBeginPicture(pSelf->ctx->va_dpy, pSelf->ctx->id, *outputSurface);
+    sts     = va_to_zz_status(vaSts);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("vaBeginPicture error\n");
+        goto END;
+    }
+
+
+    vaSts = vaRenderPicture(pSelf->ctx->va_dpy, pSelf->ctx->id, &pSelf->pipelineParamID, 1);
+    sts     = va_to_zz_status(vaSts);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("vaRenderPicture error\n");
+        goto END;
+    }
+
+    if (pSelf->bCompFlag == TRUE)
+    {
+        vaSts = vaRenderPicture(pSelf->ctx->va_dpy, pSelf->ctx->id, &pSelf->subpicParamID, 1);
+        sts     = va_to_zz_status(vaSts);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("vaRenderPicture error\n");
+            goto END;
+        }
+    }
+
+    vaSts = vaEndPicture(pSelf->ctx->va_dpy, pSelf->ctx->id);
+    sts     = va_to_zz_status(vaSts);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("vaEndPicture error\n");
+        goto END;
+    }
+
+END:
+
+    if (pSelf->pipelineParamID != VA_INVALID_ID)
+    {
+        vaDestroyBuffer(pSelf->ctx->va_dpy, pSelf->pipelineParamID);
+        pSelf->pipelineParamID = VA_INVALID_ID;
+    }
+
+    if (pSelf->bCompFlag == TRUE)
+    {
+        if (pSelf->subpicParamID != VA_INVALID_ID)
+        {
+            vaDestroyBuffer(pSelf->ctx->va_dpy, pSelf->subpicParamID);
+            pSelf->subpicParamID = VA_INVALID_ID;
+        }
+    }
+
+    return sts;
+}
+
 zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST *pSelf, int nArgNum, char **strInput)
 {
     zzStatus           sts     = ZZ_ERR_NONE;
