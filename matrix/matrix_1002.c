@@ -11,12 +11,6 @@ static zzStatus ZZMatrix1002_PartStart(zzMatrixBaseST *pSelf);
 
 static zzStatus ZZMatrix1002_ParseInputString(zzMatrix1002ST  *pSelf, int nArgNum, char **strInput);
 
-enum MATRIX1002_EVENT_EN
-{
-    ZZ_EVENT_TASK1002_TEST = ZZ_EVENT_USER + 1,
-    ZZ_EVENT_TASK1002_DONE,
-};
-
 //Matrix Cells
 static zzMatrixCellST matrix_cells[] =
 {
