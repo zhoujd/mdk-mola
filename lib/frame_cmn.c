@@ -918,7 +918,7 @@ zzStatus ZZ_DumpFrameInfo(zzFrameInfo *pFrameInfo)
 
     CHECK_POINTER(pFrameInfo, ZZ_ERR_NULL_PTR);
 
-    ZZPRINTF("Format    = (%s:%d)\n", ZZ_FourCC2Str(pFrameInfo->FourCC), pFrameInfo->FourCC);
+    ZZPRINTF("Format    = (%s:0x%X)\n", ZZ_FourCC2Str(pFrameInfo->FourCC), pFrameInfo->FourCC);
 
     ZZPRINTF("Width     = (%d)\n", pFrameInfo->Width);
     ZZPRINTF("Height    = (%d)\n", pFrameInfo->Height);
