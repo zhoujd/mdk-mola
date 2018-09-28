@@ -44,4 +44,7 @@ struct _zzMatrixCellST
     zzFunctionPostExec  pfnPostExec;
 };
 
+//matrix group functions
+
+
 #endif /* INCLUDED_ZZ_PROC_DEFS_H */
