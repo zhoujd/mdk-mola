@@ -63,23 +63,26 @@ struct _zzOwnFrameInfoST
 
 #define Frame_A(p)    p->u4.A
 
+#if 0  //zhoujd
 /* Frame Data Info 10 bit */
-#define Frame_Y16(p)    p->u1.Y16
-#define Frame_R16(p)    p->u1.R16
+#define Frame_Y16(p)    (zzU16 *)(p->u1.Y)
+#define Frame_R16(p)    (zzU16 *)(p->u1.R)
 
-#define Frame_UV16(p)   p->u2.UV16
-#define Frame_VU16(p)   p->u2.VU16
-#define Frame_CbCr16(p) p->u2.CbCr16
-#define Frame_CrCb16(p) p->u2.CrCb16
-#define Frame_Cb16(p)   p->u2.Cb16
-#define Frame_U16(p)    p->u2.U16
-#define Frame_G16(p)    p->u2.G16
+#define Frame_UV16(p)   (zzU16 *)(p->u2.UV)
+#define Frame_VU16(p)   (zzU16 *)(p->u2.VU)
+#define Frame_CbCr16(p) (zzU16 *)(p->u2.CbCr)
+#define Frame_CrCb16(p) (zzU16 *)(p->u2.CrCb)
+#define Frame_Cb16(p)   (zzU16 *)(p->u2.Cb)
+#define Frame_U16(p)    (zzU16 *)(p->u2.U)
+#define Frame_G16(p)    (zzU16 *)(p->u2.G)
 
-#define Frame_Cr16(p)   p->u3.Cr16
-#define Frame_V16(p)    p->u3.V16
-#define Frame_B16(p)    p->u3.B16
+#define Frame_Cr16(p)   (zzU16 *)(p->u3.Cr)
+#define Frame_V16(p)    (zzU16 *)(p->u3.V)
+#define Frame_B16(p)    (zzU16 *)(p->u3.B)
 
-#define Frame_A16(p)    p->u4.A16
+#define Frame_A16(p)    (zzU16 *)(p->u4.A)
+
+#endif
 
 
 struct _zzFrameData
@@ -96,9 +99,6 @@ struct _zzFrameData
     {
         zzU8   *Y;
         zzU8   *R;
-
-        zzU16  *Y16;
-        zzU16  *R16;
     } u1;
     union
     {
@@ -109,30 +109,16 @@ struct _zzFrameData
         zzU8   *Cb;
         zzU8   *U;
         zzU8   *G;
-
-        zzU16  *UV16;            /* for UV merged formats */
-        zzU16  *VU16;            /* for VU merged formats */
-        zzU16  *CbCr16;          /* for CbCr merged formats */
-        zzU16  *CrCb16;          /* for CrCb merged formats */
-        zzU16  *Cb16;
-        zzU16  *U16;
-        zzU16  *G16;
     } u2;
     union
     {
         zzU8   *Cr;
         zzU8   *V;
         zzU8   *B;
-
-        zzU16  *Cr16;
-        zzU16  *V16;
-        zzU16  *B16;
-
     } u3;
     union
     {
         zzU8   *A;
-        zzU16  *A16;
     } u4;
     zzMemId    MemId;
 

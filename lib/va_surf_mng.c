@@ -136,7 +136,6 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
 
     ptr = &pSurface->frameData;
     Frame_B(ptr) = Frame_Y(ptr) = image_data;
-    Frame_B16(ptr) = Frame_Y16(ptr) = image_data;
 
     switch (pSurface->va_image.format.fourcc)
     {
@@ -180,9 +179,9 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
         break;
     case ZZ_FOURCC_P010:
         ptr->Pitch = (zzU16)pSurface->va_image.pitches[0];
-        Frame_Y16(ptr) = image_data + pSurface->va_image.offsets[0];
-        Frame_U16(ptr) = image_data + pSurface->va_image.offsets[1];
-        Frame_V16(ptr) = image_data + pSurface->va_image.offsets[2];
+        Frame_Y(ptr) = image_data + pSurface->va_image.offsets[0];
+        Frame_U(ptr) = image_data + pSurface->va_image.offsets[1];
+        Frame_V(ptr) = image_data + pSurface->va_image.offsets[2];
         break;
     default:
         sts = ZZ_ERR_UNSUPPORTED;

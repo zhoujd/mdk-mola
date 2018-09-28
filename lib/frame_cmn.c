@@ -10,7 +10,6 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
     zzU32  w, h, i, pitch;
     zzU32  nBytesRead;
     zzU8  *ptr;
-    zzU16 *ptr16;
 
     CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
     CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
@@ -358,20 +357,20 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
     }
     else if( pInfo->FourCC == ZZ_FOURCC_P010 )
     {
-        ptr16 = Frame_Y16(pData) + pInfo->CropX + pInfo->CropY * pitch;
+        ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
         // read luminance plane
         for(i = 0; i < h; i++)
         {
-          nBytesRead = (zzU32)zz_file_fread((zzU8 *)(ptr16) + i * pitch, 1, w * 2, fSrc);
+            nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w * 2, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w * 2, ZZ_ERR_MORE_DATA);
         }
 
         // load UV
         h     >>= 1;
-        ptr16 = Frame_UV16(pData) + pInfo->CropX + (pInfo->CropY >> 1) * pitch;
+        ptr = Frame_UV(pData) + pInfo->CropX + (pInfo->CropY >> 1) * pitch;
         for (i = 0; i < h; i++)
         {
-          nBytesRead = (zzU32)zz_file_fread((zzU8 *)(ptr16) + i * pitch, 1, w * 2, fSrc);
+            nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, w * 2, fSrc);
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w * 2, ZZ_ERR_MORE_DATA);
         }
     }
@@ -486,7 +485,6 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
 
     zzI32  i, h, w, pitch;
     zzU8*  ptr;
-    zzU16* ptr16;
 
     CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
     CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
@@ -699,18 +697,18 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
     }
     else if( pInfo->FourCC == ZZ_FOURCC_P010 )
     {
-        ptr16   = Frame_Y16(pData) + (pInfo->CropX ) + (pInfo->CropY ) * pitch;
+        ptr   = Frame_Y(pData) + (pInfo->CropX ) + (pInfo->CropY ) * pitch;
         for (i = 0; i < h; i++)
         {
-          CHECK_NOT_EQUAL( zz_file_fwrite((zzU8 *)(ptr16) + i * pitch, 1, w * 2, fDst), w * 2, ZZ_ERR_UNDEFINED_BEHAVIOR);
+          CHECK_NOT_EQUAL( zz_file_fwrite(ptr + i * pitch, 1, w * 2, fDst), w * 2, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
         
         // write UV data
         h     >>= 1;
-        ptr16  = Frame_UV16(pData) + (pInfo->CropX ) + (pInfo->CropY >> 1) * pitch;
+        ptr  = Frame_UV(pData) + (pInfo->CropX ) + (pInfo->CropY >> 1) * pitch;
         for(i = 0; i < h; i++)
         {
-          CHECK_NOT_EQUAL( zz_file_fwrite((zzU8 *)(ptr16) + i * pitch, 1, w * 2, fDst), w * 2, ZZ_ERR_UNDEFINED_BEHAVIOR);
+          CHECK_NOT_EQUAL( zz_file_fwrite(ptr + i * pitch, 1, w * 2, fDst), w * 2, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
     }
     else if( pInfo->FourCC == ZZ_FOURCC_YUY2 )
