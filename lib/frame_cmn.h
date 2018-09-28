@@ -6,11 +6,6 @@
 
 #include "cmn.h"
 
-enum
-{
-    NOT_INIT_VALUE      =   0xFFF7
-};
-
 typedef struct _zzOwnFrameInfoST zzOwnFrameInfoST;
 typedef struct _zzFrameData      zzFrameData;
 typedef struct _zzFrameId        zzFrameId;

@@ -40,7 +40,10 @@ typedef int zzBOOL;
 #define TRUE  1
 #define FALSE 0
 
-
+enum
+{
+    NOT_INIT_VALUE   =   0xFFF7
+};
 
 /*********************************************************************************\
 Error message
