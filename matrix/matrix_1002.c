@@ -72,8 +72,10 @@ zzStatus ZZMatrix1002_Create(zzMatrix1002ST **ppRet)
 
     (*ppRet)->base.cell_list = matrix_cells;
     (*ppRet)->base.cell_num  = ARRAY_NUM(matrix_cells);
-
     (*ppRet)->base.matrix_id     = MATRIX1002_ID;
+
+    (*ppRet)->frame_num      = NOT_INIT_VALUE;
+    (*ppRet)->frame_idx      = 0;
 
     sts = ZZFrameReader_Create(&(*ppRet)->pFrameReader);
     if (sts != ZZ_ERR_NONE)
@@ -157,7 +159,7 @@ zzStatus ZZMatrix1002_Start(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
-    pSelf->frame_num++;
+    pSelf->frame_idx++;
 
 END:
     return sts;
@@ -170,19 +172,28 @@ zzStatus ZZMatrix1002_PartStart(zzMatrixBaseST *pMatrixBase)
 
     ZZDEBUG("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
+    if (pSelf->frame_num == pSelf->frame_idx)
+    {
+        pMatrixBase->next_event = ZZ_EVENT_END;
+        pSelf->base.pipe_ctrl->pipe_event = ZZ_EVENT_PIPE_EXIT;
+
+        ZZPRINTF("Frame Number: %d\n", pSelf->frame_idx);
+        goto END;
+    }
+
     sts = ZZSurface_GetNextInputFrame(&pSelf->dst_surf, pSelf->pFrameReader);
     switch (sts)
     {
     case ZZ_ERR_NONE:
         pMatrixBase->next_event = ZZ_EVENT_PART_END;
-        pSelf->frame_num++;
+        pSelf->frame_idx++;
         break;
     case ZZ_ERR_EOF_STREAM:
         pMatrixBase->next_event = ZZ_EVENT_END;
         pSelf->base.pipe_ctrl->pipe_event = ZZ_EVENT_PIPE_EXIT;
         sts = ZZ_ERR_NONE;
 
-        ZZPRINTF("Frame Number: %d\n", pSelf->frame_num);
+        ZZPRINTF("Frame Number: %d\n", pSelf->frame_idx);
         break;
     default:
         ZZPRINTF("ZZ_GetNextInputFrame error\n");
@@ -202,6 +213,12 @@ zzStatus ZZMatrix1002_ParseInputString(zzMatrix1002ST  *pSelf, int nArgNum, char
     {
         CHECK_POINTER(strInput[i], ZZ_ERR_NULL_PTR);
         {
+            if (0 == zz_strcmp(strInput[i], ZZ_STRING("-n")))
+            {
+                VAL_CHECK(1 + i == nArgNum);
+                i++;
+                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &pSelf->frame_num);
+            }
         }
     }
 

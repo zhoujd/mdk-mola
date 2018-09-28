@@ -20,6 +20,7 @@ struct _zzMatrix1002ST
 
     zzSurfaceST       dst_surf;
     zzFrameReaderST   *pFrameReader;
+    zzU16             frame_idx;
     zzU16             frame_num;
 };
 
