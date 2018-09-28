@@ -4,6 +4,21 @@
 
 #include "frame_cmn.h"
 
+static zzStatus ZZ_Write_YV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_IYUV(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_400P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_411P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_444P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_IMC3(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_422H(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_422V(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_NV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_P010(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_YUY2(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_ARGB_XRGB(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_ABGR(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+static zzStatus ZZ_Write_R5G6B5(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+
 
 zzStatus ZZ_Write_YV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
 {
