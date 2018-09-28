@@ -4,6 +4,22 @@
 
 #include "frame_cmn.h"
 
+static zzStatus ZZ_LoadNext_YV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_IYUV(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_422H(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_422V(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_IMC3(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_400P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_411P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_444P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_NV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_P101(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_NV12_LINEAR(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_ABGR(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_ARGB_XRGB(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_R5G6B5(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_YUY2(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+
 
 zzStatus ZZ_LoadNext_YV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc)
 {
