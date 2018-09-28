@@ -63,28 +63,6 @@ struct _zzOwnFrameInfoST
 
 #define Frame_A(p)    p->u4.A
 
-#if 0  //zhoujd
-/* Frame Data Info 10 bit */
-#define Frame_Y16(p)    (zzU16 *)(p->u1.Y)
-#define Frame_R16(p)    (zzU16 *)(p->u1.R)
-
-#define Frame_UV16(p)   (zzU16 *)(p->u2.UV)
-#define Frame_VU16(p)   (zzU16 *)(p->u2.VU)
-#define Frame_CbCr16(p) (zzU16 *)(p->u2.CbCr)
-#define Frame_CrCb16(p) (zzU16 *)(p->u2.CrCb)
-#define Frame_Cb16(p)   (zzU16 *)(p->u2.Cb)
-#define Frame_U16(p)    (zzU16 *)(p->u2.U)
-#define Frame_G16(p)    (zzU16 *)(p->u2.G)
-
-#define Frame_Cr16(p)   (zzU16 *)(p->u3.Cr)
-#define Frame_V16(p)    (zzU16 *)(p->u3.V)
-#define Frame_B16(p)    (zzU16 *)(p->u3.B)
-
-#define Frame_A16(p)    (zzU16 *)(p->u4.A)
-
-#endif
-
-
 struct _zzFrameData
 {
     zzU32      reserved[8];
