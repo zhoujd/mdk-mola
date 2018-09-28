@@ -113,7 +113,7 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus sts     = ZZ_ERR_NONE;
 
-    zzU8        *image_data = NULL;
+    void        *image_data = NULL;
     zzFrameData *ptr = NULL;
 
     va_res = vaDeriveImage(GetVaDisplay(pSurface), pSurface->id, &pSurface->va_image);
@@ -136,6 +136,7 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
 
     ptr = &pSurface->frameData;
     Frame_B(ptr) = Frame_Y(ptr) = image_data;
+    Frame_B16(ptr) = Frame_Y16(ptr) = image_data;
 
     switch (pSurface->va_image.format.fourcc)
     {
@@ -177,7 +178,12 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
         Frame_U(ptr) = image_data + pSurface->va_image.offsets[2];
         Frame_V(ptr) = image_data + pSurface->va_image.offsets[1];
         break;
-
+    case ZZ_FOURCC_P010:
+        ptr->Pitch = (zzU16)pSurface->va_image.pitches[0];
+        Frame_Y16(ptr) = image_data + pSurface->va_image.offsets[0];
+        Frame_U16(ptr) = image_data + pSurface->va_image.offsets[1];
+        Frame_V16(ptr) = image_data + pSurface->va_image.offsets[2];
+        break;
     default:
         sts = ZZ_ERR_UNSUPPORTED;
         goto END;
@@ -259,6 +265,9 @@ zzStatus ZZSurface_GetGenericFormat(zzU32 format_fourcc, zzU32 *pformat_va)
     case ZZ_FOURCC_NV12_LINEAR:
         *pformat_va = ZZ_FOURCC_NV12_LINEAR;
         break;
+    case ZZ_FOURCC_P010:
+        *pformat_va = VA_RT_FORMAT_YUV420_10;
+        break;
     default:
         sts = ZZ_ERR_UNSUPPORTED;
         break;
@@ -321,6 +330,9 @@ zzStatus ZZSurface_FourCC2VaFourCC(zzU32 format_fourcc, int *pformat_va)
         break;
     case ZZ_FOURCC_XRGB:
         *pformat_va = VA_FOURCC_XRGB;
+        break;
+    case ZZ_FOURCC_P010:
+        *pformat_va = VA_FOURCC_P010;
         break;
     default:
         sts = ZZ_ERR_UNSUPPORTED;

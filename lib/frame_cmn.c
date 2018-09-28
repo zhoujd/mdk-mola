@@ -7,9 +7,10 @@
 
 zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc)
 {
-    zzU32 w, h, i, pitch;
-    zzU32 nBytesRead;
-    zzU8 *ptr;
+    zzU32  w, h, i, pitch;
+    zzU32  nBytesRead;
+    zzU8  *ptr;
+    zzU16 *ptr16;
 
     CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
     CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
@@ -355,6 +356,25 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
             IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w, ZZ_ERR_MORE_DATA);
         }
     }
+    else if( pInfo->FourCC == ZZ_FOURCC_P010 )
+    {
+        ptr16 = Frame_Y16(pData) + pInfo->CropX + pInfo->CropY * pitch;
+        // read luminance plane
+        for(i = 0; i < h; i++)
+        {
+            nBytesRead = (zzU32)zz_file_fread(ptr16 + i * pitch, 1, w * 2, fSrc);
+            IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w * 2, ZZ_ERR_MORE_DATA);
+        }
+
+        // load UV
+        h     >>= 1;
+        ptr16 = Frame_UV16(pData) + pInfo->CropX + (pInfo->CropY >> 1) * pitch;
+        for (i = 0; i < h; i++)
+        {
+            nBytesRead = (zzU32)zz_file_fread(ptr16 + i * pitch, 1, w * 2, fSrc);
+            IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, w * 2, ZZ_ERR_MORE_DATA);
+        }
+    }
     else if( pInfo->FourCC == ZZ_FOURCC_NV12_LINEAR)
     {
         ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
@@ -462,10 +482,11 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
 
 zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
 {
-    zzI32 nBytesRead   = 0;
+    zzI32  nBytesRead   = 0;
 
-    zzI32 i, h, w, pitch;
-    zzU8* ptr;
+    zzI32  i, h, w, pitch;
+    zzU8*  ptr;
+    zzU16* ptr16;
 
     CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
     CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
@@ -676,6 +697,22 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
             CHECK_NOT_EQUAL( zz_file_fwrite(ptr+ i * pitch, 1, w, fDst), w, ZZ_ERR_UNDEFINED_BEHAVIOR);
         }
     }
+    else if( pInfo->FourCC == ZZ_FOURCC_P010 )
+    {
+        ptr16   = Frame_Y16(pData) + (pInfo->CropX ) + (pInfo->CropY ) * pitch;
+        for (i = 0; i < h; i++)
+        {
+            CHECK_NOT_EQUAL( zz_file_fwrite(ptr16 + i * pitch, 1, w * 2, fDst), w * 2, ZZ_ERR_UNDEFINED_BEHAVIOR);
+        }
+
+        // write UV data
+        h     >>= 1;
+        ptr16  = Frame_UV16(pData) + (pInfo->CropX ) + (pInfo->CropY >> 1) * pitch;
+        for(i = 0; i < h; i++)
+        {
+            CHECK_NOT_EQUAL( zz_file_fwrite(ptr16 + i * pitch, 1, w * 2, fDst), w * 2, ZZ_ERR_UNDEFINED_BEHAVIOR);
+        }
+    }
     else if( pInfo->FourCC == ZZ_FOURCC_YUY2 )
     {
         ptr = Frame_Y(pData) + pInfo->CropX + pInfo->CropY * pitch;
@@ -802,6 +839,10 @@ zzStatus ZZ_Str2FourCC(zz_char* strInput, zzU32 *pFourCC)
     {
         *pFourCC = ZZ_FOURCC_XRGB;
     }
+    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("p010")) )
+    {
+        *pFourCC = ZZ_FOURCC_P010;
+    }
     else
     {
         sts = ZZ_ERR_UNKNOWN;
@@ -863,6 +904,9 @@ zz_char* ZZ_FourCC2Str(zzU32 fourcc)
         break;
     case ZZ_FOURCC_XRGB:
         ret = "xrgb";
+        break;
+    case ZZ_FOURCC_P010:
+        ret = "p010";
         break;
     default:
         ret = "unknown format";
