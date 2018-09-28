@@ -695,63 +695,63 @@ zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
 
     if(pInfo->FourCC == ZZ_FOURCC_YV12)
     {
-        ZZ_LoadNext_YV12(pData, pInfo, fSrc);
+        return ZZ_LoadNext_YV12(pData, pInfo, fSrc);
     }
     else if(pInfo->FourCC == ZZ_FOURCC_IYUV)
     {
-        ZZ_LoadNext_IYUV(pData, pInfo, fSrc);
+        return ZZ_LoadNext_IYUV(pData, pInfo, fSrc);
     }
     else if(pInfo->FourCC == ZZ_FOURCC_422H)
     {
-        ZZ_LoadNext_422H(pData, pInfo, fSrc);
+        return ZZ_LoadNext_422H(pData, pInfo, fSrc);
     }
     else if(pInfo->FourCC == ZZ_FOURCC_422V)
     {
-        ZZ_LoadNext_422V(pData, pInfo, fSrc);
+        return ZZ_LoadNext_422V(pData, pInfo, fSrc);
     }
     else if(pInfo->FourCC == ZZ_FOURCC_IMC3)
     {
-        ZZ_LoadNext_IMC3(pData, pInfo, fSrc);
+        return ZZ_LoadNext_IMC3(pData, pInfo, fSrc);
     }
     else if(pInfo->FourCC == ZZ_FOURCC_400P)
     {
-        ZZ_LoadNext_400P(pData, pInfo, fSrc);
+        return ZZ_LoadNext_400P(pData, pInfo, fSrc);
     }
     else if(pInfo->FourCC == ZZ_FOURCC_411P)
     {
-        ZZ_LoadNext_411P(pData, pInfo, fSrc);
+        return ZZ_LoadNext_411P(pData, pInfo, fSrc);
     }
     else if(pInfo->FourCC == ZZ_FOURCC_444P)
     {
-        ZZ_LoadNext_444P(pData, pInfo, fSrc);
+        return ZZ_LoadNext_444P(pData, pInfo, fSrc);
     }
     else if( pInfo->FourCC == ZZ_FOURCC_NV12 )
     {
-        ZZ_LoadNext_NV12(pData, pInfo, fSrc);
+        return ZZ_LoadNext_NV12(pData, pInfo, fSrc);
     }
     else if( pInfo->FourCC == ZZ_FOURCC_P010 )
     {
-        ZZ_LoadNext_P101(pData, pInfo, fSrc);
+        return ZZ_LoadNext_P101(pData, pInfo, fSrc);
     }
     else if( pInfo->FourCC == ZZ_FOURCC_NV12_LINEAR)
     {
-        ZZ_LoadNext_NV12_LINEAR(pData, pInfo, fSrc);
+        return ZZ_LoadNext_NV12_LINEAR(pData, pInfo, fSrc);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_ABGR)
     {
-        ZZ_LoadNext_ABGR(pData, pInfo, fSrc);
+        return ZZ_LoadNext_ABGR(pData, pInfo, fSrc);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_ARGB || pInfo->FourCC == ZZ_FOURCC_XRGB)
     {
-        ZZ_LoadNext_ARGB_XRGB(pData, pInfo, fSrc);
+        return ZZ_LoadNext_ARGB_XRGB(pData, pInfo, fSrc);
     }
     else if ( pInfo->FourCC == ZZ_FOURCC_R5G6B5 )
     {
-        ZZ_LoadNext_R5G6B5(pData, pInfo, fSrc);
+        return ZZ_LoadNext_R5G6B5(pData, pInfo, fSrc);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_YUY2)
     {
-        ZZ_LoadNext_YUY2(pData, pInfo, fSrc);
+        return ZZ_LoadNext_YUY2(pData, pInfo, fSrc);
     }
     else
     {

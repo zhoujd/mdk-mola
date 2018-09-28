@@ -503,59 +503,59 @@ zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
 
     if (pInfo->FourCC == ZZ_FOURCC_YV12)
     {
-        ZZ_Write_YV12(pData, pInfo, fDst);
+        return ZZ_Write_YV12(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_IYUV)
     {
-        ZZ_Write_IYUV(pData, pInfo, fDst);
+        return ZZ_Write_IYUV(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_400P)
     {
-        ZZ_Write_400P(pData, pInfo, fDst);
+        return ZZ_Write_400P(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_411P)
     {
-        ZZ_Write_411P(pData, pInfo, fDst);
+        return ZZ_Write_411P(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_444P)
     {
-        ZZ_Write_444P(pData, pInfo, fDst);
+        return ZZ_Write_444P(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_IMC3)
     {
-        ZZ_Write_IMC3(pData, pInfo, fDst);
+        return ZZ_Write_IMC3(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_422H)
     {
-        ZZ_Write_422H(pData, pInfo, fDst);
+        return ZZ_Write_422H(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_422V)
     {
-        ZZ_Write_422V(pData, pInfo, fDst);
+        return ZZ_Write_422V(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_NV12)
     {
-        ZZ_Write_NV12(pData, pInfo, fDst);
+        return ZZ_Write_NV12(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_P010)
     {
-        ZZ_Write_P010(pData, pInfo, fDst);
+        return ZZ_Write_P010(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_YUY2)
     {
-        ZZ_Write_YUY2(pData, pInfo, fDst);
+        return ZZ_Write_YUY2(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_ARGB || pInfo->FourCC == ZZ_FOURCC_XRGB)
     {
-        ZZ_Write_ARGB_XRGB(pData, pInfo, fDst);
+        return ZZ_Write_ARGB_XRGB(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_ABGR)
     {
-        ZZ_Write_ABGR(pData, pInfo, fDst);
+        return ZZ_Write_ABGR(pData, pInfo, fDst);
     }
     else if (pInfo->FourCC == ZZ_FOURCC_R5G6B5)
     {
-        ZZ_Write_R5G6B5(pData, pInfo, fDst);
+        return ZZ_Write_R5G6B5(pData, pInfo, fDst);
     }
     else
     {
