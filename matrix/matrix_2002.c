@@ -231,7 +231,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->pipelineParam.rotation_state = pSelf->params.rota_angle; // rotation
         break;
     default:
-        ZZPRINTF("VppgProc2012_ProcNextFrame rota_angle unsupport %d\n", pSelf->params.rota_angle);
+        ZZPRINTF("ZZMatrix2002_ProcNextFrame rota_angle unsupport %d\n", pSelf->params.rota_angle);
         sts = ZZ_ERR_UNSUPPORTED;
         goto END;
     }
@@ -257,8 +257,11 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     case ZZ_FOURCC_444P:
         pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT601;
         break;
+    case ZZ_FOURCC_P010:
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT2020;
+        break;
     default:
-        ZZPRINTF("VppgProc2012_ProcNextFrame target unsupport %d\n", refFourcc);
+        ZZPRINTF("ZZMatrix2002_ProcNextFrame target unsupport %d\n", refFourcc);
         sts = ZZ_ERR_UNSUPPORTED;
         goto END;
 
@@ -278,8 +281,11 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     case ZZ_FOURCC_YUY2:
         pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT601;
         break;
+    case ZZ_FOURCC_P010:
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT2020;
+        break;
     default:
-        ZZPRINTF("VppgProc2012_ProcNextFrame target unsupport %d\n", targetFourcc);
+        ZZPRINTF("ZZMatrix2002_ProcNextFrame target unsupport %d\n", targetFourcc);
         sts = ZZ_ERR_UNSUPPORTED;
         goto END;
     }
