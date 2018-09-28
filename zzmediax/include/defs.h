@@ -114,14 +114,14 @@ enum
 /* PicStruct */
 enum
 {
-    ZZ_PICSTRUCT_UNKNOWN       =0x00,
-    ZZ_PICSTRUCT_PROGRESSIVE   =0x01,
-    ZZ_PICSTRUCT_FIELD_TFF     =0x02,
-    ZZ_PICSTRUCT_FIELD_BFF     =0x04,
+    ZZ_PICSTRUCT_UNKNOWN        = 0x00,
+    ZZ_PICSTRUCT_PROGRESSIVE    = 0x01,
+    ZZ_PICSTRUCT_FIELD_TFF      = 0x02,
+    ZZ_PICSTRUCT_FIELD_BFF      = 0x04,
 
-    ZZ_PICSTRUCT_FIELD_REPEATED=0x10,  /* first field repeated, pic_struct=5 or 6 in H.264 */
-    ZZ_PICSTRUCT_FRAME_DOUBLING=0x20,  /* pic_struct=7 in H.264 */
-    ZZ_PICSTRUCT_FRAME_TRIPLING=0x40   /* pic_struct=8 in H.264 */
+    ZZ_PICSTRUCT_FIELD_REPEATED = 0x10,  /* first field repeated, pic_struct=5 or 6 in H.264 */
+    ZZ_PICSTRUCT_FRAME_DOUBLING = 0x20,  /* pic_struct=7 in H.264 */
+    ZZ_PICSTRUCT_FRAME_TRIPLING = 0x40   /* pic_struct=8 in H.264 */
 };
 
 
