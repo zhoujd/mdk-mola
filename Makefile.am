@@ -46,6 +46,8 @@ ZZ_SRC_FILES = \
 	matrix/matrix_2002.c \
 	matrix/matrix_9002.c \
 	lib/frame_cmn.c \
+	lib/frame_cmn_read.c \
+	lib/frame_cmn_write.c \
 	lib/frame_reader.c \
 	lib/frame_writer.c \
 	lib/va_ctx_mng.c \

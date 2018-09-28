@@ -50,6 +50,8 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_render_utils.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_render_parser.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_cmn.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_cmn_read.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_cmn_write.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_reader.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_writer.c
 
