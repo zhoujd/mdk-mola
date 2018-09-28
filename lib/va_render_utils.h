@@ -11,7 +11,6 @@
 
 
 #define ZZ_VP_DEF_COLOR_FILL 0xff108080
-#define ZZ_VP_MAX_FILTER     9
 
 typedef enum _enParamSetFlag enParamSetFlag;
 typedef enum _enParamType    enParamType;
@@ -27,6 +26,7 @@ typedef struct _zzCompParamST          zzCompParamST;
 typedef struct _zzFRCParamST           zzFRCParamST;
 typedef struct _zzScalingParamST       zzScalingParamST;
 typedef struct _zzDIADVParamST         zzDIADVParamST;
+typedef struct _zzToneParamST          zzToneParamST;
 
 enum _enParamSetFlag
 {
@@ -166,6 +166,10 @@ struct _zzDIADVParamST
     VARectangle      primary_dst;
 };
 
+struct _zzToneParamST
+{
+    //zhoujd
+};
 
 #define ZZ_VP_MAX_FILTER     9
 #define ZZ_MAX_REF_NUM       32

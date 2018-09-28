@@ -145,7 +145,7 @@ zzStatus ZZMatrix2002_Start(zzMatrixBaseST *pMatrixBase)
 
 
     ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
-    
+
     if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
     {
         ZZDEBUG("(%s) get exist event\n", __FUNCTION__);
