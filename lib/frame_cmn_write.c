@@ -8,17 +8,62 @@ static zzStatus ZZ_Write_YV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  
 static zzStatus ZZ_Write_IYUV(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_400P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_411P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+
 static zzStatus ZZ_Write_444P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_IMC3(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_422H(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_422V(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+
 static zzStatus ZZ_Write_NV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_P010(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_YUY2(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+
 static zzStatus ZZ_Write_ARGB_XRGB(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_ABGR(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 static zzStatus ZZ_Write_R5G6B5(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
 
+static struct zzFrameWriteMap
+{
+    zzU32    Fourcc;
+    zzStatus (*fnWrite_func)(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+} frame_write_map[] = {
+    {ZZ_FOURCC_YV12,    ZZ_Write_YV12},
+    {ZZ_FOURCC_IYUV,    ZZ_Write_IYUV},
+    {ZZ_FOURCC_400P,    ZZ_Write_400P},
+    {ZZ_FOURCC_411P,    ZZ_Write_411P},
+                        
+    {ZZ_FOURCC_444P,    ZZ_Write_444P},
+    {ZZ_FOURCC_IMC3,    ZZ_Write_IMC3},
+    {ZZ_FOURCC_422H,    ZZ_Write_422H},
+    {ZZ_FOURCC_422V,    ZZ_Write_422V},
+
+    {ZZ_FOURCC_NV12,    ZZ_Write_NV12},
+    {ZZ_FOURCC_P010,    ZZ_Write_P010},
+    {ZZ_FOURCC_YUY2,    ZZ_Write_YUY2},
+    
+    {ZZ_FOURCC_ARGB,    ZZ_Write_ARGB_XRGB},
+    {ZZ_FOURCC_XRGB,    ZZ_Write_ARGB_XRGB},
+    {ZZ_FOURCC_ABGR,    ZZ_Write_ABGR},
+    {ZZ_FOURCC_R5G6B5,  ZZ_Write_R5G6B5},
+};
+
+zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
+{
+    zzU8   i  = 0;
+    
+    CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
+    CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
+
+    for (i = 0; i < ARRAY_NUM(frame_write_map); i++)
+    {
+        if (pInfo->FourCC == frame_write_map[i].Fourcc)
+        {
+            return frame_write_map[i].fnWrite_func(pData, pInfo, fDst);
+        }
+    }
+
+    return ZZ_ERR_UNSUPPORTED;
+}
 
 zzStatus ZZ_Write_YV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
 {
@@ -494,73 +539,4 @@ zzStatus ZZ_Write_R5G6B5(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
     }
 
     return ZZ_ERR_NONE; 
-}
-
-zzStatus ZZ_WriteFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
-{
-    CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
-    CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
-
-    if (pInfo->FourCC == ZZ_FOURCC_YV12)
-    {
-        return ZZ_Write_YV12(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_IYUV)
-    {
-        return ZZ_Write_IYUV(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_400P)
-    {
-        return ZZ_Write_400P(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_411P)
-    {
-        return ZZ_Write_411P(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_444P)
-    {
-        return ZZ_Write_444P(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_IMC3)
-    {
-        return ZZ_Write_IMC3(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_422H)
-    {
-        return ZZ_Write_422H(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_422V)
-    {
-        return ZZ_Write_422V(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_NV12)
-    {
-        return ZZ_Write_NV12(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_P010)
-    {
-        return ZZ_Write_P010(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_YUY2)
-    {
-        return ZZ_Write_YUY2(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_ARGB || pInfo->FourCC == ZZ_FOURCC_XRGB)
-    {
-        return ZZ_Write_ARGB_XRGB(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_ABGR)
-    {
-        return ZZ_Write_ABGR(pData, pInfo, fDst);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_R5G6B5)
-    {
-        return ZZ_Write_R5G6B5(pData, pInfo, fDst);
-    }
-    else
-    {
-        return ZZ_ERR_UNSUPPORTED;
-    }
-
-    return ZZ_ERR_NONE;
 }

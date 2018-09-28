@@ -13,12 +13,59 @@ static zzStatus ZZ_LoadNext_400P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file
 static zzStatus ZZ_LoadNext_411P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
 static zzStatus ZZ_LoadNext_444P(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
 static zzStatus ZZ_LoadNext_NV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
-static zzStatus ZZ_LoadNext_P101(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+static zzStatus ZZ_LoadNext_P010(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
 static zzStatus ZZ_LoadNext_NV12_LINEAR(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
 static zzStatus ZZ_LoadNext_ABGR(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
 static zzStatus ZZ_LoadNext_ARGB_XRGB(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
 static zzStatus ZZ_LoadNext_R5G6B5(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
 static zzStatus ZZ_LoadNext_YUY2(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc);
+
+
+static struct zzFrameReadMap
+{
+    zzU32    Fourcc;
+    zzStatus (*fnRead_func)(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst);
+} frame_read_map[] = {
+    {ZZ_FOURCC_YV12,        ZZ_LoadNext_YV12},
+    {ZZ_FOURCC_IYUV,        ZZ_LoadNext_IYUV},
+    {ZZ_FOURCC_422H,        ZZ_LoadNext_422H},
+    {ZZ_FOURCC_422V,        ZZ_LoadNext_422V},
+    {ZZ_FOURCC_IMC3,        ZZ_LoadNext_IMC3},
+    
+    {ZZ_FOURCC_400P,        ZZ_LoadNext_400P},
+    {ZZ_FOURCC_411P,        ZZ_LoadNext_411P},
+    {ZZ_FOURCC_444P,        ZZ_LoadNext_444P},
+                            
+    {ZZ_FOURCC_NV12,        ZZ_LoadNext_NV12},
+    {ZZ_FOURCC_P010,        ZZ_LoadNext_P010},
+    {ZZ_FOURCC_NV12_LINEAR, ZZ_LoadNext_NV12_LINEAR},
+
+    {ZZ_FOURCC_ABGR,        ZZ_LoadNext_ABGR},
+    {ZZ_FOURCC_ARGB,        ZZ_LoadNext_ARGB_XRGB},
+    {ZZ_FOURCC_XRGB,        ZZ_LoadNext_ARGB_XRGB},
+    {ZZ_FOURCC_R5G6B5,      ZZ_LoadNext_R5G6B5},
+
+    {ZZ_FOURCC_YUY2,        ZZ_LoadNext_YUY2},
+};
+
+zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst)
+{
+    zzU8   i  = 0;
+    
+    CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
+    CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
+
+    for (i = 0; i < ARRAY_NUM(frame_read_map); i++)
+    {
+        if (pInfo->FourCC == frame_read_map[i].Fourcc)
+        {
+            return frame_read_map[i].fnRead_func(pData, pInfo, fDst);
+        }
+    }
+
+    return ZZ_ERR_UNSUPPORTED;
+}
+
 
 
 zzStatus ZZ_LoadNext_YV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc)
@@ -496,7 +543,7 @@ zzStatus ZZ_LoadNext_NV12(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
     return ZZ_ERR_NONE;
 }
 
-zzStatus ZZ_LoadNext_P101(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc)
+zzStatus ZZ_LoadNext_P010(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc)
 {
     zzU32  w, h, i, pitch;
     zzU32  nBytesRead;
@@ -687,77 +734,3 @@ zzStatus ZZ_LoadNext_YUY2(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc
 
     return ZZ_ERR_NONE;
 }
-
-zzStatus ZZ_LoadNextFrame(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fSrc)
-{
-    CHECK_POINTER(pData, ZZ_ERR_NOT_INITIALIZED);
-    CHECK_POINTER(pInfo, ZZ_ERR_NOT_INITIALIZED);
-
-    if(pInfo->FourCC == ZZ_FOURCC_YV12)
-    {
-        return ZZ_LoadNext_YV12(pData, pInfo, fSrc);
-    }
-    else if(pInfo->FourCC == ZZ_FOURCC_IYUV)
-    {
-        return ZZ_LoadNext_IYUV(pData, pInfo, fSrc);
-    }
-    else if(pInfo->FourCC == ZZ_FOURCC_422H)
-    {
-        return ZZ_LoadNext_422H(pData, pInfo, fSrc);
-    }
-    else if(pInfo->FourCC == ZZ_FOURCC_422V)
-    {
-        return ZZ_LoadNext_422V(pData, pInfo, fSrc);
-    }
-    else if(pInfo->FourCC == ZZ_FOURCC_IMC3)
-    {
-        return ZZ_LoadNext_IMC3(pData, pInfo, fSrc);
-    }
-    else if(pInfo->FourCC == ZZ_FOURCC_400P)
-    {
-        return ZZ_LoadNext_400P(pData, pInfo, fSrc);
-    }
-    else if(pInfo->FourCC == ZZ_FOURCC_411P)
-    {
-        return ZZ_LoadNext_411P(pData, pInfo, fSrc);
-    }
-    else if(pInfo->FourCC == ZZ_FOURCC_444P)
-    {
-        return ZZ_LoadNext_444P(pData, pInfo, fSrc);
-    }
-    else if( pInfo->FourCC == ZZ_FOURCC_NV12 )
-    {
-        return ZZ_LoadNext_NV12(pData, pInfo, fSrc);
-    }
-    else if( pInfo->FourCC == ZZ_FOURCC_P010 )
-    {
-        return ZZ_LoadNext_P101(pData, pInfo, fSrc);
-    }
-    else if( pInfo->FourCC == ZZ_FOURCC_NV12_LINEAR)
-    {
-        return ZZ_LoadNext_NV12_LINEAR(pData, pInfo, fSrc);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_ABGR)
-    {
-        return ZZ_LoadNext_ABGR(pData, pInfo, fSrc);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_ARGB || pInfo->FourCC == ZZ_FOURCC_XRGB)
-    {
-        return ZZ_LoadNext_ARGB_XRGB(pData, pInfo, fSrc);
-    }
-    else if ( pInfo->FourCC == ZZ_FOURCC_R5G6B5 )
-    {
-        return ZZ_LoadNext_R5G6B5(pData, pInfo, fSrc);
-    }
-    else if (pInfo->FourCC == ZZ_FOURCC_YUY2)
-    {
-        return ZZ_LoadNext_YUY2(pData, pInfo, fSrc);
-    }
-    else
-    {
-        return ZZ_ERR_UNSUPPORTED;
-    }
-
-    return ZZ_ERR_NONE;
-}
-
