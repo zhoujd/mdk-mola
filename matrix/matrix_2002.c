@@ -311,7 +311,6 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
             pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataNone;
 
             VAHdrMetaDataHDR10 *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
-#if 0 //zhoujd            
             pHDRMetaData10->display_primaries_x[0] = 13250;
             pHDRMetaData10->display_primaries_x[1] = 7500;
             pHDRMetaData10->display_primaries_x[2] = 34000;
@@ -326,7 +325,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
             pHDRMetaData10->min_display_mastering_luminance = 0.0001;
             pHDRMetaData10->max_content_light_level         = 0.0001;
             pHDRMetaData10->max_pic_average_light_level     = 0.0001;
-#endif
+
             pSelf->pipelineParam.output_hdr_metadata->metadata      = pHDRMetaData10;
             pSelf->pipelineParam.output_hdr_metadata->metadata_size = sizeof(VAHdrMetaDataHDR10);
         }
