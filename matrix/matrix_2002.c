@@ -250,7 +250,8 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT601;
         break;
     case ZZ_FOURCC_P010:
-        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT2020;
+        //pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT2020;
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardNone;
         break;
     default:
         ZZPRINTF("ZZMatrix2002_ProcNextFrame target unsupport %d\n", refFourcc);
@@ -274,7 +275,8 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT601;
         break;
     case ZZ_FOURCC_P010:
-        pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT2020;
+        //pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT2020;
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardNone;
         break;
     default:
         ZZPRINTF("ZZMatrix2002_ProcNextFrame target unsupport %d\n", targetFourcc);
