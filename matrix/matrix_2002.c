@@ -307,8 +307,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->pipelineParam.output_hdr_metadata = (VAHdrMetaData *)AllocAndZeroMem(sizeof(VAHdrMetaData));
         if (NULL != pSelf->pipelineParam.output_hdr_metadata)
         {
-            //pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataHDR10;
-            pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataNone;
+            pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataHDR10;
 
             VAHdrMetaDataHDR10 *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
             pHDRMetaData10->display_primaries_x[0] = 13250;
