@@ -6,10 +6,6 @@
 #include "matrix_2002.h"
 #include "task_base.h"
 
-#define ZZ_ROTATION_SUPPORT      1
-#define ZZ_BLEND_ALPHA_SUPPORT   1
-
-#if ZZ_BLEND_ALPHA_SUPPORT
 // Blend State
 static VABlendState blend_state = { /** \brief Video blending flags. */
     .flags        = VA_BLEND_PREMULTIPLIED_ALPHA, //VA_BLEND_GLOBAL_ALPHA,
@@ -17,8 +13,6 @@ static VABlendState blend_state = { /** \brief Video blending flags. */
     .min_luma     = 0,
     .max_luma     = 1
 };
-#endif //ZZ_BLEND_ALPHA_SUPPORT
-
 
 static zzStatus ZZMatrix2002_Start(zzMatrixBaseST *pSelf);
 static zzStatus ZZMatrix2002_PartStart(zzMatrixBaseST *pSelf);
@@ -221,7 +215,6 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
 
     pSelf->pipelineParam.output_background_color = 0xff108080; // black
 
-#if ZZ_ROTATION_SUPPORT
     switch (pSelf->params.rota_angle)
     {
     case VA_ROTATION_NONE:
@@ -235,7 +228,6 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         sts = ZZ_ERR_UNSUPPORTED;
         goto END;
     }
-#endif //ZZ_ROTATION_SUPPORT
 
     zzU32  refFourcc = pSelf->src_surf.frameInfo.FourCC;
     switch (refFourcc)
@@ -306,6 +298,28 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     pSelf->pipelineParam.filters  = pSelf->filterBufs;
     pSelf->pipelineParam.num_filters  = pSelf->numFilterBufs;
 
+#if 1 //zhoujd    
+    //HDR
+    pSelf->pipelineParam.output_hdr_metadata = (VAHdrMetaData *)AllocAndZeroMem(sizeof(VAHdrMetaData));
+    if (NULL != pSelf->pipelineParam.output_hdr_metadata)
+    {
+        pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataHDR10;
+
+        VAHdrMetaDataHDR10 *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
+        pHDRMetaData10->display_primaries_x[0] = 13250;
+        pHDRMetaData10->display_primaries_x[1] = 7500;
+        pHDRMetaData10->display_primaries_x[2] = 34000;
+        pHDRMetaData10->display_primaries_y[0] = 34500;
+        pHDRMetaData10->display_primaries_y[1] = 3000;
+        pHDRMetaData10->display_primaries_y[2] = 16000;
+        pHDRMetaData10->white_point_x = 15635;
+        pHDRMetaData10->white_point_y = 16450;
+
+        pSelf->pipelineParam.output_hdr_metadata->metadata      = pHDRMetaData10;
+        pSelf->pipelineParam.output_hdr_metadata->metadata_size = sizeof(VAHdrMetaDataHDR10);
+    }    
+#endif
+    
     if ( pSelf->pipelineParamID != VA_INVALID_ID)
     {
         vaDestroyBuffer(pSelf->ctx->va_dpy, pSelf->pipelineParamID);
@@ -333,10 +347,8 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->subpicParam.pipeline_flags |= VA_PROC_PIPELINE_FAST;
         pSelf->subpicParam.filter_flags |= VA_FILTER_SCALING_FAST;
 
-#if ZZ_BLEND_ALPHA_SUPPORT
         blend_state.global_alpha = pSelf->params.vp_params.composition.comp_alpha;
         pSelf->subpicParam.blend_state = &blend_state;
-#endif //ZZ_BLEND_ALPHA_SUPPORT
 
         VARectangle dstSubRect;
         dstSubRect.x = pSelf->dst_surf.frameInfo.CropX;
@@ -426,14 +438,12 @@ zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST *pSelf, int nArgNum, char 
     {
         CHECK_POINTER(strInput[i], ZZ_ERR_NULL_PTR);
         {
-#if ZZ_ROTATION_SUPPORT
             if ( 0 == zz_strcmp(strInput[i], ZZ_STRING("-angle")) )
             {
                 VAL_CHECK(1 + i == nArgNum);
                 i++;
                 zz_sscanf(strInput[i], ZZ_STRING("%d"), &pSelf->params.rota_angle);
             }
-#endif //ZZ_ROTATION_SUPPORT
         }
     }
 
@@ -519,7 +529,6 @@ zzStatus ZZMatrix2002_ParseVpString(zzMatrix2002ST  *pSelf, int nArgNum, char **
                 pSelf->bCompFlag = TRUE;
                 ZZPRINTF("Matrix 2002 comp      = TRUE\n");
 
-#if ZZ_BLEND_ALPHA_SUPPORT
                 VAL_CHECK(1 + i == nArgNum);
                 i++;
 
@@ -533,9 +542,6 @@ zzStatus ZZMatrix2002_ParseVpString(zzMatrix2002ST  *pSelf, int nArgNum, char **
                 ZZPRINTF("Matrix 2002 alpha     = %lf\n", pParams->composition.comp_alpha);
                 ZZPRINTF("Matrix 2002 row       = %d\n",  pParams->composition.row_num);
                 ZZPRINTF("Matrix 2002 col       = %d\n",  pParams->composition.col_num);
-
-#endif //ZZ_BLEND_ALPHA_SUPPORT
-
             }
             else if (0 == zz_strcmp(strInput[i], ZZ_STRING("--denoise")))
             {

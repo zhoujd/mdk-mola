@@ -499,8 +499,9 @@ zzStatus render_picture_vp_tone(VADisplay display, VAContextID ctx_id, VABufferI
 {
     zzStatus   sts = ZZ_ERR_NONE;
     VAStatus   ret = VA_STATUS_SUCCESS;
-    zzU8       i   = 0;
 
+    //Step6: Choose High Dynamic Range
+    zzU8             i = 0;
     zzU32            supported_filter_num = VAProcFilterCount;
     VAProcFilterType supported_filter_types[VAProcFilterCount];
     
@@ -525,7 +526,7 @@ zzStatus render_picture_vp_tone(VADisplay display, VAContextID ctx_id, VABufferI
         goto END;
     }
 
-    
+    //Step7: Query High Dynamic Range EOTF Caps
     VAProcFilterCapHighDynamicRange hdr_cap;
     zzU32 num_query_caps;
 
@@ -546,7 +547,35 @@ zzStatus render_picture_vp_tone(VADisplay display, VAContextID ctx_id, VABufferI
 
     ZZPRINTF("HDR: metadata_type=%d\n, caps_flag=0x%X\n", hdr_cap.metadata_type, hdr_cap.caps_flag);
 
+#if 0 //zhoujd
+    //Basic calling sequence for H2S
+    VAProcFilterParameterBufferHdr hdr_param;
+    hdr_param.type = VAProcFilterHighDynamicRangeToneMapping;
+    hdr_param.hdr_meta_data.EOTF = VAProcHdrEotfSmpteSt2084;
+    hdr_param.hdr_meta_data.display_primaries_x[0] = 13250;
+    hdr_param.hdr_meta_data.display_primaries_x[1] = 7500;
+    hdr_param.hdr_meta_data.display_primaries_x[2] = 34000;
+    hdr_param.hdr_meta_data.display_primaries_y[0] = 34500;
+    hdr_param.hdr_meta_data.display_primaries_y[1] = 3000;
+    hdr_param.hdr_meta_data.display_primaries_y[2] = 16000;
+    hdr_param.hdr_meta_data.white_point_x = 15635;
+    hdr_param.hdr_meta_data.white_point_y = 16450;
+    hdr_param.hdr_meta_data.MaxCLL  = 1000;
+    hdr_param.hdr_meta_data.MaxFALL = 400;
+    // create filter buffer ID
+    ret = vaCreateBuffer(display,
+                         ctx_id, VAProcFilterParameterBufferType, sizeof(hdr_param), 1,
+                         &hdr_param,
+                         tone_mapping_id);
+
+    sts     = va_to_zz_status(ret);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("vaCreateBuffer error\n");
+        goto END;
+    }
+#endif
+    
 END:
     return sts;
 }
-
