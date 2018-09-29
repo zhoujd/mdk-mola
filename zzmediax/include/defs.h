@@ -104,11 +104,15 @@ enum
     ZZ_FOURCC_422H         = ZZ_MAKEFOURCC('4','2','2','H'),
     ZZ_FOURCC_422V         = ZZ_MAKEFOURCC('4','2','2','V'),
     ZZ_FOURCC_YUY2         = ZZ_MAKEFOURCC('Y','U','Y','2'),
+    
     ZZ_FOURCC_ABGR         = ZZ_MAKEFOURCC('A','B','G','R'),    /* ABGR */
     ZZ_FOURCC_ARGB         = ZZ_MAKEFOURCC('A','R','G','B'),    /* ARGB */
     ZZ_FOURCC_R5G6B5       = ZZ_MAKEFOURCC('R','G','1','6'),    /* R5G6B5 */
     ZZ_FOURCC_XRGB         = ZZ_MAKEFOURCC('X','R','G','B'),    /* XRGB */
+    
     ZZ_FOURCC_P010         = ZZ_MAKEFOURCC('P','0','1','0'),    /* P010 10-bit */
+    //TODO add RGB10
+
 };
 
 /* PicStruct */

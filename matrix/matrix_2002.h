@@ -25,7 +25,7 @@ struct _zzMatrix2002VpParamsST
     zzAmpParamST            amp;
     zzDenoiseParamST        denoise;
     zzCompParamST           composition;
-    zzToneParamST           tone;
+    zzToneMappingParamST    tone;
 };
 
 
