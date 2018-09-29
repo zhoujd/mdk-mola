@@ -300,32 +300,34 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     pSelf->pipelineParam.filters  = pSelf->filterBufs;
     pSelf->pipelineParam.num_filters  = pSelf->numFilterBufs;
 
-#if 1 //zhoujd    
-    //HDR
-    pSelf->pipelineParam.output_hdr_metadata = (VAHdrMetaData *)AllocAndZeroMem(sizeof(VAHdrMetaData));
-    if (NULL != pSelf->pipelineParam.output_hdr_metadata)
+    if (TRUE == pSelf->params.hdr_flag)
     {
-        pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataHDR10;
+        ZZPRINTF("HDR test ...\n");
+        
+        pSelf->pipelineParam.output_hdr_metadata = (VAHdrMetaData *)AllocAndZeroMem(sizeof(VAHdrMetaData));
+        if (NULL != pSelf->pipelineParam.output_hdr_metadata)
+        {
+            pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataHDR10;
 
-        VAHdrMetaDataHDR10 *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
-        pHDRMetaData10->display_primaries_x[0] = 13250;
-        pHDRMetaData10->display_primaries_x[1] = 7500;
-        pHDRMetaData10->display_primaries_x[2] = 34000;
-        pHDRMetaData10->display_primaries_y[0] = 34500;
-        pHDRMetaData10->display_primaries_y[1] = 3000;
-        pHDRMetaData10->display_primaries_y[2] = 16000;
-        pHDRMetaData10->white_point_x = 15635;
-        pHDRMetaData10->white_point_y = 16450;
+            VAHdrMetaDataHDR10 *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
+            pHDRMetaData10->display_primaries_x[0] = 13250;
+            pHDRMetaData10->display_primaries_x[1] = 7500;
+            pHDRMetaData10->display_primaries_x[2] = 34000;
+            pHDRMetaData10->display_primaries_y[0] = 34500;
+            pHDRMetaData10->display_primaries_y[1] = 3000;
+            pHDRMetaData10->display_primaries_y[2] = 16000;
+            pHDRMetaData10->white_point_x = 15635;
+            pHDRMetaData10->white_point_y = 16450;
 
-        pHDRMetaData10->max_display_mastering_luminance = 0.0001;
-        pHDRMetaData10->min_display_mastering_luminance = 0.0001;
-        pHDRMetaData10->max_content_light_level         = 0.0001;
-        pHDRMetaData10->max_pic_average_light_level     = 0.0001;
+            pHDRMetaData10->max_display_mastering_luminance = 0.0001;
+            pHDRMetaData10->min_display_mastering_luminance = 0.0001;
+            pHDRMetaData10->max_content_light_level         = 0.0001;
+            pHDRMetaData10->max_pic_average_light_level     = 0.0001;
 
-        pSelf->pipelineParam.output_hdr_metadata->metadata      = pHDRMetaData10;
-        pSelf->pipelineParam.output_hdr_metadata->metadata_size = sizeof(VAHdrMetaDataHDR10);
-    }    
-#endif
+            pSelf->pipelineParam.output_hdr_metadata->metadata      = pHDRMetaData10;
+            pSelf->pipelineParam.output_hdr_metadata->metadata_size = sizeof(VAHdrMetaDataHDR10);
+        }
+    }
     
     if ( pSelf->pipelineParamID != VA_INVALID_ID)
     {
@@ -417,6 +419,15 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     }
 
 END:
+    if (NULL != pSelf->pipelineParam.output_hdr_metadata)
+    {
+        if (NULL != pSelf->pipelineParam.output_hdr_metadata->metadata)
+        {
+            FREEIF(pSelf->pipelineParam.output_hdr_metadata->metadata);
+        }
+
+        FREEIF(pSelf->pipelineParam.output_hdr_metadata);
+    }
 
     if (pSelf->pipelineParamID != VA_INVALID_ID)
     {
@@ -450,6 +461,10 @@ zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST *pSelf, int nArgNum, char 
                 VAL_CHECK(1 + i == nArgNum);
                 i++;
                 zz_sscanf(strInput[i], ZZ_STRING("%d"), &pSelf->params.rota_angle);
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-hdr")))
+            {
+                pSelf->params.hdr_flag = TRUE;
             }
         }
     }

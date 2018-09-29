@@ -33,6 +33,7 @@ struct _zzMatrix2002InputParamsST
 {
     zzMatrix2002VpParamsST  vp_params;
     zzU32                   rota_angle;
+    zzBOOL                  hdr_flag;
 };
 
 
