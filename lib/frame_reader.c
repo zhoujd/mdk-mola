@@ -30,6 +30,7 @@ zzStatus ZZFrameReader_Init(zzFrameReaderST *pSelf, zz_char *strFileName)
     if (0 == strlen(strFileName))
     {
         ZZPRINTF("(%s) No input file.\n", __FUNCTION__);
+        sts = ZZ_ERR_ABORTED;
         goto END;
     }
 

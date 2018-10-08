@@ -4,15 +4,6 @@ zzStatus ZZMediaxApp_TaskRegister(zzAppST *pApp)
 {
     zzStatus      sts    = ZZ_ERR_NONE;
 
-    //init Task 2001
-    sts = ZZTask2001_Register();
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZTask1101_Regist error\n");
-        goto END;
-    }
-
-#if 0
     //init Task 1001
     sts = ZZTask1001_Register();
     if (sts != ZZ_ERR_NONE)
@@ -20,7 +11,14 @@ zzStatus ZZMediaxApp_TaskRegister(zzAppST *pApp)
         ZZPRINTF("ZZTask1001_Regist error\n");
         goto END;
     }
-#endif
+
+    //init Task 2001
+    sts = ZZTask2001_Register();
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTask1101_Regist error\n");
+        goto END;
+    }
 
 END:
     return sts;
