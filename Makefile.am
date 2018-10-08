@@ -37,11 +37,6 @@ ZZ_SRC_FILES = \
 	zzmediax/utils/utils.c \
 	task/task_1001.c \
 	task/task_2001.c \
-	matrix/matrix_1001.c \
-	matrix/matrix_2001.c \
-	matrix/matrix_3001.c \
-	matrix/matrix_4001.c \
-	matrix/matrix_9001.c \
 	matrix/matrix_1002.c \
 	matrix/matrix_2002.c \
 	matrix/matrix_9002.c \
