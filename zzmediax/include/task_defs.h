@@ -15,6 +15,8 @@ typedef struct _zzTaskBaseST zzTaskBaseST;
 
 typedef zzStatus (*zzTaskInitFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
 typedef zzStatus (*zzTaskExecInitFn)(zzTaskBaseST *pSelf);
+typedef zzStatus (*zzTaskPreExecFn)(zzTaskBaseST *pSelf);
+typedef zzStatus (*zzTaskPostExecFn)(zzTaskBaseST *pSelf);
 typedef zzStatus (*zzTaskReleaseFn)(zzTaskBaseST *pSelf);
 typedef zzStatus (*zzTaskHelpFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
 
@@ -26,6 +28,9 @@ struct _zzTaskBaseST
 
     zzTaskInitFn            pfnZZTaskInit;
     zzTaskExecInitFn        pfnZZTaskExecInit;
+    zzTaskPreExecFn         pfnZZTaskPreExec;
+    zzTaskPostExecFn        pfnZZTaskPostExec;
+
     zzTaskReleaseFn         pfnZZTaskRelease;
     zzTaskHelpFn            pfnZZTaskHelp;
 
@@ -40,6 +45,8 @@ zzStatus ZZTaskBase_DefaultFP(zzTaskBaseST *pSelf);
 zzStatus ZZTaskBase_RegisterFP(zzTaskBaseST         *pSelf,
                                zzTaskInitFn         pfnZZTaskInit,
                                zzTaskExecInitFn     pfnZZTaskExecInit,
+                               zzTaskPreExecFn      pfnZZTaskPreExec,
+                               zzTaskPostExecFn     pfnZZTaskPostExec,
                                zzTaskReleaseFn      pfnZZTaskRelease,
                                zzTaskHelpFn         pfnZZTaskHelp);
 

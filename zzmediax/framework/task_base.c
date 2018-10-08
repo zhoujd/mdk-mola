@@ -5,6 +5,8 @@ static zzStatus ZZTaskBase_ParseInputString(zzTaskBaseST  *pSelf, int nArgNum, c
 zzStatus ZZTaskBase_RegisterFP(zzTaskBaseST         *pSelf,
                                zzTaskInitFn         pfnZZTaskInit,
                                zzTaskExecInitFn     pfnZZTaskExecInit,
+                               zzTaskPreExecFn      pfnZZTaskPreExec,
+                               zzTaskPostExecFn     pfnZZTaskPostExec,
                                zzTaskReleaseFn      pfnZZTaskRelease,
                                zzTaskHelpFn         pfnZZTaskHelp)
 {
@@ -12,6 +14,8 @@ zzStatus ZZTaskBase_RegisterFP(zzTaskBaseST         *pSelf,
 
     pSelf->pfnZZTaskInit        = pfnZZTaskInit;
     pSelf->pfnZZTaskExecInit    = pfnZZTaskExecInit;
+    pSelf->pfnZZTaskPreExec     = pfnZZTaskPreExec;
+    pSelf->pfnZZTaskPostExec    = pfnZZTaskPostExec;
     pSelf->pfnZZTaskRelease     = pfnZZTaskRelease;
     pSelf->pfnZZTaskHelp        = pfnZZTaskHelp;
 
@@ -25,6 +29,9 @@ zzStatus ZZTaskBase_DefaultFP(zzTaskBaseST *pSelf)
 
     pSelf->pfnZZTaskInit        = ZZTaskBase_Init;
     pSelf->pfnZZTaskExecInit    = ZZTaskBase_ExecInit;
+    pSelf->pfnZZTaskPreExec     = ZZTaskBase_PreExec;
+    pSelf->pfnZZTaskPostExec    = ZZTaskBase_PostExec;
+    pSelf->pfnZZTaskRelease     = ZZTaskBase_Release;
     pSelf->pfnZZTaskRelease     = ZZTaskBase_Release;
     pSelf->pfnZZTaskHelp        = ZZTaskBase_Help;
 
@@ -48,6 +55,23 @@ zzStatus ZZTaskBase_Init(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv)
 END:
     return sts;
 }
+
+
+zzStatus ZZTaskBase_PreExec(zzTaskBaseST *pSelf)
+{
+    zzStatus  sts = ZZ_ERR_NONE;
+
+    return sts;
+}
+
+zzStatus ZZTaskBase_PostExec(zzTaskBaseST *pSelf)
+{
+    zzStatus  sts = ZZ_ERR_NONE;
+
+    return sts;
+
+}
+
 
 zzStatus ZZTaskBase_ExecInit(zzTaskBaseST *pSelf)
 {

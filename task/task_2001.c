@@ -8,6 +8,8 @@
 //static functions
 static zzStatus ZZTask2001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_ExecInit(zzTaskBaseST *pTaskBase);
+static zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase);
+static zzStatus ZZTask2001_PostExec(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask2001_Release(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask2001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 
@@ -61,6 +63,8 @@ zzStatus ZZTask2001_Register()
     sts = ZZTaskBase_RegisterFP(&pSelf->base,
                                 ZZTask2001_Init,
                                 ZZTask2001_ExecInit,
+                                ZZTask2001_PreExec,
+                                ZZTask2001_PostExec,
                                 ZZTask2001_Release,
                                 ZZTask2001_Help);
     if (sts != ZZ_ERR_NONE)
@@ -197,6 +201,56 @@ END:
 
 }
 
+zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase)
+{
+    zzStatus       sts   = ZZ_ERR_NONE;
+    zzTask2001ST  *pSelf = GET_TASK2001(pTaskBase);
+
+    sts  = ZZTaskBase_PreExec(pTaskBase);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskBase_PreExec  error\n");
+        goto END;
+    }
+
+
+    ZZPRINTF("Task2001 scc frameInfo\n");
+    sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_SRC].frameInfo);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZ_DumpFrameInfo  error\n");
+        goto END;
+    }
+
+    ZZPRINTF("Task2001 dcc frameInfo\n");
+    sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_DST].frameInfo);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZ_DumpFrameInfo  error\n");
+        goto END;
+    }
+
+END:
+    return sts;
+
+}
+
+zzStatus ZZTask2001_PostExec(zzTaskBaseST *pTaskBase)
+{
+    zzStatus       sts   = ZZ_ERR_NONE;
+
+    sts  = ZZTaskBase_PostExec(pTaskBase);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskBase_PostExec  error\n");
+        goto END;
+    }
+
+END:
+    return sts;
+
+}
+
 zzStatus ZZTask2001_Release(zzTaskBaseST *pTaskBase)
 {
     zzStatus       sts   = ZZ_ERR_NONE;
@@ -297,22 +351,6 @@ zzStatus ZZTask2001_CreateSurface(zzTask2001ST  *pSelf)
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZ_ParamInfo2SurfInfo  error\n");
-        goto END;
-    }
-
-    ZZPRINTF("Task2001 scc frameInfo\n");
-    sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_SRC].frameInfo);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZ_DumpFrameInfo  error\n");
-        goto END;
-    }
-
-    ZZPRINTF("Task2001 dcc frameInfo\n");
-    sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_DST].frameInfo);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZ_DumpFrameInfo  error\n");
         goto END;
     }
 

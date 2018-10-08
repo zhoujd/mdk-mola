@@ -24,13 +24,13 @@ zzStatus ZZTaskMng_Execute(zzTaskMngST *pSelf, zzU16 argc, zz_char **argv, zzTas
 
     pSelf->curr_task = pFlowInfo;
 
-    //Init Task
-    if (NULL != pSelf->curr_task->pfnZZTaskInit)
+    //Task PreExec
+    if (NULL != pSelf->curr_task->pfnZZTaskPreExec)
     {
-        sts = pSelf->curr_task->pfnZZTaskInit(pSelf->curr_task, argc, argv);
+        sts = pSelf->curr_task->pfnZZTaskPreExec(pSelf->curr_task);
         if (sts != ZZ_ERR_NONE)
         {
-            ZZPRINTF("Task Init error\n");
+            ZZPRINTF("Task PreExec error\n");
             goto END;
         }
     }
@@ -62,6 +62,17 @@ zzStatus ZZTaskMng_Execute(zzTaskMngST *pSelf, zzU16 argc, zz_char **argv, zzTas
         if (FALSE == pSelf->curr_task_alive)
         {
             break;
+        }
+    }
+
+    //Task PostExec
+    if (NULL != pSelf->curr_task->pfnZZTaskPreExec)
+    {
+        sts = pSelf->curr_task->pfnZZTaskPostExec(pSelf->curr_task);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("Task PostExec error\n");
+            goto END;
         }
     }
 
