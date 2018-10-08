@@ -103,6 +103,24 @@ END:
 zzStatus ZZTaskDB_Close(zzTaskDBST *pSelf)
 {
     zzStatus  sts    = ZZ_ERR_NONE;
+
+    CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
+
+    //Release flows
+    sts = ZZTaskDB_ReleaseFlows(pSelf);
+    if (ZZ_ERR_NONE != sts)
+    {
+        ZZPRINTF("ZZTaskDB Release flows error\n");
+        goto END;
+    }
+
+END:
+    return sts;
+}
+
+zzStatus ZZTaskDB_ReleaseFlows(zzTaskDBST *pSelf)
+{
+    zzStatus  sts    = ZZ_ERR_NONE;
     zz_list   *pos   = NULL;
     zz_list   *n     = NULL;
 

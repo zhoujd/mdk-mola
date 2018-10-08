@@ -15,8 +15,11 @@ struct _zzTaskDBST
 };
 
 zzStatus ZZTaskDB_Init(zzTaskDBST *pSelf, zzU16 argc, zz_char** argv, zzTaskRegisterFP  pfnTaskRegister);
-zzStatus ZZTaskDB_InitFlows(zzTaskDBST *pSelf, zzU16 argc, zz_char** argv);
 zzStatus ZZTaskDB_Close(zzTaskDBST *pSelf);
+
+zzStatus ZZTaskDB_InitFlows(zzTaskDBST *pSelf, zzU16 argc, zz_char** argv);
+zzStatus ZZTaskDB_ReleaseFlows(zzTaskDBST *pSelf);
+
 zzStatus ZZTaskDB_AddFlow(zzTaskDBST *pSelf, zzTaskBaseST *pFlowInfo);
 zzStatus ZZTaskDB_SelectFlow(zzTaskDBST *pSelf, zzU16 task_id, zzTaskBaseST **ppFlowInfo);
 
