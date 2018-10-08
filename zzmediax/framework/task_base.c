@@ -65,7 +65,7 @@ zzStatus ZZTaskBase_Release(zzTaskBaseST *pSelf)
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
-    //free task list
+    //free matrix list
     list_for_each_safe(pos, n, &pSelf->matrix_head)
     {
         zzMatrixBaseST *pTemp = container_of(pos, zzMatrixBaseST, matrix_list);

@@ -5,7 +5,7 @@ set env DISPLAY=:0.0
 set breakpoint pending on
 
 ##task 1001
-set args -task 1001
+set args -task 1001 -sw 352 -sh 288 -scc nv12 -i input-stream/foreman_352x288_20.nv12 -o output/output-d.nv12 -n 10
 
 ##task 2001
 #set args -task 2001 -i input-stream/foreman_352x288_20.nv12 -o output/test.nv12

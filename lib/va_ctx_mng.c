@@ -157,15 +157,18 @@ zzStatus ZZVAContext_Release(zzVAContextST *pSelf)
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus   sts     = ZZ_ERR_NONE;
 
-    va_res = vaDestroyContext(pSelf->va_dpy, pSelf->id);
-    sts = va_to_zz_status(va_res);
-    if (sts != ZZ_ERR_NONE)
+    if (VA_INVALID_ID != pSelf->id)
     {
-        ZZPRINTF("vaDestroyContext error\n");
-        goto END;
-    }
+        va_res = vaDestroyContext(pSelf->va_dpy, pSelf->id);
+        sts = va_to_zz_status(va_res);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("vaDestroyContext error\n");
+            goto END;
+        }
 
-    pSelf->id = VA_INVALID_ID;
+        pSelf->id = VA_INVALID_ID;
+    }
 
 END:
     return sts;

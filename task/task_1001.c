@@ -72,6 +72,9 @@ zzStatus ZZTask1001_Register()
     pSelf->base.task_id = TASK1001_ID;
     pSelf->base.desc_info = ZZ_STRING("This is only for develop\n");
 
+    pSelf->surface[TASK1001_SCALING_SRC].id = VA_INVALID_ID;
+    pSelf->ctx.id = VA_INVALID_ID;
+
     sts =  ZZApp_AddFlow(pApp, &pSelf->base);
     if (sts != ZZ_ERR_NONE)
     {
@@ -234,19 +237,25 @@ zzStatus ZZTask1001_ReleaseMatrix(zzTask1001ST  *pSelf)
     zzStatus       sts    = ZZ_ERR_NONE;
 
     //release martix 1002
-    sts = ZZMatrix1002_Release(pSelf->pMatrix1002);
-    if (sts != ZZ_ERR_NONE)
+    if (NULL != pSelf->pMatrix1002)
     {
-        ZZPRINTF("ZZMatrix1001_Release 1002 error\n");
-        goto END;
+        sts = ZZMatrix1002_Release(pSelf->pMatrix1002);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("ZZMatrix1001_Release 1002 error\n");
+            goto END;
+        }
     }
 
-    //release martix 1002
-    sts = ZZMatrix9002_Release(pSelf->pMatrix9002);
-    if (sts != ZZ_ERR_NONE)
+    //release martix 9002
+    if (NULL != pSelf->pMatrix9002)
     {
-        ZZPRINTF("ZZMatrix1001_Release  9002 error\n");
-        goto END;
+        sts = ZZMatrix9002_Release(pSelf->pMatrix9002);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("ZZMatrix1001_Release  9002 error\n");
+            goto END;
+        }
     }
 
 END:

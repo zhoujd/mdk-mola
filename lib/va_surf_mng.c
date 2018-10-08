@@ -93,16 +93,19 @@ zzStatus ZZSurface_Release(zzSurfaceST *pSurface)
 
     ZZDEBUG("%s pSurface->id = %d\n", __FUNCTION__, pSurface->id);
 
-    va_res = vaDestroySurfaces(GetVaDisplay(pSurface), &pSurface->id, 1);
-    sts = va_to_zz_status(va_res);
-    if (sts != ZZ_ERR_NONE)
+    if (VA_INVALID_ID != pSurface->id)
     {
-        ZZPRINTF("vaDestroySurfaces error\n");
-        goto END;
+        va_res = vaDestroySurfaces(GetVaDisplay(pSurface), &pSurface->id, 1);
+        sts = va_to_zz_status(va_res);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("vaDestroySurfaces error\n");
+            goto END;
+        }
+
+
+        pSurface->id = VA_INVALID_ID;
     }
-
-
-    pSurface->id = VA_INVALID_ID;
 
 END:
     return sts;
