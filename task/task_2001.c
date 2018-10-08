@@ -76,10 +76,6 @@ zzStatus ZZTask2001_Register()
     pSelf->base.task_id = TASK2001_ID;
     pSelf->base.desc_info = ZZ_STRING("This is only for develop\n");
 
-    pSelf->surface[TASK2001_SCALING_SRC].id = VA_INVALID_ID;
-    pSelf->surface[TASK2001_SCALING_DST].id = VA_INVALID_ID;
-    pSelf->ctx.id = VA_INVALID_ID;
-
     sts =  ZZApp_AddFlow(pApp, &pSelf->base);
     if (sts != ZZ_ERR_NONE)
     {
@@ -132,6 +128,10 @@ zzStatus ZZTask2001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
 {
     zzStatus       sts   = ZZ_ERR_NONE;
     zzTask2001ST  *pSelf = GET_TASK2001(pTaskBase);
+
+    pSelf->surface[TASK2001_SCALING_SRC].id = VA_INVALID_ID;
+    pSelf->surface[TASK2001_SCALING_DST].id = VA_INVALID_ID;
+    pSelf->ctx.id = VA_INVALID_ID;
 
     //set default param
     sts = ZZTask2001_DefaultParam(pSelf);
