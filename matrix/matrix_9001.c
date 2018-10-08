@@ -155,7 +155,7 @@ zzStatus ZZMatrix9001_Init(zzMatrix9001ST *pSelf, zzU16 argc, zz_char **argv,
 
 END:
 #endif //ZZ_LIBVA_USE_X11
-    
+
     return sts;
 }
 
