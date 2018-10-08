@@ -5,7 +5,6 @@
 zzStatus ZZTaskDB_Init(zzTaskDBST *pSelf, zzU16 argc, zz_char** argv, zzTaskRegisterFP  pfnTaskRegister)
 {
     zzStatus  sts    = ZZ_ERR_NONE;
-    zz_list*  pos    = NULL;
 
     INIT_LIST_HEAD(&pSelf->task_head);
     pSelf->pfnTaskRegister = pfnTaskRegister;
@@ -20,6 +19,23 @@ zzStatus ZZTaskDB_Init(zzTaskDBST *pSelf, zzU16 argc, zz_char** argv, zzTaskRegi
             goto END;
         }
     }
+
+    //init flows
+    sts = ZZTaskDB_InitFlows(pSelf, argc, argv);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskDB ZZTaskDB_InitFlows error\n");
+        goto END;
+    }
+
+END:
+    return sts;
+}
+
+zzStatus ZZTaskDB_InitFlows(zzTaskDBST *pSelf, zzU16 argc, zz_char** argv)
+{
+    zzStatus  sts    = ZZ_ERR_NONE;
+    zz_list*  pos    = NULL;
 
     //init task
     list_for_each(pos, &pSelf->task_head)
