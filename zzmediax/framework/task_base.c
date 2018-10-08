@@ -56,15 +56,7 @@ END:
     return sts;
 }
 
-
-zzStatus ZZTaskBase_PreExec(zzTaskBaseST *pSelf)
-{
-    zzStatus  sts = ZZ_ERR_NONE;
-
-    return sts;
-}
-
-zzStatus ZZTaskBase_PostExec(zzTaskBaseST *pSelf)
+zzStatus ZZTaskBase_ExecInit(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv)
 {
     zzStatus  sts = ZZ_ERR_NONE;
 
@@ -72,8 +64,14 @@ zzStatus ZZTaskBase_PostExec(zzTaskBaseST *pSelf)
 
 }
 
+zzStatus ZZTaskBase_PreExec(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv)
+{
+    zzStatus  sts = ZZ_ERR_NONE;
 
-zzStatus ZZTaskBase_ExecInit(zzTaskBaseST *pSelf)
+    return sts;
+}
+
+zzStatus ZZTaskBase_PostExec(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv)
 {
     zzStatus  sts = ZZ_ERR_NONE;
 

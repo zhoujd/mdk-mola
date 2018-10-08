@@ -7,9 +7,9 @@
 
 //static functions
 static zzStatus ZZTask2001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
-static zzStatus ZZTask2001_ExecInit(zzTaskBaseST *pTaskBase);
-static zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase);
-static zzStatus ZZTask2001_PostExec(zzTaskBaseST *pTaskBase);
+static zzStatus ZZTask2001_ExecInit(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
+static zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
+static zzStatus ZZTask2001_PostExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_Release(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask2001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 
@@ -156,7 +156,41 @@ zzStatus ZZTask2001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
         goto END;
     }
 
-    sts = ZZVAContext_Create(&pSelf->ctx);
+END:
+    return sts;
+
+}
+
+zzStatus ZZTask2001_ExecInit(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
+{
+    zzStatus       sts   = ZZ_ERR_NONE;
+
+    sts  = ZZTaskBase_ExecInit(pTaskBase, argc, argv);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskBase_ExecInit  error\n");
+        goto END;
+    }
+
+END:
+    return sts;
+
+}
+
+zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
+{
+    zzStatus       sts   = ZZ_ERR_NONE;
+    zzTask2001ST  *pSelf = GET_TASK2001(pTaskBase);
+
+    sts  = ZZTaskBase_PreExec(pTaskBase, argc, argv);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskBase_PreExec  error\n");
+        goto END;
+    }
+
+
+        sts = ZZVAContext_Create(&pSelf->ctx);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("VAContext_Create  error\n");
@@ -185,61 +219,11 @@ END:
 
 }
 
-zzStatus ZZTask2001_ExecInit(zzTaskBaseST *pTaskBase)
+zzStatus ZZTask2001_PostExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
 {
     zzStatus       sts   = ZZ_ERR_NONE;
 
-    sts  = ZZTaskBase_ExecInit(pTaskBase);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZTaskBase_ExecInit  error\n");
-        goto END;
-    }
-
-END:
-    return sts;
-
-}
-
-zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase)
-{
-    zzStatus       sts   = ZZ_ERR_NONE;
-    zzTask2001ST  *pSelf = GET_TASK2001(pTaskBase);
-
-    sts  = ZZTaskBase_PreExec(pTaskBase);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZTaskBase_PreExec  error\n");
-        goto END;
-    }
-
-
-    ZZPRINTF("Task2001 scc frameInfo\n");
-    sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_SRC].frameInfo);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZ_DumpFrameInfo  error\n");
-        goto END;
-    }
-
-    ZZPRINTF("Task2001 dcc frameInfo\n");
-    sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_DST].frameInfo);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZ_DumpFrameInfo  error\n");
-        goto END;
-    }
-
-END:
-    return sts;
-
-}
-
-zzStatus ZZTask2001_PostExec(zzTaskBaseST *pTaskBase)
-{
-    zzStatus       sts   = ZZ_ERR_NONE;
-
-    sts  = ZZTaskBase_PostExec(pTaskBase);
+    sts  = ZZTaskBase_PostExec(pTaskBase, argc, argv);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTaskBase_PostExec  error\n");
@@ -351,6 +335,22 @@ zzStatus ZZTask2001_CreateSurface(zzTask2001ST  *pSelf)
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZ_ParamInfo2SurfInfo  error\n");
+        goto END;
+    }
+
+    ZZPRINTF("Task2001 scc frameInfo\n");
+    sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_SRC].frameInfo);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZ_DumpFrameInfo  error\n");
+        goto END;
+    }
+
+    ZZPRINTF("Task2001 dcc frameInfo\n");
+    sts = ZZ_DumpFrameInfo(&pSelf->surface[TASK2001_SCALING_DST].frameInfo);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZ_DumpFrameInfo  error\n");
         goto END;
     }
 

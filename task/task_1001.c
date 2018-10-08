@@ -7,9 +7,9 @@
 
 //static functions
 static zzStatus ZZTask1001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
-static zzStatus ZZTask1001_ExecInit(zzTaskBaseST *pTaskBase);
-static zzStatus ZZTask1001_PreExec(zzTaskBaseST *pTaskBase);
-static zzStatus ZZTask1001_PostExec(zzTaskBaseST *pTaskBase);
+static zzStatus ZZTask1001_ExecInit(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
+static zzStatus ZZTask1001_PreExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
+static zzStatus ZZTask1001_PostExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask1001_Release(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask1001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 
@@ -150,6 +150,39 @@ zzStatus ZZTask1001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
         goto END;
     }
 
+END:
+    return sts;
+
+}
+
+zzStatus ZZTask1001_ExecInit(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
+{
+    zzStatus       sts   = ZZ_ERR_NONE;
+
+    sts  = ZZTaskBase_ExecInit(pTaskBase, argc, argv);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskBase_ExecInit  error\n");
+        goto END;
+    }
+
+END:
+    return sts;
+
+}
+
+zzStatus ZZTask1001_PreExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
+{
+    zzStatus       sts   = ZZ_ERR_NONE;
+    zzTask1001ST  *pSelf = GET_TASK1001(pTaskBase);
+
+    sts  = ZZTaskBase_PreExec(pTaskBase, argc, argv);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskBase_PreExec  error\n");
+        goto END;
+    }
+
     sts = ZZVAContext_Create(&pSelf->ctx);
     if (sts != ZZ_ERR_NONE)
     {
@@ -178,43 +211,11 @@ END:
 
 }
 
-zzStatus ZZTask1001_ExecInit(zzTaskBaseST *pTaskBase)
+zzStatus ZZTask1001_PostExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
 {
     zzStatus       sts   = ZZ_ERR_NONE;
 
-    sts  = ZZTaskBase_ExecInit(pTaskBase);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZTaskBase_ExecInit  error\n");
-        goto END;
-    }
-
-END:
-    return sts;
-
-}
-
-zzStatus ZZTask1001_PreExec(zzTaskBaseST *pTaskBase)
-{
-    zzStatus       sts   = ZZ_ERR_NONE;
-
-    sts  = ZZTaskBase_PreExec(pTaskBase);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZTaskBase_PreExec  error\n");
-        goto END;
-    }
-
-END:
-    return sts;
-
-}
-
-zzStatus ZZTask1001_PostExec(zzTaskBaseST *pTaskBase)
-{
-    zzStatus       sts   = ZZ_ERR_NONE;
-
-    sts  = ZZTaskBase_PostExec(pTaskBase);
+    sts  = ZZTaskBase_PostExec(pTaskBase, argc, argv);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTaskBase_PostInit  error\n");
