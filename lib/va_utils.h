@@ -7,6 +7,8 @@
 #include <va/va.h>
 #include <va/va_vpp.h>
 
+#define ZZ_LIBVA_USE_X11 1
+
 #if ZZ_LIBVA_USE_X11
 #include <va/va_x11.h>
 #include <X11/Xlib.h>

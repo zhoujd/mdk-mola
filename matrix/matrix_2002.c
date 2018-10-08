@@ -303,7 +303,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     if (TRUE == pSelf->params.hdr_flag)
     {
         ZZPRINTF("HDR test ...\n");
-        
+
         pSelf->pipelineParam.output_hdr_metadata = (VAHdrMetaData *)AllocAndZeroMem(sizeof(VAHdrMetaData));
         if (NULL != pSelf->pipelineParam.output_hdr_metadata)
         {
@@ -329,7 +329,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
             pSelf->pipelineParam.output_hdr_metadata->metadata_size = sizeof(VAHdrMetaDataHDR10);
         }
     }
-    
+
     if ( pSelf->pipelineParamID != VA_INVALID_ID)
     {
         vaDestroyBuffer(pSelf->ctx->va_dpy, pSelf->pipelineParamID);

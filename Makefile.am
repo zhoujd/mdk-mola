@@ -39,6 +39,7 @@ ZZ_SRC_FILES = \
 	task/task_2001.c \
 	matrix/matrix_1002.c \
 	matrix/matrix_2002.c \
+	matrix/matrix_9001.c \
 	matrix/matrix_9002.c \
 	lib/frame_cmn.c \
 	lib/frame_cmn_read.c \

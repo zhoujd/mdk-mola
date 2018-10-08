@@ -57,7 +57,7 @@ zzStatus va_to_zz_status(VAStatus va_res)
 zzStatus ZZVA_InitVA_X11(Display **display, VADisplay *va_dpy)
 {
     VAStatus   va_res  = VA_STATUS_SUCCESS;
-    zzStatus sts     = ZZ_ERR_NONE;
+    zzStatus   sts     = ZZ_ERR_NONE;
 
     int       major_version = 0;
     int       minor_version = 0;

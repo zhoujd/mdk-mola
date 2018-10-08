@@ -60,6 +60,7 @@ SET(SRC_LIST
   
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_1002.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_2002.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9002.c
   )
 
