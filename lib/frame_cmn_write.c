@@ -565,7 +565,7 @@ zzStatus ZZ_Write_A2RGB10(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  fDst
     ptr = ptr + pInfo->CropX + pInfo->CropY * pitch;
     for(i = 0; i < h; i++)
     {
-        CHECK_NOT_EQUAL( zz_file_fwrite(ptr + i * pitch, 1, 4*w*2, fDst), 4*w*2, ZZ_ERR_UNDEFINED_BEHAVIOR);
+        CHECK_NOT_EQUAL( zz_file_fwrite(ptr + i * pitch, 1, 4*w, fDst), 4*w, ZZ_ERR_UNDEFINED_BEHAVIOR);
     }
 
 

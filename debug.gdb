@@ -6,7 +6,9 @@ set breakpoint pending on
 
 ##task 1001
 define task1001
-  set args -task 1001 -sw 352 -sh 288 -scc nv12 -i input-stream/foreman_352x288_20.nv12 -o output/output-d.nv12 -n 10
+  #set args -task 1001 -sw 352 -sh 288 -scc nv12 -i input-stream/foreman_352x288_20.nv12 -o output/output-d.nv12 -n 10
+  set args -task 1001 -sw 127 -sh 127 -scc a2rgb10 -i input-stream/centering_scaling_test_pattern_127x127_5frames.a2r10g10b10 -o output/test.a2rgb10
+  
   b main
 
   r
@@ -29,4 +31,5 @@ define task2001
   r
 end
 
-task2001
+#task2001
+task1001

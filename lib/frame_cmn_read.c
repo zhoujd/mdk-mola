@@ -762,8 +762,8 @@ zzStatus ZZ_LoadNext_A2RGB10(zzFrameData* pData, zzFrameInfo* pInfo, zz_file*  f
 
     for(i = 0; i < h; i++)
     {
-        nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, 4*w*2, fSrc);
-        IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, 4*w*2, ZZ_ERR_MORE_DATA);
+        nBytesRead = (zzU32)zz_file_fread(ptr + i * pitch, 1, 4*w, fSrc);
+        IOSTREAM_CHECK_NOT_EQUAL(nBytesRead, 4*w, ZZ_ERR_MORE_DATA);
     }
 
     return ZZ_ERR_NONE;
