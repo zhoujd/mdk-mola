@@ -73,6 +73,10 @@ zzStatus ZZ_Str2FourCC(zz_char* strInput, zzU32 *pFourCC)
     {
         *pFourCC = ZZ_FOURCC_P010;
     }
+    else if ( 0 == zz_strcmp(strInput, ZZ_STRING("a2rgb10")) )
+    {
+        *pFourCC = ZZ_FOURCC_A2RGB10;
+    }
     else
     {
         sts = ZZ_ERR_UNKNOWN;
@@ -137,6 +141,9 @@ zz_char* ZZ_FourCC2Str(zzU32 fourcc)
         break;
     case ZZ_FOURCC_P010:
         ret = "p010";
+        break;
+    case ZZ_FOURCC_A2RGB10:
+        ret = "a2rgb10";
         break;
     default:
         ret = "unknown format";

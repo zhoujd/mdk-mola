@@ -270,6 +270,9 @@ zzStatus ZZSurface_GetGenericFormat(zzU32 format_fourcc, zzU32 *pformat_va)
     case ZZ_FOURCC_P010:
         *pformat_va = VA_RT_FORMAT_YUV420_10;
         break;
+    case ZZ_FOURCC_A2RGB10:
+        *pformat_va = VA_RT_FORMAT_RGB32_10;
+        break;
     default:
         sts = ZZ_ERR_UNSUPPORTED;
         break;
@@ -335,6 +338,8 @@ zzStatus ZZSurface_FourCC2VaFourCC(zzU32 format_fourcc, int *pformat_va)
         break;
     case ZZ_FOURCC_P010:
         *pformat_va = VA_FOURCC_P010;
+    case ZZ_FOURCC_A2RGB10:
+        *pformat_va = VA_FOURCC_ARGB;
         break;
     default:
         sts = ZZ_ERR_UNSUPPORTED;

@@ -115,8 +115,7 @@ enum
     ZZ_FOURCC_XRGB         = ZZ_MAKEFOURCC('X','R','G','B'),    /* XRGB */
 
     ZZ_FOURCC_P010         = ZZ_MAKEFOURCC('P','0','1','0'),    /* P010 10-bit */
-    //TODO add RGB10
-
+    ZZ_FOURCC_A2RGB10      = ZZ_MAKEFOURCC('A','R','3','2'),    /* A2R10G10B10 10-bit */
 };
 
 /* PicStruct */
