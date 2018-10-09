@@ -174,7 +174,7 @@ zzStatus ZZMatrix1002_PartStart(zzMatrixBaseST *pMatrixBase)
 
     ZZDEBUG("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
-    if (pSelf->frame_num == pSelf->frame_idx)
+    if (pSelf->frame_num == pSelf->frame_idx && FALSE == pSelf->demo_flag)
     {
         pMatrixBase->next_event = ZZ_EVENT_END;
         pSelf->base.pipe_ctrl->pipe_event = ZZ_EVENT_PIPE_EXIT;
