@@ -192,7 +192,7 @@ zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
     }
 
 
-        sts = ZZVAContext_Create(&pSelf->ctx);
+    sts = ZZVAContext_Create(&pSelf->ctx);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("VAContext_Create  error\n");
