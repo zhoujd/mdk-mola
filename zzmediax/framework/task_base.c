@@ -63,7 +63,7 @@ END:
     return sts;
 }
 
-zzStatus ZZTaskBase_ExecInit(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv)
+zzStatus ZZTaskBase_ExecInit(zzTaskBaseST *pSelf)
 {
     zzStatus  sts = ZZ_ERR_NONE;
 
@@ -78,7 +78,7 @@ zzStatus ZZTaskBase_PreExec(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv)
     return sts;
 }
 
-zzStatus ZZTaskBase_Exec(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv)
+zzStatus ZZTaskBase_Exec(zzTaskBaseST *pSelf)
 {
     zzStatus        sts        = ZZ_ERR_NONE;
     zz_list         *pos       = NULL;
@@ -183,7 +183,7 @@ END:
 }
 
 
-zzStatus ZZTaskBase_PostExec(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv)
+zzStatus ZZTaskBase_PostExec(zzTaskBaseST *pSelf)
 {
     zzStatus  sts = ZZ_ERR_NONE;
 

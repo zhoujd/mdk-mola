@@ -42,7 +42,7 @@ zzStatus ZZTaskMng_Execute(zzTaskMngST *pSelf, zzU16 argc, zz_char **argv, zzTas
         //ExecInit Task
         if (NULL != pSelf->curr_task->pfnZZTaskExecInit)
         {
-            sts = pSelf->curr_task->pfnZZTaskExecInit(pSelf->curr_task, argc, argv);
+            sts = pSelf->curr_task->pfnZZTaskExecInit(pSelf->curr_task);
             if (sts != ZZ_ERR_NONE)
             {
                 ZZPRINTF("Task Exec Init error\n");
@@ -52,7 +52,7 @@ zzStatus ZZTaskMng_Execute(zzTaskMngST *pSelf, zzU16 argc, zz_char **argv, zzTas
 
         if (NULL != pSelf->curr_task->pfnZZTaskExec)
         {
-            sts = pSelf->curr_task->pfnZZTaskExec(pSelf->curr_task, argc, argv);
+            sts = pSelf->curr_task->pfnZZTaskExec(pSelf->curr_task);
             if (sts != ZZ_ERR_NONE)
             {
                 ZZPRINTF("Task Exec error\n");
@@ -70,7 +70,7 @@ zzStatus ZZTaskMng_Execute(zzTaskMngST *pSelf, zzU16 argc, zz_char **argv, zzTas
     //Task PostExec
     if (NULL != pSelf->curr_task->pfnZZTaskPreExec)
     {
-        sts = pSelf->curr_task->pfnZZTaskPostExec(pSelf->curr_task, argc, argv);
+        sts = pSelf->curr_task->pfnZZTaskPostExec(pSelf->curr_task);
         if (sts != ZZ_ERR_NONE)
         {
             ZZPRINTF("Task PostExec error\n");

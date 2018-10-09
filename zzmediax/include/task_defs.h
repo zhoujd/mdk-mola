@@ -15,10 +15,12 @@ typedef struct _zzTaskBaseST zzTaskBaseST;
 
 
 typedef zzStatus (*zzTaskInitFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
-typedef zzStatus (*zzTaskExecInitFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
+typedef zzStatus (*zzTaskExecInitFn)(zzTaskBaseST *pSelf);
+
 typedef zzStatus (*zzTaskPreExecFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
-typedef zzStatus (*zzTaskExecFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
-typedef zzStatus (*zzTaskPostExecFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
+typedef zzStatus (*zzTaskExecFn)(zzTaskBaseST *pSelf);
+typedef zzStatus (*zzTaskPostExecFn)(zzTaskBaseST *pSelf);
+
 typedef zzStatus (*zzTaskReleaseFn)(zzTaskBaseST *pSelf);
 typedef zzStatus (*zzTaskHelpFn)(zzTaskBaseST *pSelf, zzU16 argc, zz_char **argv);
 
