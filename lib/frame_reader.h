@@ -1,4 +1,4 @@
-/* zz_frame_reader.h --- 
+/* zz_frame_reader.h ---
  */
 
 #ifndef INCLUDED_ZZ_FRAME_READER_H
@@ -13,7 +13,7 @@ typedef struct _zzFrameReaderST
 {
     zz_file*      srcFile;
     zz_char       srcFileName[MAX_FILENAME_LEN];
-    
+
 } zzFrameReaderST;
 
 zzStatus ZZFrameReader_Create(zzFrameReaderST **ppRet);
@@ -24,4 +24,3 @@ zzStatus ZZFrameReader_GetNextInputFrame(zzFrameReaderST *pSelf, zzFrameData *pD
 zzStatus ZZFrameReader_Release(zzFrameReaderST *pSelf);
 
 #endif /* INCLUDED_ZZ_FRAME_READER_H */
-
