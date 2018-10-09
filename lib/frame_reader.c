@@ -21,11 +21,13 @@ END:
     return sts;
 }
 
-zzStatus ZZFrameReader_Init(zzFrameReaderST *pSelf, zz_char *strFileName)
+zzStatus ZZFrameReader_Init(zzFrameReaderST *pSelf, zz_char *strFileName, zzBOOL bDemoFlag)
 {
     zzStatus sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(strFileName, ZZ_ERR_NULL_PTR);
+
+    pSelf->demo_flag = bDemoFlag;
 
     if (0 == strlen(strFileName))
     {
@@ -55,13 +57,17 @@ zzStatus ZZFrameReader_GetNextInputFrame(zzFrameReaderST *pSelf, zzFrameData *pD
     {
         if (zz_file_feof(pSelf->srcFile))
         {
-            ZZPRINTF("rewind from zz\n");
-            rewind(pSelf->srcFile);
-            sts = ZZ_ERR_NONE;
+            if (TRUE == pSelf->demo_flag)
+            {
+                rewind(pSelf->srcFile);
+                sts = ZZ_ERR_NONE;
+            }
+            else
+            {
+                ZZDEBUG("Read end of file:%s\n", pSelf->srcFileName);
+                sts = ZZ_ERR_EOF_STREAM;
+            }
             goto END;
-
-            //ZZDEBUG("Read end of file:%s\n", pSelf->srcFileName);
-            //sts = ZZ_ERR_EOF_STREAM;
         }
         else
         {

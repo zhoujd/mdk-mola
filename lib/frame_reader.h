@@ -14,10 +14,12 @@ typedef struct _zzFrameReaderST
     zz_file*      srcFile;
     zz_char       srcFileName[MAX_FILENAME_LEN];
 
+    zzBOOL        demo_flag;
+
 } zzFrameReaderST;
 
 zzStatus ZZFrameReader_Create(zzFrameReaderST **ppRet);
-zzStatus ZZFrameReader_Init(zzFrameReaderST *pSelf, zz_char *filename);
+zzStatus ZZFrameReader_Init(zzFrameReaderST *pSelf, zz_char *filename, zzBOOL bDemoFlag);
 
 zzStatus ZZFrameReader_GetNextInputFrame(zzFrameReaderST *pSelf, zzFrameData *pData, zzFrameInfo *pInfo);
 

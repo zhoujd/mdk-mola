@@ -22,6 +22,8 @@ struct _zzMatrix1002ST
     zzFrameReaderST   *pFrameReader;
     zzU16             frame_idx;
     zzU16             frame_num;
+
+    zzBOOL            demo_flag;
 };
 
 

@@ -77,6 +77,8 @@ zzStatus ZZMatrix1002_Create(zzMatrix1002ST **ppRet)
     (*ppRet)->frame_num      = NOT_INIT_VALUE;
     (*ppRet)->frame_idx      = 0;
 
+    (*ppRet)->demo_flag      = FALSE;
+
     sts = ZZFrameReader_Create(&(*ppRet)->pFrameReader);
     if (sts != ZZ_ERR_NONE)
     {
@@ -124,7 +126,7 @@ zzStatus ZZMatrix1002_Init(zzMatrix1002ST *pSelf, zzU16 argc, zz_char **argv,
     pSelf->base.pipe_ctrl = pPipeCtrl;
     pSelf->dst_surf       = *pSurf;
 
-    sts = ZZFrameReader_Init(pSelf->pFrameReader, pFilename);
+    sts = ZZFrameReader_Init(pSelf->pFrameReader, pFilename, pSelf->demo_flag);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZFrameReader_Init error\n");
@@ -219,6 +221,11 @@ zzStatus ZZMatrix1002_ParseInputString(zzMatrix1002ST  *pSelf, int nArgNum, char
                 i++;
                 zz_sscanf(strInput[i], ZZ_STRING("%hd"), &pSelf->frame_num);
             }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-demo")))
+            {
+                pSelf->demo_flag = TRUE;
+            }
+
         }
     }
 
