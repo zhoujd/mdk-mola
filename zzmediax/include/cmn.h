@@ -14,10 +14,15 @@
 
 #ifndef ANDROID
 #define ZZPRINTF           printf
-#define ZZDEBUG(...)
 #else
 #define ZZPRINTF(...)      __android_log_print(ANDROID_LOG_ERROR, "ZZMEDIAX", __VA_ARGS__)
 #endif //ANDROID
+
+#if ZZ_DEBUG
+#define ZZDEBUG            printf
+#else
+#define ZZDEBUG(...)
+#endif //DEBUG
 
 //extern declare
 extern void*      ZZAllocAndZeroMem(size_t size);

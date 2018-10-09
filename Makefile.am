@@ -10,6 +10,7 @@ LIBDRM_ROOT      = /usr/include/libdrm
 
 ZZ_CFLAGS = -Wall \
 	-DZZ_LIBVA_USE_X11=1 \
+	-DZZ_DEBUG=1 \
 	-I$(LIBVA_ROOT) \
 	-I$(LIBDRM_ROOT) \
 	-I$(APP_ROOT)/zzmediax/include \

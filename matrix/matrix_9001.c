@@ -194,6 +194,8 @@ zzStatus ZZMatrix9001_Start(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
+    pMatrixBase->next_event = ZZ_EVENT_PART_END;
+
 END:
     return sts;
 }
@@ -218,6 +220,8 @@ zzStatus ZZMatrix9001_PartStart(zzMatrixBaseST *pMatrixBase)
         ZZPRINTF("ZZMatrix9001_ProcNextFrame  error\n");
         goto END;
     }
+
+    pMatrixBase->next_event = ZZ_EVENT_PART_END;
 
 END:
     return sts;
