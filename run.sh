@@ -33,5 +33,13 @@ run_task_1001()
     echo "run task 1001 end ..."
 }
 
+run_task_2002()
+{
+    echo "run task 2002 start ..."
+    ./zzmediaxapp -task 2002 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc argb -i input-stream/foreman_352x288_20.nv12 -sf 30 -angle 1 -n 10
+    echo "run task 2002 end ..."    
+}
+
 #run_task_1001
-run_task_2001
+#run_task_2001
+run_task_2002
