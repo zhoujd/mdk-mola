@@ -147,6 +147,7 @@ struct _zzFrameInfo
 
     zzU32  FrameRateExtN;
     zzU32  FrameRateExtD;
+    zzF32  FrameRate;
     zzU16  reserved3;
 
     zzU16  AspectRatioW;

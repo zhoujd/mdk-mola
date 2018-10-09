@@ -39,6 +39,7 @@ struct _zzMatrix9001ST
     zzU32              dstH;
 
     zzU32              flags;
+    zzF32              fps;
 };
 
 #define GET_MATRIX9001(p) container_of(p, zzMatrix9001ST, base)

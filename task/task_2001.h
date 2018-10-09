@@ -33,21 +33,18 @@ struct _zzTask2001InputParamsST
     zz_char  strSrcFile[MAX_FILENAME_LEN];
     zz_char  strDstFile[MAX_FILENAME_LEN];
 
-    zzU16    numFrames;
-
 };
 
 struct _zzTask2001ST
 {
-    zzTaskBaseST            base;
-    zzVAContextST           ctx;
+    zzTaskBaseST              base;
+    zzVAContextST             ctx;
 
-    zzSurfaceST             surface[TASK2001_SURF_COUNT];
-    zzMatrix1002ST          *pMatrix1002;
-    zzMatrix2002ST          *pMatrix2002;
-    zzMatrix9002ST          *pMatrix9002;
+    zzSurfaceST               surface[TASK2001_SURF_COUNT];
+    zzMatrix1002ST           *pMatrix1002;
+    zzMatrix2002ST           *pMatrix2002;
+    zzMatrix9002ST           *pMatrix9002;
 
-    zzBOOL                    screen_flag;
     zzTask2001InputParamsST   params;
 
 };

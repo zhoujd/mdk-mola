@@ -403,5 +403,8 @@ zzStatus ZZ_ParamInfo2SurfInfo(zzFrameInfo *pSurfFrameInfo, zzOwnFrameInfoST *pP
 
     pSurfFrameInfo->PicStruct = pParamFrameInfo->PicStruct;
 
+    //fps
+    pSurfFrameInfo->FrameRate = pParamFrameInfo->dFrameRate;
+
     return sts;
 }

@@ -257,6 +257,9 @@ zzStatus ZZMatrix9001_ProcNextFrame(zzMatrix9001ST *pSelf)
         goto END;
     }
 
+    //sleep for fps
+    sleep(1 / pSelf->src_surf.frameInfo.FrameRate);
+
 END:
     return sts;
 }

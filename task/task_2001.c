@@ -522,18 +522,6 @@ zzStatus ZZTask2001_ParseOutputInfo(zzTask2001ST  *pSelf, int nArgNum, char **st
                 i++;
                 zz_strcpy(pParams->strDstFile, strInput[i]);
             }
-            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-n")) )
-            {
-                VAL_CHECK(1 + i == nArgNum);
-                i++;
-                zz_sscanf(strInput[i], ZZ_STRING("%hd"), &pParams->numFrames);
-            }
-
-            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-screen")) )
-            {
-                i++;
-                pSelf->screen_flag = TRUE;
-            }
         }
     }
 
