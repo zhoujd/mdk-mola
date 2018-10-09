@@ -1,4 +1,5 @@
-/* app_defs.h ---
+/* app_defs.h
+ *
  */
 
 #ifndef ZZ_APP_DEF_H

@@ -1,4 +1,5 @@
-/* utils.h ---
+/* utils.h
+ *
  */
 
 #ifndef ZZUTILS_H

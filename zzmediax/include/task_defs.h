@@ -1,4 +1,5 @@
-/* task_defs.h --- 
+/* task_defs.h
+ *
  */
 
 #ifndef INCLUDED_ZZ_TASK_DEFS_H

@@ -52,13 +52,13 @@ int main(int argc, char *argv[])
             ZZPRINTF("ZZApp_Execute  error\n");
             goto END;
         }
+    }
 
-        sts = ZZMEDIAX_CLOSE(g_zzApp);
-        if (sts != ZZ_ERR_NONE)
-        {
-            ZZPRINTF("ZZ fnRelease  error\n");
-            goto END;
-        }
+    sts = ZZMEDIAX_CLOSE(g_zzApp);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZ fnRelease  error\n");
+        goto END;
     }
 
 END:

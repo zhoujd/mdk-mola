@@ -1,4 +1,5 @@
-/* help.h ---
+/* help.h
+ *
  */
 
 #ifndef INCLUDED_ZZ_HELP_H

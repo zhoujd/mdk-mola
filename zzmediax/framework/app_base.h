@@ -1,3 +1,7 @@
+/* app_base.h
+ *
+ */
+
 #ifndef ZAPPBASE_H
 #define ZAPPBASE_H
 

@@ -1,3 +1,7 @@
+/* file_defs.h
+ *
+ */
+
 #ifndef FILE_DEFS_H
 #define FILE_DEFS_H
 

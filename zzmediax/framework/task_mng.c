@@ -1,4 +1,6 @@
-/// task_mng.c
+/* task_mng.c
+ *
+ */
 
 #include "task_mng.h"
 #include "event.h"

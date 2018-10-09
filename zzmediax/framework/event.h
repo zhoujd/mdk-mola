@@ -1,3 +1,7 @@
+/* event.h
+ *
+ */
+
 #ifndef ZEVENTBASE_H
 #define ZEVENTBASE_H
 
@@ -24,6 +28,6 @@ enum zzEventEN
 
 };
 
-typedef zzU32 zzEventID; 
+typedef zzU32 zzEventID;
 
 #endif //ZEVENTBASE_H

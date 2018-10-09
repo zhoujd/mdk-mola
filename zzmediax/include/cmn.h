@@ -1,4 +1,5 @@
 /* cmn.h
+ *
  */
 
 #ifndef DEFS_H

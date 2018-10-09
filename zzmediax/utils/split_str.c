@@ -1,3 +1,6 @@
+/* split_str.c
+ *
+ */
 
 #include "split_str.h"
 
@@ -10,8 +13,8 @@ zzStatus ZZSplitStr_ReadLine(zzSplitStrST *pSplitStr)
 
     static zz_char lineTemp[ZZ_MAX_STR_LEN + 1]  = {0};
     static zz_char tmpStr[ZZ_MAX_STR_LEN + 1] = {0};
-    
-    CHECK_POINTER(pSplitStr, ZZ_ERR_NOT_INITIALIZED);    
+
+    CHECK_POINTER(pSplitStr, ZZ_ERR_NOT_INITIALIZED);
     memset(tmpStr, 0x00, ZZ_MAX_STR_LEN + 1);
 
     //reset items
@@ -23,7 +26,7 @@ zzStatus ZZSplitStr_ReadLine(zzSplitStrST *pSplitStr)
         sts = ZZ_ERR_EOF_STREAM;
         goto END;
     }
-    
+
     pLinePos  = zz_strstr(pSplitStr->szData, pSplitStr->line_sep);
     zz_strncopy(lineTemp, sizeof(lineTemp), pSplitStr->szData, pLinePos - pSplitStr->szData);
 
@@ -39,11 +42,11 @@ zzStatus ZZSplitStr_ReadLine(zzSplitStrST *pSplitStr)
 
         zz_strncopy(lineTemp, sizeof(lineTemp), pFieldPos + zz_strlen(pSplitStr->field_sep), sizeof(lineTemp));
     }
-    
+
     zz_strcopy(tmpStr, sizeof(tmpStr), pLinePos + zz_strlen(pSplitStr->line_sep));
     ZERO_MEMORY(pSplitStr->szData);
-    zz_strcopy(pSplitStr->szData, sizeof(pSplitStr->szData), tmpStr); 
-    
+    zz_strcopy(pSplitStr->szData, sizeof(pSplitStr->szData), tmpStr);
+
 END:
     return sts;
 }
@@ -77,21 +80,21 @@ zzStatus ZZSplitStr_Set(zzSplitStrST *pSplitStr, zz_char *pData, zz_char *pStrLi
     }
 
     if (zz_strcmp(pData + zz_strlen(pData) - zz_strlen(pSplitStr->line_sep), pSplitStr->line_sep) == 0)
-    {        
+    {
         zz_strncopy(pSplitStr->szData, sizeof(pSplitStr->szData), pData, sizeof(pSplitStr->szData) - 1);
     }
     else
     {
         zz_strncopy(pSplitStr->szData, sizeof(pSplitStr->szData), pData, sizeof(pSplitStr->szData) - 1 - zz_strlen(pStrLineSep));
-        zz_strcat(pSplitStr->szData, sizeof(pSplitStr->szData), pStrLineSep); 
+        zz_strcat(pSplitStr->szData, sizeof(pSplitStr->szData), pStrLineSep);
     }
-    
+
     return sts;
 }
 
 zz_char *  ZZSplitStr_GetIndex(zzSplitStrST *pSplitStr, zzU16 index)
 {
-    CHECK_POINTER(pSplitStr, NULL);    
+    CHECK_POINTER(pSplitStr, NULL);
 
     if (index >= pSplitStr->count || index < 0)
     {
@@ -99,11 +102,11 @@ zz_char *  ZZSplitStr_GetIndex(zzSplitStrST *pSplitStr, zzU16 index)
     }
 
     return pSplitStr->item[index].szText;
- 
+
 }
 
 zzU16 ZZSplitStr_GetCount(zzSplitStrST *pSplitStr)
 {
-    CHECK_POINTER(pSplitStr, 0);    
+    CHECK_POINTER(pSplitStr, 0);
     return pSplitStr->count;
 }

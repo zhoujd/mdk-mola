@@ -1,5 +1,5 @@
-/* Last modified Time-stamp: <zhoujd 2007-12-30 16:29:58>
- * @(#)utils.c
+/* utils.c
+ *
  */
 
 #include "utils.h"
@@ -8,9 +8,9 @@
 void*   ZZAllocAndZeroMem(size_t size)
 {
     void* ptr;
-    
+
     ptr = malloc(size);
-    
+
     if (ptr != NULL)
     {
         memset(ptr, 0, size);
@@ -25,7 +25,7 @@ zzStatus ZZInfoPrint(zz_char*  pStrInfoFile, zz_char* format, ...)
     zz_file   *fp     = NULL;
     va_list    argptr;
     int        cnt    = 0;
-    
+
     zz_file_fopen(fp, pStrInfoFile, ZZ_STRING("a"));
     CHECK_POINTER(fp, ZZ_ERR_ABORTED);
 
@@ -38,7 +38,7 @@ zzStatus ZZInfoPrint(zz_char*  pStrInfoFile, zz_char* format, ...)
         sts = ZZ_ERR_UNKNOWN;
         goto END;
     }
-    
+
 END:
     if (fp != NULL)
     {
@@ -47,4 +47,3 @@ END:
 
     return sts;
 }
-

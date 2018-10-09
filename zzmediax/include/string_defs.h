@@ -1,3 +1,7 @@
+/* string_defs.h
+ *
+ */
+
 #ifndef STRING_DEFS_H
 #define STRING_DEFS_H
 

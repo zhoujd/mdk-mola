@@ -1,4 +1,5 @@
-/* config.h --- 
+/* config.h
+ *
  */
 
 #ifndef INCLUDED_ZZ_CONFIG_H

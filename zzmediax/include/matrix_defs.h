@@ -1,4 +1,5 @@
-/* matrix_defs.h ---
+/* matrix_defs.h
+ *
  */
 
 #ifndef INCLUDED_ZZ_PROC_DEFS_H

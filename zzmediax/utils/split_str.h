@@ -1,3 +1,7 @@
+/* split_str.h
+ *
+ */
+
 #ifndef ZSPLITSTR_H
 #define ZSPLITSTR_H
 
