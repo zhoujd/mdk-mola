@@ -13,7 +13,6 @@ typedef struct _zzTaskMngST zzTaskMngST;
 struct _zzTaskMngST
 {
     zzTaskBaseST     *curr_task;
-    zzBOOL            curr_task_alive;
 
     zz_list_head      exec_task_head;
 };

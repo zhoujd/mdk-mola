@@ -9,6 +9,7 @@
 static zzStatus ZZTask2001_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_ExecInit(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
+static zzStatus ZZTask2001_Exec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_PostExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
 static zzStatus ZZTask2001_Release(zzTaskBaseST *pTaskBase);
 static zzStatus ZZTask2001_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv);
@@ -64,6 +65,7 @@ zzStatus ZZTask2001_Register()
                                 ZZTask2001_Init,
                                 ZZTask2001_ExecInit,
                                 ZZTask2001_PreExec,
+                                ZZTask2001_Exec,
                                 ZZTask2001_PostExec,
                                 ZZTask2001_Release,
                                 ZZTask2001_Help);
@@ -211,6 +213,22 @@ zzStatus ZZTask2001_PreExec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTask2001_InitMatrix error\n");
+        goto END;
+    }
+
+END:
+    return sts;
+
+}
+
+zzStatus ZZTask2001_Exec(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
+{
+    zzStatus       sts   = ZZ_ERR_NONE;
+
+    sts  = ZZTaskBase_Exec(pTaskBase, argc, argv);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTaskBase_Exec  error\n");
         goto END;
     }
 

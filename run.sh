@@ -28,7 +28,7 @@ run_task_2001()
 run_task_1001()
 {
     echo "run task 1001 start ..."
-    #./zzmediaxapp -task 1001 -sw 352 -sh 288 -scc nv12 -i input-stream/foreman_352x288_20.nv12 -o output/output-d.nv12 -n 10
+    ./zzmediaxapp -task 1001 -sw 352 -sh 288 -scc nv12 -i input-stream/foreman_352x288_20.nv12 -o output/output-d.nv12 -n 10
     #./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -scc p010 -i input-stream/4K_3840x2160.P010 -o output/4K-3840x2160-10.p010 -n 10 
     echo "run task 1001 end ..."
 }
