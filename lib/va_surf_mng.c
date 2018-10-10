@@ -168,12 +168,6 @@ zzStatus ZZSurface_Lock(zzSurfaceST *pSurface)
         Frame_G(ptr) = Frame_R(ptr);
         Frame_B(ptr) = Frame_R(ptr);
         break;
-    case ZZ_FOURCC_A2RGB10:
-        ptr->Pitch = (zzU16)pSurface->va_image.pitches[0];
-        Frame_R(ptr) = image_data + pSurface->va_image.offsets[0];
-        Frame_G(ptr) = Frame_R(ptr);
-        Frame_B(ptr) = Frame_R(ptr);
-        break;
     case ZZ_FOURCC_YUY2:
         ptr->Pitch = (zzU16)pSurface->va_image.pitches[0];
         Frame_Y(ptr) = image_data + pSurface->va_image.offsets[0];
@@ -344,6 +338,7 @@ zzStatus ZZSurface_FourCC2VaFourCC(zzU32 format_fourcc, int *pformat_va)
         break;
     case ZZ_FOURCC_P010:
         *pformat_va = VA_FOURCC_P010;
+        break;
     case ZZ_FOURCC_A2RGB10:
         *pformat_va = VA_FOURCC_ARGB;
         break;
