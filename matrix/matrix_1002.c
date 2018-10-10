@@ -224,6 +224,7 @@ zzStatus ZZMatrix1002_ParseInputString(zzMatrix1002ST  *pSelf, int nArgNum, char
             }
             else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-demo")))
             {
+                ZZPRINTF("Running with demo mode, press Ctrl + c for exist\n");
                 pSelf->demo_flag = TRUE;
             }
 
