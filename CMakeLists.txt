@@ -40,6 +40,7 @@ SET(SRC_LIST
   ${ZZMEDIAX_ROOT}/framework/event.c
   ${ZZMEDIAX_ROOT}/framework/help.c
   ${ZZMEDIAX_ROOT}/framework/matrix_base.c
+  ${ZZMEDIAX_ROOT}/framework/matrix_grp.c
   ${ZZMEDIAX_ROOT}/framework/task_base.c
   ${ZZMEDIAX_ROOT}/framework/task_db.c
   ${ZZMEDIAX_ROOT}/framework/task_mng.c

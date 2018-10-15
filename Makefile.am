@@ -31,6 +31,7 @@ ZZ_SRC_FILES = \
 	zzmediax/framework/event.c \
 	zzmediax/framework/help.c \
 	zzmediax/framework/matrix_base.c \
+	zzmediax/framework/matrix_grp.c \
 	zzmediax/framework/task_base.c \
 	zzmediax/framework/task_db.c \
 	zzmediax/framework/task_mng.c \
