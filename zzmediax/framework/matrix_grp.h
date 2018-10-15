@@ -7,7 +7,6 @@
 
 #include "cmn.h"
 #include "matrix_defs.h"
-#include "va_surf_mng.h"
 
 #define MATRIXGRP_ID    (100)
 
