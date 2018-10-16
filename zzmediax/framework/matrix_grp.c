@@ -86,7 +86,6 @@ zzStatus ZZMatrixGRP_Release(zzMatrixGRPST *pSelf)
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
 
-END:
     return sts;
 }
 
@@ -113,26 +112,22 @@ END:
 zzStatus ZZMatrixGRP_Start(zzMatrixBaseST *pMatrixBase)
 {
     zzStatus       sts   = ZZ_ERR_NONE;
-    zzMatrixGRPST *pSelf = GET_MATRIXGRP(pMatrixBase);
 
     ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
 
     pMatrixBase->next_event = ZZ_EVENT_PART_END;
 
-END:
     return sts;
 }
 
 zzStatus ZZMatrixGRP_PartStart(zzMatrixBaseST *pMatrixBase)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
-    zzMatrixGRPST *pSelf = GET_MATRIXGRP(pMatrixBase);
 
     ZZDEBUG("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
     pMatrixBase->next_event = ZZ_EVENT_END;
 
-END:
     return sts;
 }
 
