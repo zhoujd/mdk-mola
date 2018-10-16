@@ -63,6 +63,7 @@ zzStatus ZZMatrixGRP_Init(zzMatrixGRPST *pSelf, zzU16 argc, zz_char **argv,
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
+    pSelf->alive = FALSE;
     INIT_LIST_HEAD(&pSelf->matrix_head);
 
     sts = ZZMatrixGRP_ParseInputString(pSelf, argc, argv);
@@ -107,7 +108,14 @@ zzStatus ZZMatrixGRP_Start(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
-    pMatrixBase->next_event = ZZ_EVENT_PART_END;
+    if (TRUE == pSelf->alive)
+    {
+        pMatrixBase->next_event = ZZ_EVENT_PART_END;
+    }
+    else
+    {
+        pMatrixBase->next_event = ZZ_EVENT_END;
+    }
 
 END:
     return sts;
@@ -134,7 +142,14 @@ zzStatus ZZMatrixGRP_PartStart(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
-    pMatrixBase->next_event = ZZ_EVENT_PART_END;
+    if (TRUE == pSelf->alive)
+    {
+        pMatrixBase->next_event = ZZ_EVENT_PART_END;
+    }
+    else
+    {
+        pMatrixBase->next_event = ZZ_EVENT_END;
+    }
 
 END:
     return sts;
@@ -146,6 +161,8 @@ zzStatus ZZMatrixGRP_Run(zzMatrixGRPST *pSelf)
     zzStatus        sts        = ZZ_ERR_NONE;
     zz_list         *pos       = NULL;
     zzMatrixBaseST  *pMatrix   = NULL;
+
+    pSelf->alive = FALSE;
 
     //loop martrixs
     list_for_each(pos, &pSelf->matrix_head)
@@ -164,6 +181,8 @@ zzStatus ZZMatrixGRP_Run(zzMatrixGRPST *pSelf)
             ZZDEBUG("Skip Matrix for it is done: %d\n", pMatrix->matrix_id);
             continue;
         }
+
+        pSelf->alive = TRUE;
 
         sts = ZZMatrixBase_Run(pMatrix);
         if (sts != ZZ_ERR_NONE)

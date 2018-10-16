@@ -16,6 +16,7 @@ typedef struct _zzMatrixGRPInputParamsST zzMatrixGRPInputParamsST;
 struct _zzMatrixGRPST
 {
     zzMatrixBaseST    base;
+    zzBOOL            alive;
 
     zz_list           matrix_head;
 };
