@@ -18,7 +18,7 @@ struct _zzMatrixGRPST
     zzMatrixBaseST    base;
 
 
-    zz_list           matrix_list;
+    zz_list           matrix_head;
 };
 
 
@@ -30,7 +30,7 @@ zzStatus ZZMatrixGRP_Release(zzMatrixGRPST *pSelf);
 zzStatus ZZMatrixGRP_Init(zzMatrixGRPST *pSelf, zzU16 argc, zz_char **argv,
                           zzPipeCtrlST  *pPipeCtrl);
 
-zzStatus ZZMatrixGRP_RegistMatrix(zzMatrixGRPST *pSelf, zzMatrixBaseST *pMatrix);
+zzStatus ZZMatrixGRP_AttachMatrix(zzMatrixGRPST *pSelf, zzMatrixBaseST *pMatrix);
 
 
 #endif /* INCLUDED_ZZ_MATRIX_GRP_H */

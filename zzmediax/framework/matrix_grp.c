@@ -41,14 +41,19 @@ END:
 
 zzStatus ZZMatrixGRP_Release(zzMatrixGRPST *pSelf)
 {
-    zzStatus  sts = ZZ_ERR_NONE;
+    zzStatus  sts    = ZZ_ERR_NONE;
+    zz_list   *pos   = NULL;
+    zz_list   *n     = NULL;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
+    list_for_each_safe(pos, n, &pSelf->matrix_head)
+    {
+        list_del_init(pos);
+    }
 
     return sts;
 }
-
 
 zzStatus ZZMatrixGRP_Init(zzMatrixGRPST *pSelf, zzU16 argc, zz_char **argv,
                           zzPipeCtrlST  *pPipeCtrl)
@@ -56,6 +61,8 @@ zzStatus ZZMatrixGRP_Init(zzMatrixGRPST *pSelf, zzU16 argc, zz_char **argv,
     zzStatus  sts = ZZ_ERR_NONE;
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
+
+    INIT_LIST_HEAD(&pSelf->matrix_head);
 
     sts = ZZMatrixGRP_ParseInputString(pSelf, argc, argv);
     if (sts != ZZ_ERR_NONE)
@@ -66,6 +73,15 @@ zzStatus ZZMatrixGRP_Init(zzMatrixGRPST *pSelf, zzU16 argc, zz_char **argv,
 
 
 END:
+    return sts;
+}
+
+zzStatus ZZMatrixGRP_AttachMatrix(zzMatrixGRPST *pSelf, zzMatrixBaseST *pMatrix)
+{
+    zzStatus  sts = ZZ_ERR_NONE;
+
+    list_add_tail(&pMatrix->matrix_list, &pSelf->matrix_head);
+
     return sts;
 }
 
@@ -83,9 +99,9 @@ zzStatus ZZMatrixGRP_Start(zzMatrixBaseST *pMatrixBase)
 
 zzStatus ZZMatrixGRP_PartStart(zzMatrixBaseST *pMatrixBase)
 {
-    zzStatus       sts    = ZZ_ERR_NONE;
+    zzStatus       sts   = ZZ_ERR_NONE;
     zzMatrixGRPST *pSelf = GET_MATRIXGRP(pMatrixBase);
-    
+
     ZZDEBUG("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
     pMatrixBase->next_event = ZZ_EVENT_END;
