@@ -32,8 +32,5 @@ zzStatus ZZMatrixGRP_Init(zzMatrixGRPST *pSelf, zzU16 argc, zz_char **argv,
 
 zzStatus ZZMatrixGRP_RegistMatrix(zzMatrixGRPST *pSelf, zzMatrixBaseST *pMatrix);
 
-zzStatus ZZMatrixGRP_Help(zzHelpInfoST *pSelf, zzU16 argc, zz_char **argv);
-zzStatus ZZMatrixGRP_HelpRegister();
-
 
 #endif /* INCLUDED_ZZ_MATRIX_GRP_H */

@@ -18,46 +18,6 @@ static zzMatrixCellST matrix_cells[] =
     {ZZ_EVENT_PART_START,    NULL, ZZMatrixGRP_PartStart,  NULL},
 };
 
-
-zzStatus ZZMatrixGRP_Help(zzHelpInfoST *pSelf, zzU16 argc, zz_char **argv)
-{
-    zzStatus  sts    = ZZ_ERR_NONE;
-
-    ZZPRINTF("Matrix GRP help\n");
-
-    return sts;
-}
-
-zzStatus ZZMatrixGRP_HelpRegister()
-{
-    zzStatus  sts    = ZZ_ERR_NONE;
-    zzAppST   *pApp  = GetAPP();
-
-    zzHelpInfoST  *pHelpInfo = NULL;
-
-    pHelpInfo = (zzHelpInfoST *)AllocAndZeroMem(sizeof(zzHelpInfoST));
-    if (pHelpInfo == NULL)
-    {
-        ZZPRINTF("==zztest (%s) memory alloc\n", __FUNCTION__);
-        sts = ZZ_ERR_MEMORY_ALLOC;
-        goto END;
-    }
-
-    pHelpInfo->help_id         = MATRIXGRP_ID;
-    pHelpInfo->desc_info       = ZZ_STRING("input one frame by one frame");
-    pHelpInfo->pfnMatrixHelpFn = ZZMatrixGRP_Help;
-
-    sts =  ZZHelp_MatrixHelpAdd(&pApp->help, pHelpInfo);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZApp_MatrixHelpAdd  error\n");
-        goto END;
-    }
-
-END:
-    return sts;
-}
-
 zzStatus ZZMatrixGRP_Create(zzMatrixGRPST **ppRet)
 {
     zzStatus  sts = ZZ_ERR_NONE;
@@ -112,6 +72,7 @@ END:
 zzStatus ZZMatrixGRP_Start(zzMatrixBaseST *pMatrixBase)
 {
     zzStatus       sts   = ZZ_ERR_NONE;
+    zzMatrixGRPST *pSelf = GET_MATRIXGRP(pMatrixBase);
 
     ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
 
@@ -123,7 +84,8 @@ zzStatus ZZMatrixGRP_Start(zzMatrixBaseST *pMatrixBase)
 zzStatus ZZMatrixGRP_PartStart(zzMatrixBaseST *pMatrixBase)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
-
+    zzMatrixGRPST *pSelf = GET_MATRIXGRP(pMatrixBase);
+    
     ZZDEBUG("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
     pMatrixBase->next_event = ZZ_EVENT_END;
