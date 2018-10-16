@@ -8,6 +8,6 @@
 #include "cmn.h"
 #include "matrix_defs.h"
 
-zzStatus ZZMatrixBase_FindCell(zzMatrixBaseST *pSelf, zzEventID id, zzMatrixCellST **ppCell);
+zzStatus ZZMatrixBase_Run(zzMatrixBaseST *pSelf);
 
 #endif //ZMATRIXBASE_H

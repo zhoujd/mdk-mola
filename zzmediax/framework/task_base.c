@@ -104,77 +104,11 @@ zzStatus ZZTaskBase_Exec(zzTaskBaseST *pSelf)
 
         pSelf->task_alive = TRUE;
 
-        //init Matrix start event
-        if (FALSE == pMatrix->restart_flag)
+        sts = ZZMatrixBase_Run(pMatrix);
+        if (sts != ZZ_ERR_NONE)
         {
-            pMatrix->next_event   = ZZ_EVENT_START;
-            pMatrix->restart_flag = TRUE;
-        }
-        else
-        {
-            pMatrix->next_event = ZZ_EVENT_PART_START;
-        }
-
-        while (TRUE)
-        {
-            zzMatrixCellST     *pCell   = NULL;
-
-            if (ZZ_EVENT_END == pMatrix->next_event)
-            {
-                ZZDEBUG("This Matrix is done: %d\n", pMatrix->matrix_id);
-                break;
-            }
-            else if (ZZ_EVENT_PART_END == pMatrix->next_event)
-            {
-                ZZDEBUG("This Matrix is part done: %d\n", pMatrix->matrix_id);
-                break;
-            }
-
-            sts = ZZMatrixBase_FindCell(pMatrix, pMatrix->next_event, &pCell);
-            if (sts != ZZ_ERR_NONE)
-            {
-                ZZPRINTF("ZZMatrixBase_FindCell error\n");
-                goto END;
-            }
-
-            //prepare cell execute
-            if (NULL != pCell->pfnPreExec)
-            {
-                sts = pCell->pfnPreExec(pMatrix);
-                if (sts != ZZ_ERR_NONE)
-                {
-                    ZZPRINTF("Cell PreExec error\n");
-                    goto END;
-                }
-            }
-
-            //run cell function
-            if (NULL != pCell->pfnExec)
-            {
-                sts = pCell->pfnExec(pMatrix);
-                if (sts != ZZ_ERR_NONE)
-                {
-                    ZZPRINTF("Cell Exec error\n");
-                    goto END;
-                }
-            }
-            else
-            {
-                ZZPRINTF("Cell Exec is must setting\n");
-                sts = ZZ_ERR_UNSUPPORTED;
-                goto END;
-            }
-
-            //post cell execute
-            if (NULL != pCell->pfnPostExec)
-            {
-                sts = pCell->pfnPostExec(pMatrix);
-                if (sts != ZZ_ERR_NONE)
-                {
-                    ZZPRINTF("Cell PostExec error\n");
-                    goto END;
-                }
-            }
+            ZZPRINTF(" ZZMatrixBase_Run error\n");
+            goto END;
         }
     }
 
