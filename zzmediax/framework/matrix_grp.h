@@ -17,7 +17,6 @@ struct _zzMatrixGRPST
 {
     zzMatrixBaseST    base;
 
-
     zz_list           matrix_head;
 };
 

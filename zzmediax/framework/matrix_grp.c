@@ -1,15 +1,16 @@
 /* matrix_grp.c
  *
  */
-
-#include "app_base.h"
 #include "matrix_grp.h"
+#include "app_base.h"
 #include "task_base.h"
+#include "matrix_base.h"
 
 static zzStatus ZZMatrixGRP_Start(zzMatrixBaseST *pSelf);
 static zzStatus ZZMatrixGRP_PartStart(zzMatrixBaseST *pSelf);
 
-static zzStatus ZZMatrixGRP_ParseInputString(zzMatrixGRPST  *pSelf, int nArgNum, char **strInput);
+static zzStatus ZZMatrixGRP_Run(zzMatrixGRPST *pSelf);
+static zzStatus ZZMatrixGRP_ParseInputString(zzMatrixGRPST *pSelf, int nArgNum, char **strInput);
 
 //Matrix Cells
 static zzMatrixCellST matrix_cells[] =
@@ -92,8 +93,23 @@ zzStatus ZZMatrixGRP_Start(zzMatrixBaseST *pMatrixBase)
 
     ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
 
+    if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
+    {
+        ZZDEBUG("(%s) get exist event\n", __FUNCTION__);
+        pMatrixBase->next_event = ZZ_EVENT_END;
+        goto END;
+    }
+
+    sts = ZZMatrixGRP_Run(pSelf);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrixGRP_Run error\n");
+        goto END;
+    }
+
     pMatrixBase->next_event = ZZ_EVENT_PART_END;
 
+END:
     return sts;
 }
 
@@ -104,10 +120,63 @@ zzStatus ZZMatrixGRP_PartStart(zzMatrixBaseST *pMatrixBase)
 
     ZZDEBUG("Matrix %d PartStart\n", pSelf->base.matrix_id);
 
-    pMatrixBase->next_event = ZZ_EVENT_END;
+    if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)
+    {
+        ZZDEBUG("(%s) get exist event\n", __FUNCTION__);
+        pMatrixBase->next_event = ZZ_EVENT_END;
+        goto END;
+    }
 
+    sts = ZZMatrixGRP_Run(pSelf);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrixGRP_Run error\n");
+        goto END;
+    }
+
+    pMatrixBase->next_event = ZZ_EVENT_PART_END;
+
+END:
     return sts;
 }
+
+
+zzStatus ZZMatrixGRP_Run(zzMatrixGRPST *pSelf)
+{
+    zzStatus        sts        = ZZ_ERR_NONE;
+    zz_list         *pos       = NULL;
+    zzMatrixBaseST  *pMatrix   = NULL;
+
+    //loop martrixs
+    list_for_each(pos, &pSelf->matrix_head)
+    {
+        pMatrix = container_of(pos, zzMatrixBaseST, matrix_list);
+        //skip invalide task entry
+        if (pMatrix == NULL)
+        {
+            ZZPRINTF("Can not get a Matrix, exist the task\n");
+            sts = ZZ_ERR_UNSUPPORTED;
+            goto END;
+        }
+
+        if (ZZ_EVENT_END == pMatrix->next_event)
+        {
+            ZZDEBUG("Skip Matrix for it is done: %d\n", pMatrix->matrix_id);
+            continue;
+        }
+
+        sts = ZZMatrixBase_Run(pMatrix);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF(" ZZMatrixBase_Run error\n");
+            goto END;
+        }
+    }
+
+END:
+    return sts;
+}
+
 
 zzStatus ZZMatrixGRP_ParseInputString(zzMatrixGRPST  *pSelf, int nArgNum, char **strInput)
 {
