@@ -94,7 +94,6 @@ zzStatus ZZMatrix9001_Init(zzMatrix9001ST *pSelf, zzU16 argc, zz_char **argv,
     pSelf->dstW = pSelf->src_surf.frameInfo.Width;
     pSelf->dstH = pSelf->src_surf.frameInfo.Height;
 
-#if ZZ_LIBVA_USE_X11
     static zz_char title[MATRIX9002_TITLE_MAX_LEN] = {0};
     sprintf(title, "zzmediaxapp %dx%d", pSelf->src_surf.frameInfo.Width, pSelf->src_surf.frameInfo.Height);
 
@@ -154,8 +153,6 @@ zzStatus ZZMatrix9001_Init(zzMatrix9001ST *pSelf, zzU16 argc, zz_char **argv,
     XSync(pSelf->mDisplay, False);
 
 END:
-#endif //ZZ_LIBVA_USE_X11
-
     return sts;
 }
 
@@ -166,9 +163,7 @@ zzStatus ZZMatrix9001_Release(zzMatrix9001ST *pSelf)
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
-#if ZZ_LIBVA_USE_X11
     XCloseDisplay(pSelf->mDisplay);
-#endif //ZZ_LIBVA_USE_X11
 
     return sts;
 }
