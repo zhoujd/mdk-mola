@@ -9,7 +9,6 @@
 #include <sys/mman.h>
 #include <math.h>
 
-
 zzStatus va_to_zz_status(VAStatus va_res)
 {
     zzStatus zzRes = ZZ_ERR_NONE;
@@ -54,7 +53,7 @@ zzStatus va_to_zz_status(VAStatus va_res)
 
 #ifndef ANDROID
 #if ZZ_LIBVA_USE_X11
-zzStatus ZZVA_InitVA_X11(Display **display, VADisplay *va_dpy)
+zzStatus ZZVA_InitVA(Display **display, VADisplay *va_dpy)
 {
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus   sts     = ZZ_ERR_NONE;
@@ -91,10 +90,26 @@ zzStatus ZZVA_InitVA_X11(Display **display, VADisplay *va_dpy)
 
 END:
     return sts;
-
 }
+
+zzStatus ZZVA_CloseVA(Display *display, VADisplay va_dpy)
+{
+    zzStatus sts     = ZZ_ERR_NONE;
+
+    vaTerminate(va_dpy);
+
+    if (NULL != display)
+    {
+        XCloseDisplay(display);
+        display = NULL;
+        free(display);
+    }
+
+    return sts;
+}
+
 #else //ZZ_LIBVA_USE_X11
-zzStatus ZZVA_InitVA_DRM(Display **display, VADisplay *va_dpy)
+zzStatus ZZVA_InitVA(VADisplay *va_dpy)
 {
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus sts     = ZZ_ERR_NONE;
@@ -103,7 +118,7 @@ zzStatus ZZVA_InitVA_DRM(Display **display, VADisplay *va_dpy)
     int       minor_version = 0;
 
     static int drm_fd = -1;
-    drm_fd = open("/dev/dri/card0", O_RDWR);
+    drm_fd = open("/dev/dri/renderD128", O_RDWR);
     if (drm_fd < 0)
     {
         ZZPRINTF("error: can't open DRM connection!\n");
@@ -130,10 +145,18 @@ zzStatus ZZVA_InitVA_DRM(Display **display, VADisplay *va_dpy)
 END:
     return sts;
 }
-#endif //ZZ_LIBVA_USE_X11
 
-#else
-zzStatus ZZVA_InitVA_Android(Display **display, VADisplay *va_dpy)
+zzStatus ZZVA_CloseVA(VADisplay va_dpy)
+{
+    zzStatus sts     = ZZ_ERR_NONE;
+
+    vaTerminate(va_dpy);
+
+    return sts;
+}
+#endif //ZZ_LIBVA_USE_X11
+#else //ANDROID
+zzStatus ZZVA_InitVA(Display **display, VADisplay *va_dpy)
 {
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus sts     = ZZ_ERR_NONE;
@@ -163,26 +186,8 @@ zzStatus ZZVA_InitVA_Android(Display **display, VADisplay *va_dpy)
 END:
     return sts;
 }
-#endif //ANDROID
 
-zzStatus ZZVA_InitVA(Display **display, VADisplay *va_dpy)
-{
-
-#ifdef ANDROID
-    return ZZVA_InitVA_Android(display, va_dpy);
-#else //ANDROID
-
-#if ZZ_LIBVA_USE_X11
-    return ZZVA_InitVA_X11(display, va_dpy);
-#else
-    return ZZVA_InitVA_DRM(display, va_dpy);
-#endif //ZZ_LIBVA_USE_X11
-
-#endif //ANDROID
-
-}// zzStatus InitVA()
-
-zzStatus ZZVA_CloseVA(Display *display,VADisplay va_dpy)
+zzStatus ZZVA_CloseVA(Display *display, VADisplay va_dpy)
 {
     zzStatus sts     = ZZ_ERR_NONE;
 
@@ -190,25 +195,16 @@ zzStatus ZZVA_CloseVA(Display *display,VADisplay va_dpy)
 
     if (NULL != display)
     {
-#ifndef ANDROID
-
-#if ZZ_LIBVA_USE_X11
-        XCloseDisplay(display);
-        display = NULL;
-#endif //ZZ_LIVA_USE_X11
-
-#else
         free(display);
-#endif
     }
 
     return sts;
-} //void CloseVA()
+}
+#endif //ANDROID
 
 zzStatus ZZVA_GetScreenInfo(zzU16 *pWidth, zzU16 *pHeight)
 {
 #ifndef ANDROID
-
 #if ZZ_LIBVA_USE_X11
     char         *display_name;
     Display      *display;
@@ -228,15 +224,15 @@ zzStatus ZZVA_GetScreenInfo(zzU16 *pWidth, zzU16 *pHeight)
 
     *pWidth  = display_width;
     *pHeight = display_height;
-#else
+#else //ZZ_LIBVA_USE_X11
     *pWidth  = ZZ_CTX_DEF_WIDTH;
     *pHeight = ZZ_CTX_DEF_HEIGHT;
 #endif //ZZ_LIBVA_USE_X11
 
-#else
+#else //ANDROID
     *pWidth  = ZZ_CTX_DEF_WIDTH;
     *pHeight = ZZ_CTX_DEF_HEIGHT;
-#endif
+#endif //ANDROID
 
     return ZZ_ERR_NONE;
 }

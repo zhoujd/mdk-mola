@@ -121,8 +121,11 @@ zzStatus ZZVAContext_Create(zzVAContextST *pSelf)
     zzStatus sts     = ZZ_ERR_NONE;
 
 
-    //init vaapi
+#if ZZ_LIBVA_USE_X11
     sts = ZZVA_InitVA(&pSelf->display, &pSelf->va_dpy);
+#else
+    sts = ZZVA_InitVA(&pSelf->va_dpy);
+#endif
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("InitVA error\n");
