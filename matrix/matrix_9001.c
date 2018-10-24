@@ -4,6 +4,8 @@
 
 #include "app_base.h"
 #include "matrix_9001.h"
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
 
 #define MATRIX9002_TITLE_MAX_LEN  256
 

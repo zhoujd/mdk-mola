@@ -10,8 +10,6 @@
 #ifndef ANDROID
 #if ZZ_LIBVA_USE_X11
 #include <va/va_x11.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
 #else //ZZ_LIBVA_USE_X11
 #include <va/va_drm.h>
 #endif //ZZ_LIBVA_USE_X11
