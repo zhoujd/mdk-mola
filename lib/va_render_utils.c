@@ -515,6 +515,21 @@ zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID
 
     ZZPRINTF("HDR: metadata_type=%d\n, caps_flag=0x%X\n", hdr_cap.metadata_type, hdr_cap.caps_flag);
 
+    if (hdr_cap.metadata_type == VAProcHighDynamicRangeMetadataNone)
+    {
+        ZZPRINTF("HDR is not supported\n");
+        sts = ZZ_ERR_UNSUPPORTED;
+        goto END;
+    }
+
+    if (! (VA_TONE_MAPPING_HDR_TO_HDR & hdr_cap.caps_flag) &&
+        ! (VA_TONE_MAPPING_HDR_TO_SDR & hdr_cap.caps_flag))
+    {
+        ZZPRINTF("H2H and H2S are not supported\n");
+        sts = ZZ_ERR_UNSUPPORTED;
+        goto END;
+    }
+
     VAHdrMetaData hdr_param;
     VAHdrMetaDataHDR10  *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
     if (NULL != pHDRMetaData10)
