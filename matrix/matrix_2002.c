@@ -316,6 +316,24 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
             pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataHDR10;
 
             VAHdrMetaDataHDR10 *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
+#if 1 //zhoujd
+            zzMatrix2002VpParamsST *pParam = &pSelf->params.vp_params;
+
+            pHDRMetaData10->display_primaries_x[0] = pParam->hdr_output.display_primaries_x[0];
+            pHDRMetaData10->display_primaries_x[1] = pParam->hdr_output.display_primaries_x[1];
+            pHDRMetaData10->display_primaries_x[2] = pParam->hdr_output.display_primaries_x[2];
+            pHDRMetaData10->display_primaries_y[0] = pParam->hdr_output.display_primaries_y[0];
+            pHDRMetaData10->display_primaries_y[1] = pParam->hdr_output.display_primaries_y[1];
+            pHDRMetaData10->display_primaries_y[2] = pParam->hdr_output.display_primaries_y[2];
+
+            pHDRMetaData10->white_point_x = pParam->hdr_output.white_point_x;
+            pHDRMetaData10->white_point_y = pParam->hdr_output.white_point_y;
+
+            pHDRMetaData10->max_display_mastering_luminance = pParam->hdr_output.max_display_mastering_luminance;
+            pHDRMetaData10->min_display_mastering_luminance = pParam->hdr_output.min_display_mastering_luminance;
+            pHDRMetaData10->max_content_light_level         = pParam->hdr_output.max_content_light_level;
+            pHDRMetaData10->max_pic_average_light_level     = pParam->hdr_output.max_pic_average_light_level;
+#else
             pHDRMetaData10->display_primaries_x[0] = 13250;
             pHDRMetaData10->display_primaries_x[1] = 7500;
             pHDRMetaData10->display_primaries_x[2] = 34000;
@@ -330,6 +348,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
             pHDRMetaData10->min_display_mastering_luminance = 1000;
             pHDRMetaData10->max_content_light_level         = 2000;
             pHDRMetaData10->max_pic_average_light_level     = 2000;
+#endif //zhoujd
 
             pSelf->pipelineParam.output_hdr_metadata->metadata      = pHDRMetaData10;
             pSelf->pipelineParam.output_hdr_metadata->metadata_size = sizeof(VAHdrMetaDataHDR10);
