@@ -326,10 +326,10 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
             pHDRMetaData10->white_point_x = 15635;
             pHDRMetaData10->white_point_y = 16450;
 
-            pHDRMetaData10->max_display_mastering_luminance = 0.0001;
-            pHDRMetaData10->min_display_mastering_luminance = 0.0001;
-            pHDRMetaData10->max_content_light_level         = 0.0001;
-            pHDRMetaData10->max_pic_average_light_level     = 0.0001;
+            pHDRMetaData10->max_display_mastering_luminance = 10000;
+            pHDRMetaData10->min_display_mastering_luminance = 1000;
+            pHDRMetaData10->max_content_light_level         = 2000;
+            pHDRMetaData10->max_pic_average_light_level     = 2000;
 
             pSelf->pipelineParam.output_hdr_metadata->metadata      = pHDRMetaData10;
             pSelf->pipelineParam.output_hdr_metadata->metadata_size = sizeof(VAHdrMetaDataHDR10);
