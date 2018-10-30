@@ -19,8 +19,13 @@ define task2001
   #set args -task 2001 -i input-stream/foreman_352x288_20.nv12 -o output/test.nv12
   #set args -task 2001 -sw 1920 -sh 1080 -dw 1920 -dh 1080 -scc p010 -dcc p010 -i input-stream/crowdrun-1920x1080.p010 -o output/output.p010
   #set args -task 2001 -sw 1920 -sh 1080 -dw 1920 -dh 1080 -scc p010 -dcc argb -i input-stream/crowdrun-1920x1080.p010 -o output/output.argb -n 5
+  #set args -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc argb -i input-stream/4K-3840x2160-10.p010 -o output/output.argb -hdr
 
-  set args -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc argb -i input-stream/4K-3840x2160-10.p010 -o output/output.argb -hdr
+  #h2h
+  set args -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output-h2h.a2rgb10 -h2h --hdr-input x0=13250:x1=7500:x2=34000:y0=34500:y1=3000:y2=16000:wp_x=15635:wp_y=16450:max_dl=10000:min_dl=1000:max_cl=2000:max_pl=2000 --hdr-output x0=13250:x1=7500:x2=34000:y0=34500:y1=3000:y2=16000:wp_x=15635:wp_y=16450:max_dl=10000:min_dl=1000:max_cl=2000:max_pl=2000
+  
+  #h2s
+  #set args -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output.a2rgb10 --hdr-input x0=13250:x1=7500:x2=34000:y0=34500:y1=3000:y2=16000:wp_x=15635:wp_y=16450:max_dl=10000:min_dl=1000:max_cl=2000:max_pl=2000
   
   b main
   b DdiMedia_RenderPicture
@@ -31,5 +36,5 @@ define task2001
   r
 end
 
-#task2001
-task1001
+task2001
+#task1001
