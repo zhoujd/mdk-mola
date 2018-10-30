@@ -516,28 +516,48 @@ zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID
     ZZPRINTF("HDR: metadata_type=%d\n, caps_flag=0x%X\n", hdr_cap.metadata_type, hdr_cap.caps_flag);
 
     VAHdrMetaData hdr_param;
-    
-    hdr_param.metadata = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
-    if(NULL != hdr_param.metadata)
+    VAHdrMetaDataHDR10  *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
+    if (NULL != pHDRMetaData10)
     {
-#if 0 //zhoujd
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_x[0] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_x[0];
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_x[1] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_x[1];
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_x[2] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_x[2];
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_y[0] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_y[0];
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_y[1] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_y[1];
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_y[2] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_y[2];
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->white_point_x          = _vppConfigInfo->_input_VAHdrMetaData.white_point_x;
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->white_point_y          = _vppConfigInfo->_input_VAHdrMetaData.white_point_y;
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->max_display_mastering_luminance = _vppConfigInfo->_input_VAHdrMetaData.max_display_mastering_luminance;
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->min_display_mastering_luminance = _vppConfigInfo->_input_VAHdrMetaData.min_display_mastering_luminance;
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->max_content_light_level         = _vppConfigInfo->_input_VAHdrMetaData.MaxCLL;
-        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->max_pic_average_light_level     = _vppConfigInfo->_input_VAHdrMetaData.MaxFALL;
+#if  0 //zhoujd
+        pHDRMetaData10->display_primaries_x[0] = 13250;
+        pHDRMetaData10->display_primaries_x[1] = 7500;
+        pHDRMetaData10->display_primaries_x[2] = 34000;
+        pHDRMetaData10->display_primaries_y[0] = 34500;
+        pHDRMetaData10->display_primaries_y[1] = 3000;
+        pHDRMetaData10->display_primaries_y[2] = 16000;
+
+        pHDRMetaData10->white_point_x = 15635;
+        pHDRMetaData10->white_point_y = 16450;
+
+        pHDRMetaData10->max_display_mastering_luminance = 0.0001;
+        pHDRMetaData10->min_display_mastering_luminance = 0.0001;
+
+        pHDRMetaData10->max_content_light_level         = 0.0001;
+        pHDRMetaData10->max_pic_average_light_level     = 0.0001;
+#else
+        pHDRMetaData10->display_primaries_x[0] = pParam->display_primaries_x[0];
+        pHDRMetaData10->display_primaries_x[1] = pParam->display_primaries_x[1];
+        pHDRMetaData10->display_primaries_x[2] = pParam->display_primaries_x[2];
+        pHDRMetaData10->display_primaries_y[0] = pParam->display_primaries_y[0];
+        pHDRMetaData10->display_primaries_y[1] = pParam->display_primaries_y[1];
+        pHDRMetaData10->display_primaries_y[2] = pParam->display_primaries_y[2];
+
+        pHDRMetaData10->white_point_x = pParam->white_point_x;
+        pHDRMetaData10->white_point_y = pParam->white_point_y;
+
+        pHDRMetaData10->max_display_mastering_luminance = pParam->max_display_mastering_luminance;
+        pHDRMetaData10->min_display_mastering_luminance = pParam->min_display_mastering_luminance;
+
+        pHDRMetaData10->max_content_light_level         = pParam->max_content_light_level;
+        pHDRMetaData10->max_pic_average_light_level     = pParam->max_pic_average_light_level;
 #endif
 
-        hdr_param.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
-        hdr_param.metadata_size = sizeof(VAHdrMetaDataHDR10);
     }
+
+    hdr_param.metadata = pHDRMetaData10;
+    hdr_param.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
+    hdr_param.metadata_size = sizeof(VAHdrMetaDataHDR10);
 
     ret = vaCreateBuffer(display, ctx_id,
                          VAProcFilterParameterBufferType, sizeof(hdr_param), 1,

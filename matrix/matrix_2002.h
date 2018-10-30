@@ -25,7 +25,10 @@ struct _zzMatrix2002VpParamsST
     zzAmpParamST            amp;
     zzDenoiseParamST        denoise;
     zzCompParamST           composition;
-    zzHDRParamST            hdr;
+
+    //HDR
+    zzHDRParamST            hdr_input;
+    zzHDRParamST            hdr_output;
 };
 
 
@@ -33,7 +36,7 @@ struct _zzMatrix2002InputParamsST
 {
     zzMatrix2002VpParamsST  vp_params;
     zzU32                   rota_angle;
-    zzBOOL                  hdr_flag;
+    zzBOOL                  hdr_output_flag;
 };
 
 

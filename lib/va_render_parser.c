@@ -206,3 +206,16 @@ zzStatus render_parser_comp(zzCompParamST  *pComp, zz_char *pszParams)
 
     return sts;
 }
+
+
+zzStatus render_parser_hdr(zzHDRParamST  *pHDR, zz_char *pszParams)
+{
+    zzStatus       sts = ZZ_ERR_NONE;
+    zzSplitStrST   splitStr;
+
+    CHECK_POINTER(pHDR, ZZ_ERR_NOT_INITIALIZED);
+    CHECK_POINTER(pszParams, ZZ_ERR_NOT_INITIALIZED);
+
+
+    return sts;
+}

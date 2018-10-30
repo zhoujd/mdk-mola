@@ -24,7 +24,7 @@ run_task_2001()
     #./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc argb -i input-stream/4K-3840x2160-10.p010 -o output/output.argb
     #md5sum output/output-hdr.argb output/output.argb
     
-    ./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output-hdr.a2rgb10 -hdr
+    ./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output-hdr.a2rgb10 -h2h
     ./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output.a2rgb10
     md5sum output/output-hdr.a2rgb10 output/output.a2rgb10
        
@@ -53,5 +53,5 @@ run_task_2002()
 }
 
 #run_task_1001
-#run_task_2001
-run_task_2002
+run_task_2001
+#run_task_2002

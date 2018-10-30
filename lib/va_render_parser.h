@@ -12,6 +12,7 @@ zzStatus render_parser_sharpness(zzSharpnessParamST *pSharp, zz_char *pszParams)
 zzStatus render_parser_amp(zzAmpParamST *pAmp, zz_char *pszParams);
 zzStatus render_parser_denoise(zzDenoiseParamST  *pDN, zz_char *pszParams);
 zzStatus render_parser_comp(zzCompParamST  *pComp, zz_char *pszParams);
+zzStatus render_parser_hdr(zzHDRParamST  *pHDR, zz_char *pszParams);
 
 
 #endif /* INCLUDED_ZZ_RENDER_PARSER_H */

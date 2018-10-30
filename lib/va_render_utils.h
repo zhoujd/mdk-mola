@@ -168,7 +168,17 @@ struct _zzDIADVParamST
 
 struct _zzHDRParamST
 {
-    //zhoujd
+    zzU16	display_primaries_x[3];
+    zzU16	display_primaries_y[3];
+
+    zzU16   white_point_x;
+    zzU16   white_point_y;
+
+    zzU32   max_display_mastering_luminance;
+    zzU32   min_display_mastering_luminance;
+
+    zzU16   max_content_light_level;
+    zzU16   max_pic_average_light_level;
 };
 
 #define ZZ_VP_MAX_FILTER     9
