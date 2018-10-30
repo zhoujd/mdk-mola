@@ -660,22 +660,22 @@ zzStatus ZZMatrix2002_ParseVpString(zzMatrix2002ST  *pSelf, int nArgNum, char **
                     goto END;
                 }
 
-                ZZPRINTF("Matrix 2002 hdr input metadata  display_primaries_x[0] = %d\n", pParams->hdr_input.display_primaries_x[0]);
-                ZZPRINTF("Matrix 2002 hdr input metadata  display_primaries_x[1] = %d\n", pParams->hdr_input.display_primaries_x[1]);
-                ZZPRINTF("Matrix 2002 hdr input metadata  display_primaries_x[2] = %d\n", pParams->hdr_input.display_primaries_x[2]);
+                ZZPRINTF("Matrix 2002 hdr-input: display_primaries_x[0] = %d\n", pParams->hdr_input.display_primaries_x[0]);
+                ZZPRINTF("Matrix 2002 hdr-input: display_primaries_x[1] = %d\n", pParams->hdr_input.display_primaries_x[1]);
+                ZZPRINTF("Matrix 2002 hdr-input: display_primaries_x[2] = %d\n", pParams->hdr_input.display_primaries_x[2]);
 
-                ZZPRINTF("Matrix 2002 hdr input metadata  display_primaries_y[0] = %d\n", pParams->hdr_input.display_primaries_y[0]);
-                ZZPRINTF("Matrix 2002 hdr input metadata  display_primaries_y[1] = %d\n", pParams->hdr_input.display_primaries_y[1]);
-                ZZPRINTF("Matrix 2002 hdr input metadata  display_primaries_y[2] = %d\n", pParams->hdr_input.display_primaries_y[2]);
+                ZZPRINTF("Matrix 2002 hdr-input: display_primaries_y[0] = %d\n", pParams->hdr_input.display_primaries_y[0]);
+                ZZPRINTF("Matrix 2002 hdr-input: display_primaries_y[1] = %d\n", pParams->hdr_input.display_primaries_y[1]);
+                ZZPRINTF("Matrix 2002 hdr-input: display_primaries_y[2] = %d\n", pParams->hdr_input.display_primaries_y[2]);
 
-                ZZPRINTF("Matrix 2002 hdr input metadata  white_point_x = %d\n", pParams->hdr_input.white_point_x);
-                ZZPRINTF("Matrix 2002 hdr input metadata  white_point_y = %d\n", pParams->hdr_input.white_point_y);
+                ZZPRINTF("Matrix 2002 hdr-input: white_point_x = %d\n", pParams->hdr_input.white_point_x);
+                ZZPRINTF("Matrix 2002 hdr-input: white_point_y = %d\n", pParams->hdr_input.white_point_y);
 
-                ZZPRINTF("Matrix 2002 hdr input metadata  max_display_mastering_luminance = %d\n", pParams->hdr_input.max_display_mastering_luminance);
-                ZZPRINTF("Matrix 2002 hdr input metadata  min_display_mastering_luminance = %d\n", pParams->hdr_input.min_display_mastering_luminance);
+                ZZPRINTF("Matrix 2002 hdr-input: max_display_mastering_luminance = %d\n", pParams->hdr_input.max_display_mastering_luminance);
+                ZZPRINTF("Matrix 2002 hdr-input: min_display_mastering_luminance = %d\n", pParams->hdr_input.min_display_mastering_luminance);
 
-                ZZPRINTF("Matrix 2002 hdr input metadata  max_content_light_level     = %d\n", pParams->hdr_input.max_content_light_level);
-                ZZPRINTF("Matrix 2002 hdr input metadata  max_pic_average_light_level = %d\n", pParams->hdr_input.max_pic_average_light_level);
+                ZZPRINTF("Matrix 2002 hdr-input: max_content_light_level     = %d\n", pParams->hdr_input.max_content_light_level);
+                ZZPRINTF("Matrix 2002 hdr-input: max_pic_average_light_level = %d\n", pParams->hdr_input.max_pic_average_light_level);
 
                 sts = render_picture_vp_hdr(pSelf->ctx->va_dpy, pSelf->ctx->id, &hdr_buf_id, &pParams->hdr_input);
                 if (sts != ZZ_ERR_NONE)
@@ -699,22 +699,22 @@ zzStatus ZZMatrix2002_ParseVpString(zzMatrix2002ST  *pSelf, int nArgNum, char **
                     goto END;
                 }
 
-                ZZPRINTF("Matrix 2002 hdr output metadata  display_primaries_x[0] = %d\n", pParams->hdr_output.display_primaries_x[0]);
-                ZZPRINTF("Matrix 2002 hdr output metadata  display_primaries_x[1] = %d\n", pParams->hdr_output.display_primaries_x[1]);
-                ZZPRINTF("Matrix 2002 hdr output metadata  display_primaries_x[2] = %d\n", pParams->hdr_output.display_primaries_x[2]);
+                ZZPRINTF("Matrix 2002 hdr-output display_primaries_x[0] = %d\n", pParams->hdr_output.display_primaries_x[0]);
+                ZZPRINTF("Matrix 2002 hdr-output display_primaries_x[1] = %d\n", pParams->hdr_output.display_primaries_x[1]);
+                ZZPRINTF("Matrix 2002 hdr-output display_primaries_x[2] = %d\n", pParams->hdr_output.display_primaries_x[2]);
 
-                ZZPRINTF("Matrix 2002 hdr output metadata  display_primaries_y[0] = %d\n", pParams->hdr_output.display_primaries_y[0]);
-                ZZPRINTF("Matrix 2002 hdr output metadata  display_primaries_y[1] = %d\n", pParams->hdr_output.display_primaries_y[1]);
-                ZZPRINTF("Matrix 2002 hdr output metadata  display_primaries_y[2] = %d\n", pParams->hdr_output.display_primaries_y[2]);
+                ZZPRINTF("Matrix 2002 hdr-output display_primaries_y[0] = %d\n", pParams->hdr_output.display_primaries_y[0]);
+                ZZPRINTF("Matrix 2002 hdr-output display_primaries_y[1] = %d\n", pParams->hdr_output.display_primaries_y[1]);
+                ZZPRINTF("Matrix 2002 hdr-output display_primaries_y[2] = %d\n", pParams->hdr_output.display_primaries_y[2]);
 
-                ZZPRINTF("Matrix 2002 hdr output metadata  white_point_x = %d\n", pParams->hdr_output.white_point_x);
-                ZZPRINTF("Matrix 2002 hdr output metadata  white_point_y = %d\n", pParams->hdr_output.white_point_y);
+                ZZPRINTF("Matrix 2002 hdr-output white_point_x = %d\n", pParams->hdr_output.white_point_x);
+                ZZPRINTF("Matrix 2002 hdr-output white_point_y = %d\n", pParams->hdr_output.white_point_y);
 
-                ZZPRINTF("Matrix 2002 hdr output metadata  max_display_mastering_luminance = %d\n", pParams->hdr_output.max_display_mastering_luminance);
-                ZZPRINTF("Matrix 2002 hdr output metadata  min_display_mastering_luminance = %d\n", pParams->hdr_output.min_display_mastering_luminance);
+                ZZPRINTF("Matrix 2002 hdr-output max_display_mastering_luminance = %d\n", pParams->hdr_output.max_display_mastering_luminance);
+                ZZPRINTF("Matrix 2002 hdr-output min_display_mastering_luminance = %d\n", pParams->hdr_output.min_display_mastering_luminance);
 
-                ZZPRINTF("Matrix 2002 hdr output metadata  max_content_light_level     = %d\n", pParams->hdr_output.max_content_light_level);
-                ZZPRINTF("Matrix 2002 hdr output metadata  max_pic_average_light_level = %d\n", pParams->hdr_output.max_pic_average_light_level);
+                ZZPRINTF("Matrix 2002 hdr-output max_content_light_level     = %d\n", pParams->hdr_output.max_content_light_level);
+                ZZPRINTF("Matrix 2002 hdr-output max_pic_average_light_level = %d\n", pParams->hdr_output.max_pic_average_light_level);
             }
         }
     }
