@@ -216,6 +216,67 @@ zzStatus render_parser_hdr(zzHDRParamST  *pHDR, zz_char *pszParams)
     CHECK_POINTER(pHDR, ZZ_ERR_NOT_INITIALIZED);
     CHECK_POINTER(pszParams, ZZ_ERR_NOT_INITIALIZED);
 
+    pHDR->base.flag = VP_FILTER_SET;
+    pHDR->base.type = RENDER_HDR_EN;
+
+    ZZSplitStr_Set(&splitStr, pszParams, ":", "=");
+
+    while (ZZ_ERR_NONE == ZZSplitStr_ReadLine(&splitStr))
+    {
+        zzU16 count = ZZSplitStr_GetCount(&splitStr);
+        if (count == 2)
+        {
+            if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "x0") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->display_primaries_x[0]);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "x1") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->display_primaries_x[1]);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "x2") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->display_primaries_x[2]);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "y0") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->display_primaries_y[0]);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "y1") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->display_primaries_y[1]);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "y2") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->display_primaries_y[2]);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "wp_x") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->white_point_x);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "wp_y") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->white_point_y);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "max_dl") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%d"), &pHDR->max_display_mastering_luminance);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "min_dl") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%d"), &pHDR->min_display_mastering_luminance);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "max_cl") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->max_content_light_level);
+            }
+            else if (strcmp(ZZSplitStr_GetIndex(&splitStr, 0), "max_pl") == 0)
+            {
+                zz_sscanf(ZZSplitStr_GetIndex(&splitStr, 1), ZZ_STRING("%hd"), &pHDR->max_pic_average_light_level);
+            }
+        }
+    }
+
 
     return sts;
 }
