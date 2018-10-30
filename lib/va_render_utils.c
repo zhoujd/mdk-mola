@@ -493,7 +493,7 @@ END:
 }
 
 
-zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID *tone_mapping_id)
+zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID *hdr_buf_id, zzHDRParamST *pParam)
 {
     zzStatus   sts = ZZ_ERR_NONE;
     VAStatus   ret = VA_STATUS_SUCCESS;
@@ -516,6 +516,7 @@ zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID
     ZZPRINTF("HDR: metadata_type=%d\n, caps_flag=0x%X\n", hdr_cap.metadata_type, hdr_cap.caps_flag);
 
     VAHdrMetaData hdr_param;
+    
     hdr_param.metadata = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
     if(NULL != hdr_param.metadata)
     {
@@ -533,14 +534,14 @@ zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID
         ((VAHdrMetaDataHDR10*)hdr_param.metadata)->max_content_light_level         = _vppConfigInfo->_input_VAHdrMetaData.MaxCLL;
         ((VAHdrMetaDataHDR10*)hdr_param.metadata)->max_pic_average_light_level     = _vppConfigInfo->_input_VAHdrMetaData.MaxFALL;
 #endif
-        
+
         hdr_param.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
         hdr_param.metadata_size = sizeof(VAHdrMetaDataHDR10);
     }
 
     ret = vaCreateBuffer(display, ctx_id,
                          VAProcFilterParameterBufferType, sizeof(hdr_param), 1,
-                         &hdr_param, tone_mapping_id);
+                         &hdr_param, hdr_buf_id);
     sts     = va_to_zz_status(ret);
     if (sts != ZZ_ERR_NONE)
     {

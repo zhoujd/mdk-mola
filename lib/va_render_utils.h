@@ -26,7 +26,7 @@ typedef struct _zzCompParamST          zzCompParamST;
 typedef struct _zzFRCParamST           zzFRCParamST;
 typedef struct _zzScalingParamST       zzScalingParamST;
 typedef struct _zzDIADVParamST         zzDIADVParamST;
-typedef struct _zzToneMappingParamST   zzToneMappingParamST;
+typedef struct _zzHDRParamST           zzHDRParamST;
 
 enum _enParamSetFlag
 {
@@ -166,7 +166,7 @@ struct _zzDIADVParamST
     VARectangle      primary_dst;
 };
 
-struct _zzToneMappingParamST
+struct _zzHDRParamST
 {
     //zhoujd
 };
@@ -203,7 +203,7 @@ zzStatus render_picture_vp_frc(VADisplay display, VAContextID ctx_id, VABufferID
 zzStatus render_picture_vp_ief(VADisplay display, VAContextID ctx_id, VABufferID *sharp_buf_id, zzU16 ief_factor);
 zzStatus render_picture_vp_hsbc(VADisplay display, VAContextID ctx_id, VABufferID *hsbc_buf_id, zzF64 hue, zzF64 saturation, zzF64 brightness, zzF64 contrast);
 zzStatus render_picture_vp_dn(VADisplay display, VAContextID ctx_id, VABufferID *noise_buf_id, zzU64 denoise);
-zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID *tone_mapping_id);
+zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID *hdr_buf_id, zzHDRParamST *pParam);
 
 
 
