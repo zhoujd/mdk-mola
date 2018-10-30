@@ -21,7 +21,6 @@ zzStatus render_picture_vp_check_pipeline(VADisplay display, VAContextID ctx_id)
 {
     zzStatus   sts = ZZ_ERR_NONE;
 
-#if 0 //zhoujd may be check in further
     VAStatus   ret = VA_STATUS_SUCCESS;
     VAProcPipelineCaps pipeline_cap;
 
@@ -44,7 +43,6 @@ zzStatus render_picture_vp_check_pipeline(VADisplay display, VAContextID ctx_id)
     }
 
 END:
-#endif //zhoujd
 
     return sts;
 }
@@ -495,49 +493,17 @@ END:
 }
 
 
-zzStatus render_picture_vp_tone(VADisplay display, VAContextID ctx_id, VABufferID *tone_mapping_id)
+zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID *tone_mapping_id)
 {
     zzStatus   sts = ZZ_ERR_NONE;
     VAStatus   ret = VA_STATUS_SUCCESS;
 
-    //Step6: Choose High Dynamic Range
-    zzU8             i = 0;
-    zzU32            supported_filter_num = VAProcFilterCount;
-    VAProcFilterType supported_filter_types[VAProcFilterCount];
-    
-    ret = vaQueryVideoProcFilters(display,
-                                  ctx_id,
-                                  supported_filter_types,
-                                  &supported_filter_num);
-    sts     = va_to_zz_status(ret);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("vaQueryVideoProcFilters error\n");
-        goto END;
-    }
-    
-    for (i = 0; i < supported_filter_num; i++){
-        if (supported_filter_types[i] == VAProcFilterHighDynamicRangeToneMapping)
-            break;
-    }
-    
-    if (i == supported_filter_num) {
-        ZZPRINTF("High Dynamic Range filter is not supported by current driver\n");
-        goto END;
-    }
-
-    //Step7: Query High Dynamic Range EOTF Caps
     VAProcFilterCapHighDynamicRange hdr_cap;
-    zzU32 num_query_caps;
+    zzU32 num_query_caps = 1;
 
-    ZERO_MEMORY(hdr_cap);
-    num_query_caps = 1;
-    
-    ret = vaQueryVideoProcFilterCaps(display,
-                                     ctx_id,
+    ret = vaQueryVideoProcFilterCaps(display, ctx_id,
                                      VAProcFilterHighDynamicRangeToneMapping,
-                                     &hdr_cap,
-                                     &num_query_caps);
+                                     &hdr_cap, &num_query_caps);
     sts     = va_to_zz_status(ret);
     if (sts != ZZ_ERR_NONE)
     {
@@ -545,37 +511,43 @@ zzStatus render_picture_vp_tone(VADisplay display, VAContextID ctx_id, VABufferI
         goto END;
     }
 
+    hdr_cap.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
+
     ZZPRINTF("HDR: metadata_type=%d\n, caps_flag=0x%X\n", hdr_cap.metadata_type, hdr_cap.caps_flag);
 
+    VAHdrMetaData hdr_param;
+    hdr_param.metadata = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
+    if(NULL != hdr_param.metadata)
+    {
 #if 0 //zhoujd
-    //Basic calling sequence for H2S
-    VAProcFilterParameterBufferHdr hdr_param;
-    hdr_param.type = VAProcFilterHighDynamicRangeToneMapping;
-    hdr_param.hdr_meta_data.EOTF = VAProcHdrEotfSmpteSt2084;
-    hdr_param.hdr_meta_data.display_primaries_x[0] = 13250;
-    hdr_param.hdr_meta_data.display_primaries_x[1] = 7500;
-    hdr_param.hdr_meta_data.display_primaries_x[2] = 34000;
-    hdr_param.hdr_meta_data.display_primaries_y[0] = 34500;
-    hdr_param.hdr_meta_data.display_primaries_y[1] = 3000;
-    hdr_param.hdr_meta_data.display_primaries_y[2] = 16000;
-    hdr_param.hdr_meta_data.white_point_x = 15635;
-    hdr_param.hdr_meta_data.white_point_y = 16450;
-    hdr_param.hdr_meta_data.MaxCLL  = 1000;
-    hdr_param.hdr_meta_data.MaxFALL = 400;
-    // create filter buffer ID
-    ret = vaCreateBuffer(display,
-                         ctx_id, VAProcFilterParameterBufferType, sizeof(hdr_param), 1,
-                         &hdr_param,
-                         tone_mapping_id);
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_x[0] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_x[0];
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_x[1] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_x[1];
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_x[2] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_x[2];
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_y[0] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_y[0];
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_y[1] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_y[1];
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->display_primaries_y[2] = _vppConfigInfo->_input_VAHdrMetaData.display_primaries_y[2];
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->white_point_x          = _vppConfigInfo->_input_VAHdrMetaData.white_point_x;
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->white_point_y          = _vppConfigInfo->_input_VAHdrMetaData.white_point_y;
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->max_display_mastering_luminance = _vppConfigInfo->_input_VAHdrMetaData.max_display_mastering_luminance;
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->min_display_mastering_luminance = _vppConfigInfo->_input_VAHdrMetaData.min_display_mastering_luminance;
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->max_content_light_level         = _vppConfigInfo->_input_VAHdrMetaData.MaxCLL;
+        ((VAHdrMetaDataHDR10*)hdr_param.metadata)->max_pic_average_light_level     = _vppConfigInfo->_input_VAHdrMetaData.MaxFALL;
+#endif
+        
+        hdr_param.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
+        hdr_param.metadata_size = sizeof(VAHdrMetaDataHDR10);
+    }
 
+    ret = vaCreateBuffer(display, ctx_id,
+                         VAProcFilterParameterBufferType, sizeof(hdr_param), 1,
+                         &hdr_param, tone_mapping_id);
     sts     = va_to_zz_status(ret);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("vaCreateBuffer error\n");
         goto END;
     }
-#endif
-    
+
 END:
     return sts;
 }

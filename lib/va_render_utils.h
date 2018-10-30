@@ -203,7 +203,7 @@ zzStatus render_picture_vp_frc(VADisplay display, VAContextID ctx_id, VABufferID
 zzStatus render_picture_vp_ief(VADisplay display, VAContextID ctx_id, VABufferID *sharp_buf_id, zzU16 ief_factor);
 zzStatus render_picture_vp_hsbc(VADisplay display, VAContextID ctx_id, VABufferID *hsbc_buf_id, zzF64 hue, zzF64 saturation, zzF64 brightness, zzF64 contrast);
 zzStatus render_picture_vp_dn(VADisplay display, VAContextID ctx_id, VABufferID *noise_buf_id, zzU64 denoise);
-zzStatus render_picture_vp_tone(VADisplay display, VAContextID ctx_id, VABufferID *tone_mapping_id);
+zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID *tone_mapping_id);
 
 
 
