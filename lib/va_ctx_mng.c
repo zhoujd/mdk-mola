@@ -4,9 +4,6 @@
 
 #include "va_ctx_mng.h"
 
-#define GetVaDisplay(p)    (p->va_dpy)
-#define GetDisplay(p)      (p->display)
-
 
 static zzStatus ZZVAContext_CreateVppCtx(VADisplay va_dpy, zzU16 width, zzU16 height, zzU32 *ctx_id);
 
@@ -131,8 +128,6 @@ zzStatus ZZVAContext_Create(zzVAContextST *pSelf)
         ZZPRINTF("InitVA error\n");
         goto END;
     }
-
-    ZZPRINTF("==ZZ HELLO ZHOUJD\n");
 
     //create vpp context
     pSelf->width  = ZZ_CTX_DEF_WIDTH;    //screen height
