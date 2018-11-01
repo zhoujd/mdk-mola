@@ -530,8 +530,6 @@ zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID
         goto END;
     }
 
-    VAHdrMetaData hdr_param;
-
     VAHdrMetaDataHDR10  *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
     if (NULL != pHDRMetaData10)
     {
@@ -571,7 +569,7 @@ zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID
 
     }
 
-
+    VAHdrMetaData hdr_param;
     hdr_param.metadata = pHDRMetaData10;
     hdr_param.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
     hdr_param.metadata_size = sizeof(VAHdrMetaDataHDR10);
