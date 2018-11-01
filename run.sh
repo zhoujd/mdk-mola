@@ -2,6 +2,8 @@
 #set -x
 
 export DISPLAY=:0.0
+export LIBVA_DRIVERS_PATH=/usr/lib/x86_64-linux-gnu/dri/
+export LIBVA_DRIVER_NAME=iHD  
 
 mkdir -p output
 rm -rf output/*
