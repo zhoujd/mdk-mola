@@ -115,18 +115,18 @@ zzStatus ZZMatrix2002_Init(zzMatrix2002ST *pSelf, zzU16 argc, zz_char **argv,
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
+    pSelf->ctx             = pCtx;
+    pSelf->base.pipe_ctrl  = pPipeCtrl;
+    pSelf->src_surf        = *pSrcSurf;
+    pSelf->dst_surf        = *pDstSurf;
+    pSelf->pipelineParamID = VA_INVALID_ID;
+
     sts = ZZMatrix2002_ParseInputString(pSelf, argc, argv);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZMatrix2002_ParseInputString error\n");
         goto END;
     }
-
-    pSelf->base.pipe_ctrl  = pPipeCtrl;
-    pSelf->ctx             = pCtx;
-    pSelf->src_surf        = *pSrcSurf;
-    pSelf->dst_surf        = *pDstSurf;
-    pSelf->pipelineParamID = VA_INVALID_ID;
 
 END:
     return sts;

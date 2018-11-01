@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+#set -x
 
 export DISPLAY=:0.0
 
@@ -33,9 +33,9 @@ run_task_2001()
     ./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output-h2h.a2rgb10 -h2h $h2h_input $h2h_output
 
     ## H2S
-    ./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output.a2rgb10 $h2s_input
+    #./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output.a2rgb10 $h2s_input
     
-    md5sum output/*.a2rgb10
+    #md5sum output/*.a2rgb10
        
     echo "run task 2001 end ..."
 }
@@ -57,7 +57,7 @@ run_task_2002()
     echo "run task 2002 start ..."
     #./zzmediaxapp -task 2002 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc argb -i input-stream/foreman_352x288_20.nv12 -df 30.0 -angle 1 -n 10
     #./zzmediaxapp -task 2002 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc argb -i input-stream/foreman_352x288_20.nv12 -df 30.0 -angle 1
-    ./zzmediaxapp -task 2002 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc argb -i input-stream/foreman_352x288_20.nv12 -df 30.0 -angle 1 -demo
+    ./zzmediaxapp -task 2002 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc argb -i input-stream/foreman_352x288_20.nv12 -df 30.0 -angle 2 -demo
     echo "run task 2002 end ..."    
 }
 

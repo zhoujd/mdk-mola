@@ -132,6 +132,8 @@ zzStatus ZZVAContext_Create(zzVAContextST *pSelf)
         goto END;
     }
 
+    ZZPRINTF("==ZZ HELLO ZHOUJD\n");
+
     //create vpp context
     pSelf->width  = ZZ_CTX_DEF_WIDTH;    //screen height
     pSelf->height = ZZ_CTX_DEF_HEIGHT;   //screen width

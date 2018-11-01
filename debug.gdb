@@ -28,6 +28,7 @@ define task2001
   #set args -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output.a2rgb10 --hdr-input x0=13250:x1=7500:x2=34000:y0=34500:y1=3000:y2=16000:wp_x=15635:wp_y=16450:max_dl=10000:min_dl=1000:max_cl=2000:max_pl=2000
   
   b main
+  b ZZVA_InitVA
   b DdiMedia_RenderPicture
   b DdiVp_RenderPicture
   b DdiVp_SetProcPipelineParams

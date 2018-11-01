@@ -12,7 +12,7 @@ ADD_DEFINITIONS(
   -Wall
   -O0
   -g
-  -DZZ_LIBVA_USE_X11=1
+  -DZZ_LIBVA_USE_X11=0
   -DZZ_DEBUG=0
   )
 
