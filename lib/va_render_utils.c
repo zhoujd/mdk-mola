@@ -34,7 +34,6 @@ zzStatus render_picture_vp_check_pipeline(VADisplay va_dpy, VAContextID ctx_id)
                                        NULL,
                                        0,
                                        &pipeline_cap);
-
     sts     = va_to_zz_status(ret);
     if (sts != ZZ_ERR_NONE)
     {
@@ -98,7 +97,6 @@ zzStatus render_picture_vp_primary(VADisplay va_dpy, VAContextID ctx_id, zzPipel
         ZZPRINTF("vaCreateBuffer error\n");
         goto END;
     }
-
 
 END:
     return sts;
@@ -430,7 +428,6 @@ zzStatus render_picture_vp_hsbc(VADisplay va_dpy, VAContextID ctx_id, VABufferID
         ZZPRINTF("vaCreateBuffer error\n");
         goto END;
     }
-
 
 END:
     return sts;
