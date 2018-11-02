@@ -17,7 +17,7 @@ zzStatus  render_check_factor(float value, float max_value, float min_value, flo
 
 }
 
-zzStatus render_picture_vp_check_pipeline(VADisplay display, VAContextID ctx_id)
+zzStatus render_picture_vp_check_pipeline(VADisplay va_dpy, VAContextID ctx_id)
 {
     zzStatus   sts = ZZ_ERR_NONE;
 
@@ -29,7 +29,7 @@ zzStatus render_picture_vp_check_pipeline(VADisplay display, VAContextID ctx_id)
 
 
     //query caps for pipeline
-    ret = vaQueryVideoProcPipelineCaps(display,
+    ret = vaQueryVideoProcPipelineCaps(va_dpy,
                                        ctx_id,
                                        NULL,
                                        0,
@@ -47,7 +47,7 @@ END:
     return sts;
 }
 
-zzStatus render_picture_vp_primary(VADisplay display, VAContextID ctx_id, zzPipelineBufferST *pParams, VABufferID *primary_buf_id)
+zzStatus render_picture_vp_primary(VADisplay va_dpy, VAContextID ctx_id, zzPipelineBufferST *pParams, VABufferID *primary_buf_id)
 {
     VAStatus   ret = VA_STATUS_SUCCESS;
     zzStatus   sts = ZZ_ERR_NONE;
@@ -84,7 +84,7 @@ zzStatus render_picture_vp_primary(VADisplay display, VAContextID ctx_id, zzPipe
     primary_param.backward_references     = pParams->backward_references;
     primary_param.num_backward_references = pParams->num_backward_references;
 
-    ret = vaCreateBuffer(display,
+    ret = vaCreateBuffer(va_dpy,
                          ctx_id,
                          VAProcPipelineParameterBufferType,
                          sizeof(VAProcPipelineParameterBuffer),
@@ -104,7 +104,7 @@ END:
     return sts;
 }
 
-zzStatus render_picture_vp_subpicture(VADisplay  display, VAContextID ctx_id, zzPipelineBufferST *pParams, VABufferID *subpicture_buf_id)
+zzStatus render_picture_vp_subpicture(VADisplay  va_dpy, VAContextID ctx_id, zzPipelineBufferST *pParams, VABufferID *subpicture_buf_id)
 {
     VAStatus ret   = VA_STATUS_SUCCESS;
     zzStatus sts = ZZ_ERR_NONE;
@@ -139,7 +139,7 @@ zzStatus render_picture_vp_subpicture(VADisplay  display, VAContextID ctx_id, zz
     //subpicture_param.backward_references = 0;
     //subpicture_param.num_backward_references = 0;
 
-    ret = vaCreateBuffer(display,
+    ret = vaCreateBuffer(va_dpy,
                          ctx_id,
                          VAProcPipelineParameterBufferType,
                          sizeof(VAProcPipelineParameterBuffer),
@@ -158,7 +158,7 @@ END:
     return sts;
 }
 
-zzStatus  render_picture_vp_frc(VADisplay display, VAContextID ctx_id, VABufferID *frc_buf_id, zzU32 input_fps, zzU32 output_fps, zzU32 num_frameIDs, VASurfaceID *pID)
+zzStatus  render_picture_vp_frc(VADisplay va_dpy, VAContextID ctx_id, VABufferID *frc_buf_id, zzU32 input_fps, zzU32 output_fps, zzU32 num_frameIDs, VASurfaceID *pID)
 {
     VAStatus   ret = VA_STATUS_SUCCESS;
     zzStatus sts = ZZ_ERR_NONE;
@@ -175,7 +175,7 @@ zzStatus  render_picture_vp_frc(VADisplay display, VAContextID ctx_id, VABufferI
     frc_param.num_output_frames = num_frameIDs;
     frc_param.output_frames     = pID;
 
-    ret = vaCreateBuffer(display,
+    ret = vaCreateBuffer(va_dpy,
                          ctx_id,
                          VAProcFilterParameterBufferType,
                          sizeof(frc_param),
@@ -195,7 +195,7 @@ END:
     return sts;
 }
 
-zzStatus render_picture_vp_ief(VADisplay display, VAContextID ctx_id, VABufferID *sharp_buf_id, zzU16 ief_factor)
+zzStatus render_picture_vp_ief(VADisplay va_dpy, VAContextID ctx_id, VABufferID *sharp_buf_id, zzU16 ief_factor)
 {
     VAStatus   ret = VA_STATUS_SUCCESS;
     zzStatus sts = ZZ_ERR_NONE;
@@ -210,7 +210,7 @@ zzStatus render_picture_vp_ief(VADisplay display, VAContextID ctx_id, VABufferID
     caps_num = 1;
 
     //query capbilities value for sharpness
-    ret = vaQueryVideoProcFilterCaps(display,
+    ret = vaQueryVideoProcFilterCaps(va_dpy,
                                      ctx_id,
                                      VAProcFilterSharpening,
                                      &sharp_caps,
@@ -234,7 +234,7 @@ zzStatus render_picture_vp_ief(VADisplay display, VAContextID ctx_id, VABufferID
     sharp_param.type  = VAProcFilterSharpening;
     sharp_param.value = ief_factor;
     //create buffer
-    ret = vaCreateBuffer(display,
+    ret = vaCreateBuffer(va_dpy,
                          ctx_id,
                          VAProcFilterParameterBufferType,
                          sizeof(sharp_param),
@@ -253,7 +253,7 @@ END:
     return sts;
 }
 
-zzStatus render_picture_vp_di(VADisplay display, VAContextID ctx_id, VABufferID *deint_buf_id, zzDeinterlaceParamST *pParam)
+zzStatus render_picture_vp_di(VADisplay va_dpy, VAContextID ctx_id, VABufferID *deint_buf_id, zzDeinterlaceParamST *pParam)
 {
     VAStatus   ret      = VA_STATUS_SUCCESS;
     zzStatus sts      = ZZ_ERR_NONE;
@@ -269,7 +269,7 @@ zzStatus render_picture_vp_di(VADisplay display, VAContextID ctx_id, VABufferID 
     ZERO_MEMORY(deint_param);
     caps_num = sizeof(deint_caps) / sizeof(deint_caps[0]);
 
-    ret = vaQueryVideoProcFilterCaps(display,
+    ret = vaQueryVideoProcFilterCaps(va_dpy,
                                      ctx_id,
                                      VAProcFilterDeinterlacing,
                                      deint_caps,
@@ -316,7 +316,7 @@ zzStatus render_picture_vp_di(VADisplay display, VAContextID ctx_id, VABufferID 
     }
 #endif //ZZ_UPDATE_DI_SUPPORT
 
-    ret = vaCreateBuffer(display,
+    ret = vaCreateBuffer(va_dpy,
                          ctx_id,
                          VAProcFilterParameterBufferType,
                          sizeof(deint_param),
@@ -337,7 +337,7 @@ END:
 }
 
 
-zzStatus render_picture_vp_hsbc(VADisplay display, VAContextID ctx_id, VABufferID *hsbc_buf_id, zzF64 hue, zzF64 saturation, zzF64 brightness, zzF64 contrast)
+zzStatus render_picture_vp_hsbc(VADisplay va_dpy, VAContextID ctx_id, VABufferID *hsbc_buf_id, zzF64 hue, zzF64 saturation, zzF64 brightness, zzF64 contrast)
 {
     VAStatus   ret = VA_STATUS_SUCCESS;
     zzStatus sts = ZZ_ERR_NONE;
@@ -354,7 +354,7 @@ zzStatus render_picture_vp_hsbc(VADisplay display, VAContextID ctx_id, VABufferI
     ZERO_MEMORY(hsbc_caps);
     caps_num = kCount;
 
-    ret = vaQueryVideoProcFilterCaps(display,
+    ret = vaQueryVideoProcFilterCaps(va_dpy,
                                      ctx_id,
                                      VAProcFilterColorBalance,
                                      &hsbc_caps,
@@ -416,7 +416,7 @@ zzStatus render_picture_vp_hsbc(VADisplay display, VAContextID ctx_id, VABufferI
     hsbc_param[kContrast].attrib = VAProcColorBalanceContrast;
     hsbc_param[kContrast].value  = contrast;
 
-    ret = vaCreateBuffer(display,
+    ret = vaCreateBuffer(va_dpy,
                          ctx_id,
                          VAProcFilterParameterBufferType,
                          sizeof(hsbc_param),
@@ -436,7 +436,7 @@ END:
     return sts;
 }
 
-zzStatus render_picture_vp_dn(VADisplay display, VAContextID ctx_id, VABufferID *noise_buf_id, zzU64 denoise)
+zzStatus render_picture_vp_dn(VADisplay va_dpy, VAContextID ctx_id, VABufferID *noise_buf_id, zzU64 denoise)
 {
     VAStatus   ret = VA_STATUS_SUCCESS;
     zzStatus   sts = ZZ_ERR_NONE;
@@ -450,7 +450,7 @@ zzStatus render_picture_vp_dn(VADisplay display, VAContextID ctx_id, VABufferID 
     ZERO_MEMORY(noise_param);
     caps_num = 1;
 
-    ret = vaQueryVideoProcFilterCaps(display,
+    ret = vaQueryVideoProcFilterCaps(va_dpy,
                                      ctx_id,
                                      VAProcFilterNoiseReduction,
                                      &noise_caps,
@@ -472,7 +472,7 @@ zzStatus render_picture_vp_dn(VADisplay display, VAContextID ctx_id, VABufferID 
     noise_param.type = VAProcFilterNoiseReduction;
     noise_param.value = denoise;
 
-    ret = vaCreateBuffer(display,
+    ret = vaCreateBuffer(va_dpy,
                          ctx_id,
                          VAProcFilterParameterBufferType,
                          sizeof(noise_param),
@@ -493,7 +493,7 @@ END:
 }
 
 
-zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID *hdr_buf_id, zzHDRParamST *pParam)
+zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID *hdr_buf_id, zzHDRParamST *pParam)
 {
     zzStatus   sts = ZZ_ERR_NONE;
     VAStatus   ret = VA_STATUS_SUCCESS;
@@ -501,7 +501,7 @@ zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID
     VAProcFilterCapHighDynamicRange hdr_cap;
     zzU32 num_query_caps = 1;
 
-    ret = vaQueryVideoProcFilterCaps(display, ctx_id,
+    ret = vaQueryVideoProcFilterCaps(va_dpy, ctx_id,
                                      VAProcFilterHighDynamicRangeToneMapping,
                                      &hdr_cap, &num_query_caps);
     sts     = va_to_zz_status(ret);
@@ -578,7 +578,7 @@ zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID
     hdr_param_buf.type = VAProcFilterHighDynamicRangeToneMapping;
     hdr_param_buf.metadata = hdr_param;
 
-    ret = vaCreateBuffer(display, ctx_id,
+    ret = vaCreateBuffer(va_dpy, ctx_id,
                          VAProcFilterParameterBufferType, sizeof(hdr_param_buf), 1,
                          &hdr_param_buf, hdr_buf_id);
     sts     = va_to_zz_status(ret);

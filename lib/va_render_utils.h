@@ -207,16 +207,16 @@ struct _zzPipelineBufferST
     unsigned int            num_backward_references;
 };
 
-zzStatus render_picture_vp_check_pipeline(VADisplay display, VAContextID ctx_id);
-zzStatus render_picture_vp_primary(VADisplay display, VAContextID ctx_id, zzPipelineBufferST *pParams, VABufferID *primary_buf_id);
-zzStatus render_picture_vp_subpicture(VADisplay  display, VAContextID ctx_id, zzPipelineBufferST *pParams, VABufferID *subpicture_buf_id);
+zzStatus render_picture_vp_check_pipeline(VADisplay va_dpy, VAContextID ctx_id);
+zzStatus render_picture_vp_primary(VADisplay va_dpy, VAContextID ctx_id, zzPipelineBufferST *pParams, VABufferID *primary_buf_id);
+zzStatus render_picture_vp_subpicture(VADisplay  va_dpy, VAContextID ctx_id, zzPipelineBufferST *pParams, VABufferID *subpicture_buf_id);
 
-zzStatus render_picture_vp_di(VADisplay display, VAContextID ctx_id, VABufferID *deint_buf_id, zzDeinterlaceParamST *pParam);
-zzStatus render_picture_vp_frc(VADisplay display, VAContextID ctx_id, VABufferID *frc_buf_id, zzU32 input_fps, zzU32 output_fps, zzU32 num_refs, VASurfaceID *pID);
-zzStatus render_picture_vp_ief(VADisplay display, VAContextID ctx_id, VABufferID *sharp_buf_id, zzU16 ief_factor);
-zzStatus render_picture_vp_hsbc(VADisplay display, VAContextID ctx_id, VABufferID *hsbc_buf_id, zzF64 hue, zzF64 saturation, zzF64 brightness, zzF64 contrast);
-zzStatus render_picture_vp_dn(VADisplay display, VAContextID ctx_id, VABufferID *noise_buf_id, zzU64 denoise);
-zzStatus render_picture_vp_hdr(VADisplay display, VAContextID ctx_id, VABufferID *hdr_buf_id, zzHDRParamST *pParam);
+zzStatus render_picture_vp_di(VADisplay va_dpy, VAContextID ctx_id, VABufferID *deint_buf_id, zzDeinterlaceParamST *pParam);
+zzStatus render_picture_vp_frc(VADisplay va_dpy, VAContextID ctx_id, VABufferID *frc_buf_id, zzU32 input_fps, zzU32 output_fps, zzU32 num_refs, VASurfaceID *pID);
+zzStatus render_picture_vp_ief(VADisplay va_dpy, VAContextID ctx_id, VABufferID *sharp_buf_id, zzU16 ief_factor);
+zzStatus render_picture_vp_hsbc(VADisplay va_dpy, VAContextID ctx_id, VABufferID *hsbc_buf_id, zzF64 hue, zzF64 saturation, zzF64 brightness, zzF64 contrast);
+zzStatus render_picture_vp_dn(VADisplay va_dpy, VAContextID ctx_id, VABufferID *noise_buf_id, zzU64 denoise);
+zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID *hdr_buf_id, zzHDRParamST *pParam);
 
 
 
