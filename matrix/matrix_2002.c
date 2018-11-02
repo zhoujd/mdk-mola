@@ -250,11 +250,11 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT601;
         break;
     case ZZ_FOURCC_P010:
-        //pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT2020;
-        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardNone;
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
         break;
     case ZZ_FOURCC_A2RGB10:
-        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardNone;
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT2020;
+        //pSelf->pipelineParam.surface_color_standard = VAProcColorStandardNone;
         break;
     default:
         ZZPRINTF("ZZMatrix2002_ProcNextFrame target unsupport %d\n", refFourcc);
@@ -278,17 +278,28 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT601;
         break;
     case ZZ_FOURCC_P010:
-        //pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT2020;
-        pSelf->pipelineParam.output_color_standard = VAProcColorStandardNone;
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT2020;
         break;
     case ZZ_FOURCC_A2RGB10:
-        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardNone;
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardSRGB;
+        //pSelf->pipelineParam.output_color_standard = VAProcColorStandardSTRGB;
+        //pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT2020;
         break;
     default:
         ZZPRINTF("ZZMatrix2002_ProcNextFrame target unsupport %d\n", targetFourcc);
         sts = ZZ_ERR_UNSUPPORTED;
         goto END;
     }
+
+    ZZPRINTF("IN_C=%d, OUT_C=%d\n", pSelf->pipelineParam.surface_color_standard, pSelf->pipelineParam.output_color_standard);
+
+#if 0 //zhoujd
+    pSelf->pipelineParam.input_color_properties.colour_primaries = 9;
+    pSelf->pipelineParam.output_color_properties.colour_primaries = 9;
+    //pSelf->pipelineParam.output_color_properties.colour_primaries = (_vppConfigInfo->_output_VAHdrMetaData.Etof == 0 ? 1 : 9);
+    pSelf->pipelineParam.input_color_properties.transfer_characteristics = 16;
+    pSelf->pipelineParam.output_color_properties.transfer_characteristics = 16;
+#endif //zhoujd
 
     switch (pSelf->src_surf.frameInfo.PicStruct)
     {
