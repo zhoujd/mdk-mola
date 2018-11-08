@@ -253,8 +253,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
         break;
     case ZZ_FOURCC_A2RGB10:
-        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardBT2020;
-        //pSelf->pipelineParam.surface_color_standard = VAProcColorStandardNone;
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
         break;
     default:
         ZZPRINTF("ZZMatrix2002_ProcNextFrame target unsupport %d\n", refFourcc);
@@ -278,12 +277,10 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT601;
         break;
     case ZZ_FOURCC_P010:
-        pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT2020;
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
         break;
     case ZZ_FOURCC_A2RGB10:
-        pSelf->pipelineParam.output_color_standard = VAProcColorStandardSRGB;
-        //pSelf->pipelineParam.output_color_standard = VAProcColorStandardSTRGB;
-        //pSelf->pipelineParam.output_color_standard = VAProcColorStandardBT2020;
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
         break;
     default:
         ZZPRINTF("ZZMatrix2002_ProcNextFrame target unsupport %d\n", targetFourcc);
@@ -293,10 +290,11 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
 
     ZZPRINTF("IN_C=%d, OUT_C=%d\n", pSelf->pipelineParam.surface_color_standard, pSelf->pipelineParam.output_color_standard);
 
-#if 0 //zhoujd
+#if 1 //zhoujd
+    pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
+    pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
     pSelf->pipelineParam.input_color_properties.colour_primaries = 9;
     pSelf->pipelineParam.output_color_properties.colour_primaries = 9;
-    //pSelf->pipelineParam.output_color_properties.colour_primaries = (_vppConfigInfo->_output_VAHdrMetaData.Etof == 0 ? 1 : 9);
     pSelf->pipelineParam.input_color_properties.transfer_characteristics = 16;
     pSelf->pipelineParam.output_color_properties.transfer_characteristics = 16;
 #endif //zhoujd
@@ -317,54 +315,6 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     pSelf->pipelineParam.filters  = pSelf->filterBufs;
     pSelf->pipelineParam.num_filters  = pSelf->numFilterBufs;
 
-    if (TRUE == pSelf->params.hdr_output_flag)
-    {
-        ZZPRINTF("HDR test ...\n");
-
-        pSelf->pipelineParam.output_hdr_metadata = (VAHdrMetaData *)AllocAndZeroMem(sizeof(VAHdrMetaData));
-        if (NULL != pSelf->pipelineParam.output_hdr_metadata)
-        {
-            pSelf->pipelineParam.output_hdr_metadata->metadata_type = VAProcHighDynamicRangeMetadataHDR10;
-
-            VAHdrMetaDataHDR10 *pHDRMetaData10 = (VAHdrMetaDataHDR10  *)AllocAndZeroMem(sizeof(VAHdrMetaDataHDR10));
-#if 1 //zhoujd
-            zzMatrix2002VpParamsST *pParam = &pSelf->params.vp_params;
-
-            pHDRMetaData10->display_primaries_x[0] = pParam->hdr_output.display_primaries_x[0];
-            pHDRMetaData10->display_primaries_x[1] = pParam->hdr_output.display_primaries_x[1];
-            pHDRMetaData10->display_primaries_x[2] = pParam->hdr_output.display_primaries_x[2];
-            pHDRMetaData10->display_primaries_y[0] = pParam->hdr_output.display_primaries_y[0];
-            pHDRMetaData10->display_primaries_y[1] = pParam->hdr_output.display_primaries_y[1];
-            pHDRMetaData10->display_primaries_y[2] = pParam->hdr_output.display_primaries_y[2];
-
-            pHDRMetaData10->white_point_x = pParam->hdr_output.white_point_x;
-            pHDRMetaData10->white_point_y = pParam->hdr_output.white_point_y;
-
-            pHDRMetaData10->max_display_mastering_luminance = pParam->hdr_output.max_display_mastering_luminance;
-            pHDRMetaData10->min_display_mastering_luminance = pParam->hdr_output.min_display_mastering_luminance;
-            pHDRMetaData10->max_content_light_level         = pParam->hdr_output.max_content_light_level;
-            pHDRMetaData10->max_pic_average_light_level     = pParam->hdr_output.max_pic_average_light_level;
-#else
-            pHDRMetaData10->display_primaries_x[0] = 13250;
-            pHDRMetaData10->display_primaries_x[1] = 7500;
-            pHDRMetaData10->display_primaries_x[2] = 34000;
-            pHDRMetaData10->display_primaries_y[0] = 34500;
-            pHDRMetaData10->display_primaries_y[1] = 3000;
-            pHDRMetaData10->display_primaries_y[2] = 16000;
-
-            pHDRMetaData10->white_point_x = 15635;
-            pHDRMetaData10->white_point_y = 16450;
-
-            pHDRMetaData10->max_display_mastering_luminance = 10000;
-            pHDRMetaData10->min_display_mastering_luminance = 1000;
-            pHDRMetaData10->max_content_light_level         = 2000;
-            pHDRMetaData10->max_pic_average_light_level     = 2000;
-#endif //zhoujd
-
-            pSelf->pipelineParam.output_hdr_metadata->metadata      = pHDRMetaData10;
-            pSelf->pipelineParam.output_hdr_metadata->metadata_size = sizeof(VAHdrMetaDataHDR10);
-        }
-    }
 
     if ( pSelf->pipelineParamID != VA_INVALID_ID)
     {
@@ -456,16 +406,6 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     }
 
 END:
-    if (NULL != pSelf->pipelineParam.output_hdr_metadata)
-    {
-        if (NULL != pSelf->pipelineParam.output_hdr_metadata->metadata)
-        {
-            FREEIF(pSelf->pipelineParam.output_hdr_metadata->metadata);
-        }
-
-        FREEIF(pSelf->pipelineParam.output_hdr_metadata);
-    }
-
     if (pSelf->pipelineParamID != VA_INVALID_ID)
     {
         vaDestroyBuffer(pSelf->ctx->va_dpy, pSelf->pipelineParamID);
