@@ -569,6 +569,7 @@ zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID 
     out_metadata.max_pic_average_light_level     = g_out_pic_average_luminance;
 
     // HDR display or SDR display
+    g_tm_type = VA_TONE_MAPPING_HDR_TO_SDR;
     switch (g_tm_type)
     {
     case VA_TONE_MAPPING_HDR_TO_HDR:

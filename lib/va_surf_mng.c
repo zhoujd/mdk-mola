@@ -340,7 +340,7 @@ zzStatus ZZSurface_FourCC2VaFourCC(zzU32 format_fourcc, int *pformat_va)
         *pformat_va = VA_FOURCC_P010;
         break;
     case ZZ_FOURCC_A2RGB10:
-        *pformat_va = VA_FOURCC_ARGB;
+        *pformat_va = VA_FOURCC_RGBA;
         break;
     default:
         sts = ZZ_ERR_UNSUPPORTED;

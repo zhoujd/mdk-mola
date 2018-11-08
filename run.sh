@@ -2,7 +2,7 @@
 #set -x
 
 export DISPLAY=:0.0
-export LIBVA_DRIVERS_PATH=/usr/lib/x86_64-linux-gnu/dri/
+#export LIBVA_DRIVERS_PATH=/usr/lib/x86_64-linux-gnu/dri/
 export LIBVA_DRIVER_NAME=iHD  
 
 mkdir -p output
@@ -32,10 +32,10 @@ run_task_2001()
     h2s_input="--hdr-input x0=13250:x1=7500:x2=34000:y0=34500:y1=3000:y2=16000:wp_x=15635:wp_y=16450:max_dl=10000:min_dl=1000:max_cl=2000:max_pl=2000"
 
     ## H2H
-    ./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output-h2h.a2rgb10 -h2h $h2h_input $h2h_output
+    #./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output-h2h.a2rgb10 -h2h $h2h_input $h2h_output
 
     ## H2S
-    #./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc a2rgb10 -i input-stream/4K-3840x2160-10.p010 -o output/output.a2rgb10 $h2s_input
+    ./zzmediaxapp -task 2001 -sw 3840 -sh 2160 -dw 3840 -dh 2160 -scc p010 -dcc argb -i input-stream/4K-3840x2160-10.p010 -o output/output.argb $h2s_input
     
     #md5sum output/*.a2rgb10
        

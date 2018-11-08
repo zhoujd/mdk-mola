@@ -1,6 +1,12 @@
+
+#cd /ssh:root@10.239.156.124:/root/build_hdr/mdk-mola
+
 file zzmediaxapp
 
 set env DISPLAY=:0.0
+set env LIBVA_DRIVER_NAME=iHD
+set env LIBVA_DRIVERS_PATH=/opt/hdr/iHD/vpg_driver/lib/dri
+set env LD_LIBRARY_PATH=/opt/hdr/iHD/vpg_driver/lib
 
 set breakpoint pending on
 
@@ -33,6 +39,8 @@ define task2001
   b DdiVp_RenderPicture
   b DdiVp_SetProcPipelineParams
   b DdiVp_GetColorSpace
+  b ZZMatrix2002_ProcNextFrame
+  b render_picture_vp_hdr
 
   r
 end

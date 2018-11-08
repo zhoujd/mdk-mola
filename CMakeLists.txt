@@ -68,5 +68,9 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9002.c
   )
 
+LINK_DIRECTORIES(
+  /opt/hdr/iHD/vpg_driver/lib
+  )
+
 ADD_EXECUTABLE(zzmediaxapp ${SRC_LIST})
 TARGET_LINK_LIBRARIES(zzmediaxapp va va-x11 drm_intel X11 va-drm drm)
