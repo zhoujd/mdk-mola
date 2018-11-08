@@ -291,6 +291,8 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     ZZPRINTF("IN_C=%d, OUT_C=%d\n", pSelf->pipelineParam.surface_color_standard, pSelf->pipelineParam.output_color_standard);
 
 #if 1 //zhoujd
+    pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
+    pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
     pSelf->pipelineParam.input_color_properties.colour_primaries = 9;
     pSelf->pipelineParam.output_color_properties.colour_primaries = 9;
     pSelf->pipelineParam.input_color_properties.transfer_characteristics = 16;
