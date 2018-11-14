@@ -4,8 +4,8 @@ AUTOMAKE_OPTIONS = foreign
 
 DUMP_ROOT        = $(top_builddir)
 APP_ROOT         = $(top_srcdir)
-LIBVA_ROOT       = /usr/include/va
-LIBDRM_ROOT      = /usr/include/libdrm
+LIBVA_ROOT       = /opt/zach/include
+LIBDRM_ROOT      = /usr/include
 
 
 ZZ_CFLAGS = -Wall \
@@ -56,7 +56,7 @@ ZZ_SRC_FILES = \
 	lib/va_surf_mng.c
 
 bin_PROGRAMS        = zzmediaxapp
-zzmediaxapp_LDFLAGS =
+zzmediaxapp_LDFLAGS = -L/opt/zach/lib
 zzmediaxapp_LDADD   = -lva -lva-x11 -ldrm_intel -lX11 -lva-drm -ldrm
 zzmediaxapp_CFLAGS  = $(ZZ_CFLAGS)
 zzmediaxapp_SOURCES = $(ZZ_SRC_FILES)
