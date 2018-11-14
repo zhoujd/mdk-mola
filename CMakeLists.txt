@@ -19,8 +19,7 @@ ADD_DEFINITIONS(
 SET(ZZMEDIAX_ROOT ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax)
 
 INCLUDE_DIRECTORIES (
-  /usr/include/va
-  /usr/include/libdrm
+  /opt/zach/include
   ${ZZMEDIAXAPP_SOURCE_DIR}
   ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax
   ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax/include
@@ -69,7 +68,7 @@ SET(SRC_LIST
   )
 
 LINK_DIRECTORIES(
-  /opt/hdr/iHD/vpg_driver/lib
+  /opt/zach/lib
   )
 
 ADD_EXECUTABLE(zzmediaxapp ${SRC_LIST})
