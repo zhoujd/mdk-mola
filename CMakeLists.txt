@@ -17,8 +17,8 @@ ADD_DEFINITIONS(
   )
 
 find_package(PkgConfig)
-pkg_check_modules(LIBVA libva)
-pkg_check_modules(LIBDRM libdrm)
+pkg_check_modules(LIBVA REQUIRED libva)
+pkg_check_modules(LIBDRM REQUIRED libdrm)
 
 SET(ZZMEDIAX_ROOT ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax)
 
