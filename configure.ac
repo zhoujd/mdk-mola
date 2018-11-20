@@ -12,19 +12,9 @@ AC_PROG_RANLIB
 # Checks for programs.
 AC_PROG_CC
 
-AC_ARG_ENABLE(libudev_use,
-    [AC_HELP_STRING([--enable-libudev_use],
-                    [build use libudev-dev @<:@default=yes@:>@])],
-    [], [enable_libudev_use="yes"])
-
 # Checks for libraries.
-#if test x$enable_libudev_use = xyes; then
-#   PKG_CHECK_MODULES([UDEV], [libudev], [libudev=yes], [libudev=no])
-#   if test "$libudev" = "yes"; then
-#       AC_DEFINE([HAVE_LIBUDEV_DEV], [1], [Defined to 1 if libudev-dev API is built])
-#       LIBS="$LIBS -ludev"
-#   fi
-#fi
+PKG_CHECK_MODULES([LIBVA], [libva])
+PKG_CHECK_MODULES([LIBDRM], [libdrm])
 
 # Checks for header files.
 
@@ -39,5 +29,4 @@ AC_OUTPUT
 echo
 echo "zzmediaxapp - ${VERSION}"
 echo
-echo Use libudev-dev .............. : $enable_libudev_use
 echo
