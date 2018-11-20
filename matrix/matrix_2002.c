@@ -315,8 +315,6 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     pSelf->pipelineParam.filters  = pSelf->filterBufs;
     pSelf->pipelineParam.num_filters  = pSelf->numFilterBufs;
 
-
-
     if (TRUE == pSelf->params.hdr_output_flag)
     {
         ZZPRINTF("HDR test ...\n");
