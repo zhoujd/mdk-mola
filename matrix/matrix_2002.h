@@ -36,7 +36,7 @@ struct _zzMatrix2002InputParamsST
 {
     zzMatrix2002VpParamsST  vp_params;
     zzU32                   rota_angle;
-    zzBOOL                  hdr_output_flag;
+    zzU16                   hdr_type;
 };
 
 
@@ -62,7 +62,6 @@ struct _zzMatrix2002ST
 
     VAHdrMetaDataHDR10              out_metadata;
     VAHdrMetaData                   out_hdr_metadata;
-
 
     zzMatrix2002InputParamsST       params;
 };

@@ -290,14 +290,27 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
 
     ZZPRINTF("IN_C=%d, OUT_C=%d\n", pSelf->pipelineParam.surface_color_standard, pSelf->pipelineParam.output_color_standard);
 
-#if 1 //zhoujd
-    pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
-    pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
-    pSelf->pipelineParam.input_color_properties.colour_primaries = 9;
-    pSelf->pipelineParam.output_color_properties.colour_primaries = 9;
-    pSelf->pipelineParam.input_color_properties.transfer_characteristics = 16;
-    pSelf->pipelineParam.output_color_properties.transfer_characteristics = 16;
-#endif //zhoujd
+    switch (pSelf->params.hdr_type)
+    {
+    case VA_TONE_MAPPING_HDR_TO_HDR:
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
+        pSelf->pipelineParam.input_color_properties.colour_primaries = 9;
+        pSelf->pipelineParam.output_color_properties.colour_primaries = 9;
+        pSelf->pipelineParam.input_color_properties.transfer_characteristics = 16;
+        pSelf->pipelineParam.output_color_properties.transfer_characteristics = 16;
+        break;
+    case VA_TONE_MAPPING_HDR_TO_SDR:
+        pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
+        pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
+        pSelf->pipelineParam.input_color_properties.colour_primaries = 9;
+        pSelf->pipelineParam.output_color_properties.colour_primaries = 1;
+        pSelf->pipelineParam.input_color_properties.transfer_characteristics = 16;
+        pSelf->pipelineParam.output_color_properties.transfer_characteristics = 16;
+        break;
+    default:
+        break;
+    }
 
     switch (pSelf->src_surf.frameInfo.PicStruct)
     {
@@ -315,7 +328,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     pSelf->pipelineParam.filters  = pSelf->filterBufs;
     pSelf->pipelineParam.num_filters  = pSelf->numFilterBufs;
 
-    if (TRUE == pSelf->params.hdr_output_flag)
+    if (pSelf->params.hdr_type == VA_TONE_MAPPING_HDR_TO_HDR)
     {
         ZZPRINTF("HDR test ...\n");
 
@@ -323,6 +336,21 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         ZERO_MEMORY(pSelf->out_hdr_metadata);
 
         // The output is HDR content
+#if 1 //zhoujd
+        zzMatrix2002VpParamsST *pParam = &pSelf->params.vp_params;
+        pSelf->out_metadata.max_display_mastering_luminance = pParam->hdr_output.max_display_mastering_luminance;
+        pSelf->out_metadata.min_display_mastering_luminance = pParam->hdr_output.min_display_mastering_luminance;
+        pSelf->out_metadata.max_content_light_level         = pParam->hdr_output.max_content_light_level;
+        pSelf->out_metadata.max_pic_average_light_level     = pParam->hdr_output.max_pic_average_light_level;
+        pSelf->out_metadata.display_primaries_x[0] = pParam->hdr_output.display_primaries_x[0];
+        pSelf->out_metadata.display_primaries_x[1] = pParam->hdr_output.display_primaries_x[1];
+        pSelf->out_metadata.display_primaries_x[2] = pParam->hdr_output.display_primaries_x[2];
+        pSelf->out_metadata.display_primaries_y[0] = pParam->hdr_output.display_primaries_y[0];
+        pSelf->out_metadata.display_primaries_y[1] = pParam->hdr_output.display_primaries_y[1];
+        pSelf->out_metadata.display_primaries_y[2] = pParam->hdr_output.display_primaries_y[2];
+        pSelf->out_metadata.white_point_x = pParam->hdr_output.white_point_x;
+        pSelf->out_metadata.white_point_y = pParam->hdr_output.white_point_y;
+#else
         pSelf->out_metadata.max_display_mastering_luminance = 1000;
         pSelf->out_metadata.min_display_mastering_luminance = 1;
         pSelf->out_metadata.max_content_light_level         = 4000;
@@ -335,6 +363,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->out_metadata.display_primaries_y[2] = 2300;
         pSelf->out_metadata.white_point_x = 15635;
         pSelf->out_metadata.white_point_y = 16450;
+#endif //zhoujd
 
         pSelf->out_hdr_metadata.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
         pSelf->out_hdr_metadata.metadata      = &pSelf->out_metadata;
@@ -468,7 +497,11 @@ zzStatus ZZMatrix2002_ParseInputString(zzMatrix2002ST *pSelf, int nArgNum, char 
             }
             else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-h2h")))
             {
-                pSelf->params.hdr_output_flag = TRUE;
+                pSelf->params.hdr_type = VA_TONE_MAPPING_HDR_TO_HDR;
+            }
+            else if (0 == zz_strcmp(strInput[i], ZZ_STRING("-h2s")))
+            {
+                pSelf->params.hdr_type = VA_TONE_MAPPING_HDR_TO_SDR;
             }
         }
     }

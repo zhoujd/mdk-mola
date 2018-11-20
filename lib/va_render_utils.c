@@ -531,6 +531,20 @@ zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID 
     VAHdrMetaDataHDR10 in_metadata = {};
 
     // The input is HDR content
+#if 1 //zhoujd
+    in_metadata.max_display_mastering_luminance = param_hdr_in->max_display_mastering_luminance;
+    in_metadata.min_display_mastering_luminance = param_hdr_in->min_display_mastering_luminance;
+    in_metadata.max_content_light_level         = param_hdr_in->max_content_light_level;
+    in_metadata.max_pic_average_light_level     = param_hdr_in->max_pic_average_light_level;
+    in_metadata.display_primaries_x[0] = param_hdr_in->display_primaries_x[0];
+    in_metadata.display_primaries_x[1] = param_hdr_in->display_primaries_x[1];
+    in_metadata.display_primaries_x[2] = param_hdr_in->display_primaries_x[2];
+    in_metadata.display_primaries_y[0] = param_hdr_in->display_primaries_y[0];
+    in_metadata.display_primaries_y[1] = param_hdr_in->display_primaries_y[1];
+    in_metadata.display_primaries_y[2] = param_hdr_in->display_primaries_y[2];
+    in_metadata.white_point_x = param_hdr_in->white_point_x;
+    in_metadata.white_point_y = param_hdr_in->white_point_y;
+#else
     in_metadata.max_display_mastering_luminance = 1000;
     in_metadata.min_display_mastering_luminance = 1;
     in_metadata.max_content_light_level         = 4000;
@@ -543,6 +557,7 @@ zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID 
     in_metadata.display_primaries_y[2] = 2300;
     in_metadata.white_point_x = 15635;
     in_metadata.white_point_y = 16450;
+#endif //zhoujd
 
     hdrtm_param.type = VAProcFilterHighDynamicRangeToneMapping;
     hdrtm_param.data.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
