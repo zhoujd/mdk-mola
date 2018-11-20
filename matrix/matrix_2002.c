@@ -316,6 +316,35 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
     pSelf->pipelineParam.num_filters  = pSelf->numFilterBufs;
 
 
+
+    if (TRUE == pSelf->params.hdr_output_flag)
+    {
+        ZZPRINTF("HDR test ...\n");
+
+        ZERO_MEMORY(pSelf->out_metadata);
+        ZERO_MEMORY(pSelf->out_hdr_metadata);
+
+        // The output is HDR content
+        pSelf->out_metadata.max_display_mastering_luminance = 1000;
+        pSelf->out_metadata.min_display_mastering_luminance = 1;
+        pSelf->out_metadata.max_content_light_level         = 4000;
+        pSelf->out_metadata.max_pic_average_light_level     = 1000;
+        pSelf->out_metadata.display_primaries_x[0] = 8500;
+        pSelf->out_metadata.display_primaries_y[0] = 39850;
+        pSelf->out_metadata.display_primaries_x[1] = 35400;
+        pSelf->out_metadata.display_primaries_y[1] = 14600;
+        pSelf->out_metadata.display_primaries_x[2] = 6550;
+        pSelf->out_metadata.display_primaries_y[2] = 2300;
+        pSelf->out_metadata.white_point_x = 15635;
+        pSelf->out_metadata.white_point_y = 16450;
+
+        pSelf->out_hdr_metadata.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
+        pSelf->out_hdr_metadata.metadata      = &pSelf->out_metadata;
+        pSelf->out_hdr_metadata.metadata_size = sizeof(VAHdrMetaDataHDR10);
+
+        pSelf->pipelineParam.output_hdr_metadata = &pSelf->out_hdr_metadata;
+    }
+
     if ( pSelf->pipelineParamID != VA_INVALID_ID)
     {
         vaDestroyBuffer(pSelf->ctx->va_dpy, pSelf->pipelineParamID);

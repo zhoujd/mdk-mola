@@ -216,7 +216,7 @@ zzStatus render_picture_vp_frc(VADisplay va_dpy, VAContextID ctx_id, VABufferID 
 zzStatus render_picture_vp_ief(VADisplay va_dpy, VAContextID ctx_id, VABufferID *sharp_buf_id, zzU16 ief_factor);
 zzStatus render_picture_vp_hsbc(VADisplay va_dpy, VAContextID ctx_id, VABufferID *hsbc_buf_id, zzF64 hue, zzF64 saturation, zzF64 brightness, zzF64 contrast);
 zzStatus render_picture_vp_dn(VADisplay va_dpy, VAContextID ctx_id, VABufferID *noise_buf_id, zzU64 denoise);
-zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID *hdr_buf_id, zzHDRParamST *pParam);
+zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID *hdr_buf_id, zzHDRParamST *param_hdr_in);
 
 
 

@@ -60,6 +60,10 @@ struct _zzMatrix2002ST
 
     zzBOOL                          bCompFlag;
 
+    VAHdrMetaDataHDR10              out_metadata;
+    VAHdrMetaData                   out_hdr_metadata;
+
+
     zzMatrix2002InputParamsST       params;
 };
 
