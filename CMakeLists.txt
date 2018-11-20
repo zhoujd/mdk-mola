@@ -16,15 +16,20 @@ ADD_DEFINITIONS(
   -DZZ_DEBUG=0
   )
 
+find_package(PkgConfig)
+pkg_check_modules(LIBVA libva)
+pkg_check_modules(LIBDRM libdrm)
+
 SET(ZZMEDIAX_ROOT ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax)
 
 INCLUDE_DIRECTORIES (
-  /opt/zach/include
+  ${LIBVA_INCLUDE_DIRS}
+  ${LIBDRM_INCLUDE_DIRS}
+  ${ZZMEDIAX_ROOT}
+  ${ZZMEDIAX_ROOT}/include
+  ${ZZMEDIAX_ROOT}/framework
+  ${ZZMEDIAX_ROOT}/utils
   ${ZZMEDIAXAPP_SOURCE_DIR}
-  ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax
-  ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax/include
-  ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax/framework
-  ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax/utils
   ${ZZMEDIAXAPP_SOURCE_DIR}/task
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib
@@ -33,6 +38,7 @@ INCLUDE_DIRECTORIES (
 SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediaxapp.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediaxapp_register.c
+
   ${ZZMEDIAX_ROOT}/main.c
   ${ZZMEDIAX_ROOT}/framework/app_base.c
   ${ZZMEDIAX_ROOT}/framework/dispatch.c
@@ -67,9 +73,12 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9002.c
   )
 
+
 LINK_DIRECTORIES(
-  /opt/zach/lib
+  ${LIBVA_LIBRARY_DIRS}
+  ${LIBDRM_LIBRARY_DIRS}
   )
+
 
 ADD_EXECUTABLE(zzmediaxapp ${SRC_LIST})
 TARGET_LINK_LIBRARIES(zzmediaxapp va va-x11 drm_intel X11 va-drm drm)
