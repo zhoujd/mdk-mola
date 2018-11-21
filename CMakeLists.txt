@@ -16,7 +16,7 @@ ADD_DEFINITIONS(
   -DZZ_DEBUG=0
   )
 
-find_package(PkgConfig)
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBVA REQUIRED libva)
 pkg_check_modules(LIBDRM REQUIRED libdrm)
 

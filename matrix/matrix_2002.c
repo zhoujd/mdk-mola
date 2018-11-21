@@ -302,11 +302,11 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         break;
     case VA_TONE_MAPPING_HDR_TO_SDR:
         pSelf->pipelineParam.surface_color_standard = VAProcColorStandardExplicit;
-        pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
+        //pSelf->pipelineParam.output_color_standard = VAProcColorStandardExplicit;
         pSelf->pipelineParam.input_color_properties.colour_primaries = 9;
-        pSelf->pipelineParam.output_color_properties.colour_primaries = 1;
+        //pSelf->pipelineParam.output_color_properties.colour_primaries = 1;
         pSelf->pipelineParam.input_color_properties.transfer_characteristics = 16;
-        pSelf->pipelineParam.output_color_properties.transfer_characteristics = 16;
+        //pSelf->pipelineParam.output_color_properties.transfer_characteristics = 16;
         break;
     default:
         break;
