@@ -11,7 +11,7 @@
 typedef struct ZZAVCodec {
     ZZCodec             base;
 
-    AVCodecContext     *codec_ctx[2];
+    AVCodecContext     *codec_ctx;
 
 } ZZAVCodec;
 
