@@ -17,15 +17,31 @@ ADD_DEFINITIONS(
   )
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBVA REQUIRED libva)
-pkg_check_modules(LIBDRM REQUIRED libdrm)
-pkg_check_modules(FFMPEG REQUIRED libavdevice   
-                                  libavformat   
-                                  libavfilter   
-                                  libavcodec    
-                                  libswresample 
-                                  libswscale    
-                                  libavutil)     
+
+SET(LIBVA_LIBS
+  libva
+  libva-x11
+  libva-drm)
+pkg_check_modules(LIBVA REQUIRED ${LIBVA_LIBS})
+
+SET(LIBDRM_LIBS
+  libdrm
+  libdrm_intel)
+pkg_check_modules(LIBDRM REQUIRED ${LIBDRM_LIBS})
+
+SET(X11_LIBS
+  x11)
+pkg_check_modules(LIBDRM REQUIRED ${X11_LIBS})
+
+SET(FFMPEG_LIBS
+  libavdevice
+  libavformat
+  libavfilter
+  libavcodec
+  libswresample
+  libswscale
+  libavutil)
+pkg_check_modules(FFMPEG REQUIRED ${FFMPEG_LIBS})
 
 SET(ZZMEDIAX_ROOT ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax)
 
@@ -59,7 +75,7 @@ SET(SRC_LIST
   ${ZZMEDIAX_ROOT}/framework/task_mng.c
   ${ZZMEDIAX_ROOT}/utils/split_str.c
   ${ZZMEDIAX_ROOT}/utils/utils.c
-  
+
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_ctx_mng.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_utils.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_surf_mng.c
@@ -74,13 +90,12 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_1001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_2001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_2002.c
-  
+
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_1002.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_2002.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix/matrix_9002.c
   )
-
 
 LINK_DIRECTORIES(
   ${LIBVA_LIBRARY_DIRS}
@@ -88,6 +103,9 @@ LINK_DIRECTORIES(
   ${FFMPEG_LIBRARY_DIRS}
   )
 
-
 ADD_EXECUTABLE(zzmediaxapp ${SRC_LIST})
-TARGET_LINK_LIBRARIES(zzmediaxapp va va-x11 drm_intel X11 va-drm drm)
+TARGET_LINK_LIBRARIES(zzmediaxapp
+  ${LIBVA_LIBRARIES}
+  ${LIBDRM_LIBRARIES}
+  ${X11_LIBRARIES}
+  ${FFMPEG_LIBRARIES})
