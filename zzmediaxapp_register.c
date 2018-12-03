@@ -68,6 +68,13 @@ zzStatus ZZMediaxApp_MatrixHelpRegister(zzAppST *pApp)
         goto END;
     }
 
+    sts = ZZMatrix2003_HelpRegister();
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrix2003_HelpRegister error\n");
+        goto END;
+    }
+
     //init Matrix 9001
     sts = ZZMatrix9001_HelpRegister();
     if (sts != ZZ_ERR_NONE)
