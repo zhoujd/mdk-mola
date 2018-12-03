@@ -76,14 +76,14 @@ SET(SRC_LIST
   ${ZZMEDIAX_ROOT}/utils/split_str.c
   ${ZZMEDIAX_ROOT}/utils/utils.c
 
-  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/context.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/codec.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/utils/format.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/utils/frame.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/utils/packet.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/utils/stream.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/utils/buffer.c
  
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_context.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_codec.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_format.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_frame.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_packet.c

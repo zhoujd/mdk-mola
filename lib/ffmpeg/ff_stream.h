@@ -10,7 +10,7 @@ typedef struct ZZAVStream {
     ZZStream           base;
 
     int                video_stream;
-    AVStream           *stream[2];
+    AVStream           *stream;
 
 } ZZAVStream;
 
