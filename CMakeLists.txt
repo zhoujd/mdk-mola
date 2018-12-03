@@ -87,6 +87,11 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_reader.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_writer.c
 
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/context.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/format.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/frame.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/packet.c
+  
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_1001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_2001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_2002.c
