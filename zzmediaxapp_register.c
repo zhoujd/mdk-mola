@@ -24,7 +24,15 @@ zzStatus ZZMediaxApp_TaskRegister(zzAppST *pApp)
     sts = ZZTask2002_Register();
     if (sts != ZZ_ERR_NONE)
     {
-        ZZPRINTF("ZZTask1002_Regist error\n");
+        ZZPRINTF("ZZTask2002_Regist error\n");
+        goto END;
+    }
+
+    //init Task 2003
+    sts = ZZTask2003_Register();
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZTask2003_Regist error\n");
         goto END;
     }
 
@@ -44,6 +52,13 @@ zzStatus ZZMediaxApp_MatrixHelpRegister(zzAppST *pApp)
         goto END;
     }
 
+    //init Matrix 1003
+    sts = ZZMatrix1003_HelpRegister();
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrix1003_HelpRegister error\n");
+        goto END;
+    }
 
     //init Matrix 1002
     sts = ZZMatrix2002_HelpRegister();
@@ -54,7 +69,7 @@ zzStatus ZZMediaxApp_MatrixHelpRegister(zzAppST *pApp)
     }
 
     //init Matrix 9001
-    sts = ZZMatrix9002_HelpRegister();
+    sts = ZZMatrix9001_HelpRegister();
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZMatrix9001_HelpRegister error\n");
@@ -69,6 +84,12 @@ zzStatus ZZMediaxApp_MatrixHelpRegister(zzAppST *pApp)
         goto END;
     }
 
+    sts = ZZMatrix9003_HelpRegister();
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZMatrix9003_HelpRegister error\n");
+        goto END;
+    }
 
 END:
     return sts;
