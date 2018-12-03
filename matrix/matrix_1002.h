@@ -6,8 +6,8 @@
 
 #include "cmn.h"
 #include "matrix_defs.h"
-#include "frame_reader.h"
-#include "va_surf_mng.h"
+#include "lib/frame_reader.h"
+#include "lib/va_surf_mng.h"
 
 #define MATRIX1002_ID    (1002)
 

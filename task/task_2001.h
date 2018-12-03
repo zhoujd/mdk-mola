@@ -9,8 +9,8 @@
 #include "matrix_1002.h"
 #include "matrix_2002.h"
 #include "matrix_9002.h"
-#include "va_ctx_mng.h"
-#include "va_surf_mng.h"
+#include "lib/va_ctx_mng.h"
+#include "lib/va_surf_mng.h"
 
 #define TASK2001_ID  (2001)
 

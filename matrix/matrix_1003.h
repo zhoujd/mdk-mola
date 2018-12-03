@@ -6,8 +6,13 @@
 
 #include "cmn.h"
 #include "matrix_defs.h"
-#include "frame_reader.h"
-#include "va_surf_mng.h"
+#include <libavutil/hwcontext.h>
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+
+
+#include "lib/frame_reader.h"
+#include "lib/va_surf_mng.h"
 
 #define MATRIX1003_ID    (1003)
 

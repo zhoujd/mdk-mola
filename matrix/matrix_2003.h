@@ -6,9 +6,9 @@
 
 #include "cmn.h"
 #include "matrix_defs.h"
-#include "va_surf_mng.h"
-#include "va_render_utils.h"
-#include "va_render_parser.h"
+#include "lib/va_surf_mng.h"
+#include "lib/va_render_utils.h"
+#include "lib/va_render_parser.h"
 
 #define MATRIX2003_ID    (2003)
 
