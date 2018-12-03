@@ -76,6 +76,20 @@ SET(SRC_LIST
   ${ZZMEDIAX_ROOT}/utils/split_str.c
   ${ZZMEDIAX_ROOT}/utils/utils.c
 
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/context.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/format.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/frame.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/packet.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/stream.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/buffer.c
+ 
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_context.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_format.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_frame.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_packet.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_stream.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_buffer.c
+  
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/va_ctx_mng.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/va_utils.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/va_surf_mng.c
@@ -86,11 +100,6 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_cmn_write.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_reader.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_writer.c
-
-  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/context.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/format.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/frame.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/utils/packet.c
   
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_1001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_2001.c
