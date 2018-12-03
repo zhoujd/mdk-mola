@@ -96,7 +96,7 @@ zzStatus ZZTask2003_Help(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
     int                    i  = 0;
     const static zz_char*  help_doc[] = {
         ZZ_STRING("Task 2003 help welcome"),
-        ZZ_STRING("Task 2003 = Matrix1002 + Matrix2003 + Matrix9001"),
+        ZZ_STRING("Task 2003 = Matrix1003 + Matrix2003 + Matrix9003"),
         ZZ_STRING("Task 2003 example:"),
         ZZ_STRING("-task 2003 -sw 352 -sh 288 -dw 720 -dh 576 -scc nv12 -dcc nv12 -i input.nv12 -o output.nv12 -angle 1"),
         ZZ_STRING("-task 2003 -sw 352 -sh 288 -dw 352 -dh 288 -scc nv12 -dcc nv12 -spic 0 -dpic 1  -i input.nv12 -o output.nv12 --deinterlace algo=bob"),
@@ -274,7 +274,7 @@ zzStatus ZZTask2003_Release(zzTaskBaseST *pTaskBase)
         goto END;
     }
 
-    //release martix 1002
+    //release martix 1003
     sts = ZZTask2003_ReleaseMatrix(pSelf);
     if (sts != ZZ_ERR_NONE)
     {
@@ -298,13 +298,13 @@ zzStatus ZZTask2003_ReleaseMatrix(zzTask2003ST  *pSelf)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
 
-    //release martix 1002
-    if (NULL != pSelf->pMatrix1002)
+    //release martix 1003
+    if (NULL != pSelf->pMatrix1003)
     {
-        sts = ZZMatrix1002_Release(pSelf->pMatrix1002);
+        sts = ZZMatrix1003_Release(pSelf->pMatrix1003);
         if (sts != ZZ_ERR_NONE)
         {
-            ZZPRINTF("ZZMatrix2003_Release 1002 error\n");
+            ZZPRINTF("ZZMatrix2003_Release 1003 error\n");
             goto END;
         }
     }
@@ -320,13 +320,13 @@ zzStatus ZZTask2003_ReleaseMatrix(zzTask2003ST  *pSelf)
         }
     }
 
-    //release martix 9001
-    if (NULL != pSelf->pMatrix9001)
+    //release martix 9003
+    if (NULL != pSelf->pMatrix9003)
     {
-        sts = ZZMatrix9001_Release(pSelf->pMatrix9001);
+        sts = ZZMatrix9003_Release(pSelf->pMatrix9003);
         if (sts != ZZ_ERR_NONE)
         {
-            ZZPRINTF("ZZMatrix2003_Release 9001 error\n");
+            ZZPRINTF("ZZMatrix2003_Release 9003 error\n");
             goto END;
         }
     }
@@ -416,26 +416,26 @@ zzStatus ZZTask2003_InitMatrix(zzTask2003ST  *pSelf, zzU16 argc, zz_char **argv)
 {
     zzStatus       sts    = ZZ_ERR_NONE;
 
-    //create martix 1002
-    sts = ZZMatrix1002_Create(&pSelf->pMatrix1002);
+    //create martix 1003
+    sts = ZZMatrix1003_Create(&pSelf->pMatrix1003);
     if (sts != ZZ_ERR_NONE)
     {
-        ZZPRINTF("ZZMatrix1002_Create  error\n");
+        ZZPRINTF("ZZMatrix1003_Create  error\n");
         goto END;
     }
 
-    //init martix 1002
-    sts = ZZMatrix1002_Init(pSelf->pMatrix1002, argc, argv,
+    //init martix 1003
+    sts = ZZMatrix1003_Init(pSelf->pMatrix1003, argc, argv,
                             &pSelf->base.pipe_ctrl,
                             &pSelf->surface[TASK2003_SCALING_SRC], pSelf->params.strSrcFile);
     if (sts != ZZ_ERR_NONE)
     {
-        ZZPRINTF("ZZMatrix1002_Init  error\n");
+        ZZPRINTF("ZZMatrix1003_Init  error\n");
         goto END;
     }
 
     //attach matrix to task
-    sts = ZZTaskBase_AttachMatrix(&pSelf->base, &pSelf->pMatrix1002->base);
+    sts = ZZTaskBase_AttachMatrix(&pSelf->base, &pSelf->pMatrix1003->base);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTaskBase_AttachMatrix  error\n");
@@ -469,26 +469,27 @@ zzStatus ZZTask2003_InitMatrix(zzTask2003ST  *pSelf, zzU16 argc, zz_char **argv)
         ZZPRINTF("ZZTaskBase_AttachMatrix  error\n");
         goto END;
     }
-    //create martix 9001
-    sts = ZZMatrix9001_Create(&pSelf->pMatrix9001);
+    //create martix 9003
+    sts = ZZMatrix9003_Create(&pSelf->pMatrix9003);
     if (sts != ZZ_ERR_NONE)
     {
-        ZZPRINTF("ZZMatrix9001_Create  error\n");
+        ZZPRINTF("ZZMatrix9003_Create  error\n");
         goto END;
     }
 
-    //init martix 9001
-    sts = ZZMatrix9001_Init(pSelf->pMatrix9001, argc, argv,
+    //init martix 9003
+    sts = ZZMatrix9003_Init(pSelf->pMatrix9003, argc, argv,
                             &pSelf->base.pipe_ctrl,
-                            &pSelf->surface[TASK2003_SCALING_DST]);
+                            &pSelf->surface[TASK2003_SCALING_DST],
+                            "dump.yuv");
     if (sts != ZZ_ERR_NONE)
     {
-        ZZPRINTF("ZZMatrix9001_Init  error\n");
+        ZZPRINTF("ZZMatrix9003_Init  error\n");
         goto END;
     }
 
     //attach matrix to task
-    sts = ZZTaskBase_AttachMatrix(&pSelf->base, &pSelf->pMatrix9001->base);
+    sts = ZZTaskBase_AttachMatrix(&pSelf->base, &pSelf->pMatrix9003->base);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTaskBase_AttachMatrix  error\n");
