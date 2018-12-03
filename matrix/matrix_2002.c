@@ -335,7 +335,6 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         ZERO_MEMORY(pSelf->out_hdr_metadata);
 
         // The output is HDR content
-#if 1 //zhoujd
         zzMatrix2002VpParamsST *pParam = &pSelf->params.vp_params;
         pSelf->out_metadata.max_display_mastering_luminance = pParam->hdr_output.max_display_mastering_luminance;
         pSelf->out_metadata.min_display_mastering_luminance = pParam->hdr_output.min_display_mastering_luminance;
@@ -349,20 +348,6 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         pSelf->out_metadata.display_primaries_y[2] = pParam->hdr_output.display_primaries_y[2];
         pSelf->out_metadata.white_point_x = pParam->hdr_output.white_point_x;
         pSelf->out_metadata.white_point_y = pParam->hdr_output.white_point_y;
-#else
-        pSelf->out_metadata.max_display_mastering_luminance = 1000;
-        pSelf->out_metadata.min_display_mastering_luminance = 1;
-        pSelf->out_metadata.max_content_light_level         = 4000;
-        pSelf->out_metadata.max_pic_average_light_level     = 1000;
-        pSelf->out_metadata.display_primaries_x[0] = 8500;
-        pSelf->out_metadata.display_primaries_y[0] = 39850;
-        pSelf->out_metadata.display_primaries_x[1] = 35400;
-        pSelf->out_metadata.display_primaries_y[1] = 14600;
-        pSelf->out_metadata.display_primaries_x[2] = 6550;
-        pSelf->out_metadata.display_primaries_y[2] = 2300;
-        pSelf->out_metadata.white_point_x = 15635;
-        pSelf->out_metadata.white_point_y = 16450;
-#endif //zhoujd
 
         pSelf->out_hdr_metadata.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
         pSelf->out_hdr_metadata.metadata      = &pSelf->out_metadata;
