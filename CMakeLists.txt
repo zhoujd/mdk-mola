@@ -19,12 +19,20 @@ ADD_DEFINITIONS(
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBVA REQUIRED libva)
 pkg_check_modules(LIBDRM REQUIRED libdrm)
+pkg_check_modules(FFMPEG REQUIRED libavdevice   
+                                  libavformat   
+                                  libavfilter   
+                                  libavcodec    
+                                  libswresample 
+                                  libswscale    
+                                  libavutil)     
 
 SET(ZZMEDIAX_ROOT ${ZZMEDIAXAPP_SOURCE_DIR}/zzmediax)
 
 INCLUDE_DIRECTORIES (
   ${LIBVA_INCLUDE_DIRS}
   ${LIBDRM_INCLUDE_DIRS}
+  ${FFMPEG_INCLUDE_DIRS}
   ${ZZMEDIAX_ROOT}
   ${ZZMEDIAX_ROOT}/include
   ${ZZMEDIAX_ROOT}/framework
@@ -77,6 +85,7 @@ SET(SRC_LIST
 LINK_DIRECTORIES(
   ${LIBVA_LIBRARY_DIRS}
   ${LIBDRM_LIBRARY_DIRS}
+  ${FFMPEG_LIBRARY_DIRS}
   )
 
 
