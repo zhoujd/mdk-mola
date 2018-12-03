@@ -10,9 +10,8 @@
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 
-
-#include "lib/frame_reader.h"
-#include "lib/va_surf_mng.h"
+#include "vaapi/frame_reader.h"
+#include "vaapi/va_surf_mng.h"
 
 #define MATRIX1003_ID    (1003)
 

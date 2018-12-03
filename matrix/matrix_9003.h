@@ -6,8 +6,8 @@
 
 #include "cmn.h"
 #include "matrix_defs.h"
-#include "lib/frame_writer.h"
-#include "lib/va_surf_mng.h"
+#include "vaapi/frame_writer.h"
+#include "vaapi/va_surf_mng.h"
 
 #define MATRIX9003_ID   (9003)
 

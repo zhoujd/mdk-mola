@@ -9,7 +9,7 @@
 
 #include "cmn.h"
 #include "matrix_defs.h"
-#include "lib/va_surf_mng.h"
+#include "vaapi/va_surf_mng.h"
 
 #define MATRIX9001_ID   (9001)
 

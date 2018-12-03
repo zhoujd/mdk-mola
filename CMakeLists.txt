@@ -56,6 +56,7 @@ INCLUDE_DIRECTORIES (
   ${ZZMEDIAXAPP_SOURCE_DIR}
   ${ZZMEDIAXAPP_SOURCE_DIR}/task
   ${ZZMEDIAXAPP_SOURCE_DIR}/matrix
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib
   )
 
 SET(SRC_LIST
@@ -75,16 +76,16 @@ SET(SRC_LIST
   ${ZZMEDIAX_ROOT}/utils/split_str.c
   ${ZZMEDIAX_ROOT}/utils/utils.c
 
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_ctx_mng.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_utils.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_surf_mng.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_render_utils.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/va_render_parser.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_cmn.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_cmn_read.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_cmn_write.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_reader.c
-  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/frame_writer.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/va_ctx_mng.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/va_utils.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/va_surf_mng.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/va_render_utils.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/va_render_parser.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_cmn.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_cmn_read.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_cmn_write.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_reader.c
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/vaapi/frame_writer.c
 
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_1001.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/task/task_2001.c
