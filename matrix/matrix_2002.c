@@ -288,7 +288,7 @@ zzStatus ZZMatrix2002_ProcNextFrame(zzMatrix2002ST  *pSelf)
         goto END;
     }
 
-    ZZPRINTF("IN_C=%d, OUT_C=%d\n", pSelf->pipelineParam.surface_color_standard, pSelf->pipelineParam.output_color_standard);
+    ZZDEBUG("IN_C=%d, OUT_C=%d\n", pSelf->pipelineParam.surface_color_standard, pSelf->pipelineParam.output_color_standard);
 
     switch (pSelf->params.hdr_type)
     {
