@@ -497,6 +497,8 @@ zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID 
 
     VAProcFilterCapHighDynamicRange hdr_cap;
     zzU32 num_query_caps = 1;
+    VAProcFilterParameterBufferHDRToneMapping hdrtm_param = {};
+    VAHdrMetaDataHDR10 in_metadata = {};
 
     ret = vaQueryVideoProcFilterCaps(va_dpy, ctx_id,
                                      VAProcFilterHighDynamicRangeToneMapping,
@@ -508,9 +510,7 @@ zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID 
         goto END;
     }
 
-    hdr_cap.metadata_type = VAProcHighDynamicRangeMetadataHDR10;
-
-    ZZPRINTF("HDR: metadata_type=%d\n, caps_flag=0x%X\n", hdr_cap.metadata_type, hdr_cap.caps_flag);
+    ZZDEBUG("HDR: metadata_type=%d\n, caps_flag=0x%X\n", hdr_cap.metadata_type, hdr_cap.caps_flag);
 
     if (hdr_cap.metadata_type == VAProcHighDynamicRangeMetadataNone)
     {
@@ -526,9 +526,6 @@ zzStatus render_picture_vp_hdr(VADisplay va_dpy, VAContextID ctx_id, VABufferID 
         sts = ZZ_ERR_UNSUPPORTED;
         goto END;
     }
-
-    VAProcFilterParameterBufferHDRToneMapping hdrtm_param = {};
-    VAHdrMetaDataHDR10 in_metadata = {};
 
     // The input is HDR content
     in_metadata.max_display_mastering_luminance = param_hdr_in->max_display_mastering_luminance;
