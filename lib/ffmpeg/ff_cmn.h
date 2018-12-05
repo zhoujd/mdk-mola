@@ -14,13 +14,3 @@ int ffmpeg_input_file(const char *filename);
 int ffmpeg_next_frame(zzSurfaceST *dst_surf);
 
 #endif
-
-
-
-
-
-
-
-
-
-
