@@ -92,7 +92,7 @@ zzStatus ZZMatrix9003_Init(zzMatrix9003ST *pSelf, zzU16 argc, zz_char **argv,
     zzStatus  sts = ZZ_ERR_NONE;
 
     pSelf->base.pipe_ctrl = pPipeCtrl;
-    pSelf->src_surf       = *pSurf;
+    pSelf->src_surf       = pSurf;
 
     sts = ZZFrameWriter_Init(pSelf->pFrameWriter, pFilename);
     if (sts != ZZ_ERR_NONE)
@@ -137,7 +137,7 @@ zzStatus ZZMatrix9003_Start(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
-    sts = ZZSurface_WriteOutputFrame(&pSelf->src_surf, pSelf->pFrameWriter);
+    sts = ZZSurface_WriteOutputFrame(pSelf->src_surf, pSelf->pFrameWriter);
     switch (sts)
     {
     case ZZ_ERR_NONE:
@@ -166,7 +166,7 @@ zzStatus ZZMatrix9003_PartStart(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
-    sts = ZZSurface_WriteOutputFrame(&pSelf->src_surf, pSelf->pFrameWriter);
+    sts = ZZSurface_WriteOutputFrame(pSelf->src_surf, pSelf->pFrameWriter);
     switch (sts)
     {
     case ZZ_ERR_NONE:

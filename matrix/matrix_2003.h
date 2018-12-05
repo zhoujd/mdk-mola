@@ -46,8 +46,8 @@ struct _zzMatrix2003ST
 
     zzVAContextST                  *ctx;
 
-    zzSurfaceST                     src_surf;
-    zzSurfaceST                     dst_surf;
+    zzSurfaceST                     *src_surf;
+    zzSurfaceST                     *dst_surf;
 
     VABufferID                      filterBufs[VAProcFilterCount];
     zzU32                           numFilterBufs;

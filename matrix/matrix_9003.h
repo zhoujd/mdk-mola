@@ -17,7 +17,7 @@ struct _zzMatrix9003ST
 {
     zzMatrixBaseST base;
 
-    zzSurfaceST        src_surf;
+    zzSurfaceST       *src_surf;
     zzFrameWriterST   *pFrameWriter;
 };
 

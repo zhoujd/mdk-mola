@@ -117,8 +117,8 @@ zzStatus ZZMatrix2003_Init(zzMatrix2003ST *pSelf, zzU16 argc, zz_char **argv,
 
     pSelf->ctx             = pCtx;
     pSelf->base.pipe_ctrl  = pPipeCtrl;
-    pSelf->src_surf        = *pSrcSurf;
-    pSelf->dst_surf        = *pDstSurf;
+    pSelf->src_surf        = pSrcSurf;
+    pSelf->dst_surf        = pDstSurf;
     pSelf->pipelineParamID = VA_INVALID_ID;
 
     sts = ZZMatrix2003_ParseInputString(pSelf, argc, argv);
@@ -196,21 +196,21 @@ zzStatus ZZMatrix2003_ProcNextFrame(zzMatrix2003ST  *pSelf)
     zzStatus    sts = ZZ_ERR_NONE;
     VAStatus    vaSts;
 
-    VASurfaceID* srf = &pSelf->src_surf.id;
+    VASurfaceID* srf = &pSelf->src_surf->id;
     pSelf->pipelineParam.surface = *srf;
 
     VARectangle srcRect;
-    srcRect.x = pSelf->src_surf.frameInfo.CropX;
-    srcRect.y = pSelf->src_surf.frameInfo.CropY;
-    srcRect.width = pSelf->src_surf.frameInfo.CropW;
-    srcRect.height= pSelf->src_surf.frameInfo.CropH;
+    srcRect.x = pSelf->src_surf->frameInfo.CropX;
+    srcRect.y = pSelf->src_surf->frameInfo.CropY;
+    srcRect.width = pSelf->src_surf->frameInfo.CropW;
+    srcRect.height= pSelf->src_surf->frameInfo.CropH;
     pSelf->pipelineParam.surface_region = &srcRect;
 
     VARectangle dstRect;
-    dstRect.x = pSelf->dst_surf.frameInfo.CropX;
-    dstRect.y = pSelf->dst_surf.frameInfo.CropY;
-    dstRect.width = pSelf->dst_surf.frameInfo.CropW;
-    dstRect.height= pSelf->dst_surf.frameInfo.CropH;
+    dstRect.x = pSelf->dst_surf->frameInfo.CropX;
+    dstRect.y = pSelf->dst_surf->frameInfo.CropY;
+    dstRect.width = pSelf->dst_surf->frameInfo.CropW;
+    dstRect.height= pSelf->dst_surf->frameInfo.CropH;
     pSelf->pipelineParam.output_region = &dstRect;
 
     pSelf->pipelineParam.output_background_color = 0xff108080; // black
@@ -229,7 +229,7 @@ zzStatus ZZMatrix2003_ProcNextFrame(zzMatrix2003ST  *pSelf)
         goto END;
     }
 
-    zzU32  refFourcc = pSelf->src_surf.frameInfo.FourCC;
+    zzU32  refFourcc = pSelf->src_surf->frameInfo.FourCC;
     switch (refFourcc)
     {
     case ZZ_FOURCC_ABGR:
@@ -262,7 +262,7 @@ zzStatus ZZMatrix2003_ProcNextFrame(zzMatrix2003ST  *pSelf)
 
     }
 
-    zzU32  targetFourcc = pSelf->dst_surf.frameInfo.FourCC;
+    zzU32  targetFourcc = pSelf->dst_surf->frameInfo.FourCC;
     switch (targetFourcc)
     {
     case ZZ_FOURCC_ABGR:
@@ -311,7 +311,7 @@ zzStatus ZZMatrix2003_ProcNextFrame(zzMatrix2003ST  *pSelf)
         break;
     }
 
-    switch (pSelf->src_surf.frameInfo.PicStruct)
+    switch (pSelf->src_surf->frameInfo.PicStruct)
     {
     case ZZ_PICSTRUCT_PROGRESSIVE:
         pSelf->pipelineParam.filter_flags = VA_FRAME_PICTURE;
@@ -402,10 +402,10 @@ zzStatus ZZMatrix2003_ProcNextFrame(zzMatrix2003ST  *pSelf)
         pSelf->subpicParam.blend_state = &blend_state;
 
         VARectangle dstSubRect;
-        dstSubRect.x = pSelf->dst_surf.frameInfo.CropX;
-        dstSubRect.y = pSelf->dst_surf.frameInfo.CropY;
-        dstSubRect.width = pSelf->dst_surf.frameInfo.CropW / 2;
-        dstSubRect.height= pSelf->dst_surf.frameInfo.CropH / 2;
+        dstSubRect.x = pSelf->dst_surf->frameInfo.CropX;
+        dstSubRect.y = pSelf->dst_surf->frameInfo.CropY;
+        dstSubRect.width = pSelf->dst_surf->frameInfo.CropW / 2;
+        dstSubRect.height= pSelf->dst_surf->frameInfo.CropH / 2;
         pSelf->subpicParam.output_region = &dstSubRect;
 
         vaSts = vaCreateBuffer(pSelf->ctx->va_dpy,
@@ -423,7 +423,7 @@ zzStatus ZZMatrix2003_ProcNextFrame(zzMatrix2003ST  *pSelf)
         }
     }
 
-    VASurfaceID *outputSurface = &pSelf->dst_surf.id;
+    VASurfaceID *outputSurface = &pSelf->dst_surf->id;
     vaSts = vaBeginPicture(pSelf->ctx->va_dpy, pSelf->ctx->id, *outputSurface);
     sts     = va_to_zz_status(vaSts);
     if (sts != ZZ_ERR_NONE)
