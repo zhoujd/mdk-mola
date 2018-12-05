@@ -25,6 +25,7 @@ struct _zzSurfaceST
     zzBOOL            map_flag;
 
     AVFrame          *ff_frame;
+    zzBOOL            ff_lock;
 };
 
 zzStatus ZZSurface_CreateSurface(VADisplay display,  int format, int width, int height, VASurfaceID *pSurfaceID, int surface_cnt);

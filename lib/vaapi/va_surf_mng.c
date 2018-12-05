@@ -90,7 +90,7 @@ zzStatus ZZSurface_Release(zzSurfaceST *pSurface)
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus sts     = ZZ_ERR_NONE;
 
-    if (VA_INVALID_ID != pSurface->id)
+    if (VA_INVALID_ID != pSurface->id && !pSurface->ff_lock)
     {
         va_res = vaDestroySurfaces(GetVaDisplay(pSurface), &pSurface->id, 1);
         sts = va_to_zz_status(va_res);
@@ -99,7 +99,6 @@ zzStatus ZZSurface_Release(zzSurfaceST *pSurface)
             ZZPRINTF("vaDestroySurfaces error\n");
             goto END;
         }
-
 
         pSurface->id = VA_INVALID_ID;
     }
@@ -461,7 +460,10 @@ zzStatus ZZSurface_FreeFrame(zzSurfaceST *pSurface)
 
 zzStatus ZZSurface_LockFrame(zzSurfaceST *pSurface)
 {
-    zzStatus  sts       = ZZ_ERR_NONE;
+    zzStatus  sts = ZZ_ERR_NONE;
+
+    pSurface->id = (VASurfaceID)(uintptr_t)pSurface->ff_frame->data[3];
+    pSurface->ff_lock = TRUE;
 
     return sts;
 }
