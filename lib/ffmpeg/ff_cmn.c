@@ -106,16 +106,33 @@ zzStatus ffmpeg_decode_uninit()
 zzStatus ffmpeg_next_frame(AVFrame *frame)
 {
     zzStatus   sts    = ZZ_ERR_NONE;
+    AVPacket dec_pkt;
     int ret;
 
-    ret = avcodec_receive_frame(decoder_ctx, frame);
-    if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
-        sts = ZZ_ERR_EOF_STREAM;
-        goto END;
-    } else if (ret < 0) {
+    if ((ret = av_read_frame(ifmt_ctx, &dec_pkt)) < 0)
+    {
         fprintf(stderr, "Error while decoding. Error code: %s\n", av_err2str(ret));
         sts = ZZ_ERR_UNKNOWN;
         goto END;
+    }
+
+    if (video_stream == dec_pkt.stream_index)
+    {
+        ret = avcodec_send_packet(decoder_ctx, &dec_pkt);
+        if (ret < 0) {
+            fprintf(stderr, "Error during decoding. Error code: %s\n", av_err2str(ret));
+            return ret;
+        }
+
+        ret = avcodec_receive_frame(decoder_ctx, frame);
+        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+            sts = ZZ_ERR_EOF_STREAM;
+            goto END;
+        } else if (ret < 0) {
+            fprintf(stderr, "Error while decoding. Error code: %s\n", av_err2str(ret));
+            sts = ZZ_ERR_UNKNOWN;
+            goto END;
+        }
     }
 
 END:

@@ -145,9 +145,11 @@ zzStatus ZZMatrix1003_Start(zzMatrixBaseST *pMatrixBase)
     switch (sts)
     {
     case ZZ_ERR_NONE:
+        ZZDEBUG("1003 part end\n");
         pMatrixBase->next_event = ZZ_EVENT_PART_END;
         break;
     case ZZ_ERR_EOF_STREAM:
+        ZZDEBUG("1003 EOF stream end\n");
         pMatrixBase->next_event = ZZ_EVENT_END;
         pSelf->base.pipe_ctrl->pipe_event = ZZ_EVENT_PIPE_EXIT;
         sts = ZZ_ERR_NONE;
@@ -184,10 +186,12 @@ zzStatus ZZMatrix1003_PartStart(zzMatrixBaseST *pMatrixBase)
     switch (sts)
     {
     case ZZ_ERR_NONE:
+        ZZDEBUG("1003 part end\n");
         pMatrixBase->next_event = ZZ_EVENT_PART_END;
         pSelf->frame_idx++;
         break;
     case ZZ_ERR_EOF_STREAM:
+        ZZDEBUG("1003 EOF stream end\n");
         pMatrixBase->next_event = ZZ_EVENT_END;
         pSelf->base.pipe_ctrl->pipe_event = ZZ_EVENT_PIPE_EXIT;
         sts = ZZ_ERR_NONE;

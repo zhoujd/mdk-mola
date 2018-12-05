@@ -13,7 +13,7 @@ ADD_DEFINITIONS(
   -O0
   -g
   -DZZ_LIBVA_USE_X11=1
-  -DZZ_DEBUG=0
+  -DZZ_DEBUG=1
   )
 
 find_package(PkgConfig REQUIRED)

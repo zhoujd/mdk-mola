@@ -90,9 +90,6 @@ zzStatus ZZSurface_Release(zzSurfaceST *pSurface)
     VAStatus   va_res  = VA_STATUS_SUCCESS;
     zzStatus sts     = ZZ_ERR_NONE;
 
-
-    ZZDEBUG("%s pSurface->id = %d\n", __FUNCTION__, pSurface->id);
-
     if (VA_INVALID_ID != pSurface->id)
     {
         va_res = vaDestroySurfaces(GetVaDisplay(pSurface), &pSurface->id, 1);
