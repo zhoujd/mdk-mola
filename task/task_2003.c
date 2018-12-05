@@ -371,7 +371,7 @@ zzStatus ZZTask2003_CreateSurface(zzTask2003ST  *pSelf)
         goto END;
     }
 
-    sts = ZZSurface_Create(&pSelf->surface[TASK2003_SCALING_SRC]);
+    sts = ZZSurface_AllocFrame(&pSelf->surface[TASK2003_SCALING_SRC]);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZSurface_CreateEx  error\n");
@@ -481,7 +481,7 @@ zzStatus ZZTask2003_InitMatrix(zzTask2003ST  *pSelf, zzU16 argc, zz_char **argv)
     sts = ZZMatrix9003_Init(pSelf->pMatrix9003, argc, argv,
                             &pSelf->base.pipe_ctrl,
                             &pSelf->surface[TASK2003_SCALING_DST],
-                            "dump.yuv");
+                            "output/dump.yuv");
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZMatrix9003_Init  error\n");

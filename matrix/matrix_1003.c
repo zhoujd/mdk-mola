@@ -112,7 +112,7 @@ zzStatus ZZMatrix1003_Init(zzMatrix1003ST *pSelf, zzU16 argc, zz_char **argv,
     }
 
     pSelf->base.pipe_ctrl = pPipeCtrl;
-    pSelf->dst_surf       = *pSurf;
+    pSelf->dst_surf       = pSurf;
 
     sts = ffmpeg_decode_init();
     if (sts != ZZ_ERR_NONE)
@@ -141,7 +141,7 @@ zzStatus ZZMatrix1003_Start(zzMatrixBaseST *pMatrixBase)
     ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
 
     //Get next frame
-    sts = ffmpeg_next_frame(&pSelf->dst_surf);
+    sts = ffmpeg_next_frame(pSelf->dst_surf->ff_frame);
     switch (sts)
     {
     case ZZ_ERR_NONE:
@@ -180,7 +180,7 @@ zzStatus ZZMatrix1003_PartStart(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
-    sts = ffmpeg_next_frame(&pSelf->dst_surf);
+    sts = ffmpeg_next_frame(pSelf->dst_surf->ff_frame);
     switch (sts)
     {
     case ZZ_ERR_NONE:
@@ -196,6 +196,13 @@ zzStatus ZZMatrix1003_PartStart(zzMatrixBaseST *pMatrixBase)
         break;
     default:
         ZZPRINTF("ZZ_GetNextInputFrame error\n");
+        goto END;
+    }
+
+    sts = ZZSurface_LockFrame(pSelf->dst_surf);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZSurface_LockFrame error\n");
         goto END;
     }
 

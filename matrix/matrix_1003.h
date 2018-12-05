@@ -22,7 +22,7 @@ struct _zzMatrix1003ST
 {
     zzMatrixBaseST    base;
 
-    zzSurfaceST       dst_surf;
+    zzSurfaceST      *dst_surf;
 
     zzU16             frame_idx;
     zzU16             frame_num;

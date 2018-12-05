@@ -6,11 +6,6 @@ static AVCodecContext   *decoder_ctx = NULL;
 static int video_stream = -1;
 
 
-AVFormatContext *GetFormatContext()
-{
-    return ifmt_ctx;
-}
-
 static enum AVPixelFormat get_vaapi_format(AVCodecContext *ctx,
                                            const enum AVPixelFormat *pix_fmts)
 {
@@ -25,8 +20,9 @@ static enum AVPixelFormat get_vaapi_format(AVCodecContext *ctx,
     return AV_PIX_FMT_NONE;
 }
 
-int ffmpeg_input_file(const char *filename)
+zzStatus ffmpeg_input_file(const char *filename)
 {
+    zzStatus   sts    = ZZ_ERR_NONE;
     int ret;
     AVCodec *decoder = NULL;
     AVStream *video = NULL;
@@ -69,38 +65,59 @@ int ffmpeg_input_file(const char *filename)
     decoder_ctx->get_format    = get_vaapi_format;
 
     if ((ret = avcodec_open2(decoder_ctx, decoder, NULL)) < 0)
+    {
         fprintf(stderr, "Failed to open codec for decoding. Error code: %s\n",
                 av_err2str(ret));
 
-    return ret;
+    }
+
+    return sts;
 }
 
 
-int ffmpeg_decode_init()
+zzStatus ffmpeg_decode_init()
 {
+    zzStatus   sts    = ZZ_ERR_NONE;
     int ret;
 
     ret = av_hwdevice_ctx_create(&hw_device_ctx, AV_HWDEVICE_TYPE_VAAPI, NULL, NULL, 0);
     if (ret < 0) {
         fprintf(stderr, "Failed to create a VAAPI device. Error code: %s\n", av_err2str(ret));
-        return -1;
+        sts = ZZ_ERR_UNKNOWN;
+        goto END;
     }
 
-    return 0;
+END:
+    return sts;
 }
 
-
-int ffmpeg_decode_uninit()
+zzStatus ffmpeg_decode_uninit()
 {
+    zzStatus   sts    = ZZ_ERR_NONE;
+
     avformat_close_input(&ifmt_ctx);
     avcodec_free_context(&decoder_ctx);
     av_buffer_unref(&hw_device_ctx);
 
-    return 0;
+    return sts;
 }
 
 
-int ffmpeg_next_frame(zzSurfaceST *dst_surf)
+zzStatus ffmpeg_next_frame(AVFrame *frame)
 {
-    return 0;
+    zzStatus   sts    = ZZ_ERR_NONE;
+    int ret;
+
+    ret = avcodec_receive_frame(decoder_ctx, frame);
+    if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF) {
+        sts = ZZ_ERR_EOF_STREAM;
+        goto END;
+    } else if (ret < 0) {
+        fprintf(stderr, "Error while decoding. Error code: %s\n", av_err2str(ret));
+        sts = ZZ_ERR_UNKNOWN;
+        goto END;
+    }
+
+END:
+    return sts;
 }

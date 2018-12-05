@@ -107,6 +107,16 @@ zzStatus ZZSurface_Release(zzSurfaceST *pSurface)
         pSurface->id = VA_INVALID_ID;
     }
 
+    if (NULL != pSurface->ff_frame)
+    {
+        sts = ZZSurface_FreeFrame(pSurface);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("ZZSurface_FreeFrame error\n");
+            goto END;
+        }
+    }
+
 END:
     return sts;
 }
@@ -431,4 +441,30 @@ END:
 
     return sts;
 
+}
+
+zzStatus ZZSurface_AllocFrame(zzSurfaceST *pSurface)
+{
+    zzStatus  sts       = ZZ_ERR_NONE;
+
+    if (!(pSurface->ff_frame = av_frame_alloc()))
+        return AVERROR(ENOMEM);
+
+    return sts;
+}
+
+zzStatus ZZSurface_FreeFrame(zzSurfaceST *pSurface)
+{
+    zzStatus  sts       = ZZ_ERR_NONE;
+
+    av_frame_free(&pSurface->ff_frame);
+
+    return sts;
+}
+
+zzStatus ZZSurface_LockFrame(zzSurfaceST *pSurface)
+{
+    zzStatus  sts       = ZZ_ERR_NONE;
+
+    return sts;
 }
