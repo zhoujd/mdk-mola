@@ -130,6 +130,9 @@ zzStatus ZZTask2003_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
 {
     zzStatus       sts   = ZZ_ERR_NONE;
     zzTask2003ST  *pSelf = GET_TASK2003(pTaskBase);
+    int ret = 0;
+
+    pSelf->video_stream = -1;
 
     pSelf->surface[TASK2003_SCALING_SRC].id = VA_INVALID_ID;
     pSelf->surface[TASK2003_SCALING_DST].id = VA_INVALID_ID;
@@ -156,6 +159,12 @@ zzStatus ZZTask2003_Init(zzTaskBaseST *pTaskBase, zzU16 argc, zz_char **argv)
     {
         ZZPRINTF("ZZTask2003_ParseInputString  error\n");
         goto END;
+    }
+
+    ret = av_hwdevice_ctx_create(&pSelf->hw_device_ctx, AV_HWDEVICE_TYPE_VAAPI, NULL, NULL, 0);
+    if (ret < 0) {
+        fprintf(stderr, "Failed to create a VAAPI device. Error code: %s\n", av_err2str(ret));
+        return -1;
     }
 
 END:
