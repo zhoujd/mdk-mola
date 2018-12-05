@@ -49,12 +49,6 @@ struct _zzTask2003ST
     zzMatrix9003ST           *pMatrix9003;
 
     zzTask2003InputParamsST   params;
-
-    AVFormatContext          *ifmt_ctx;
-    AVBufferRef              *hw_device_ctx;
-    AVCodecContext           *decoder_ctx;
-    int                       video_stream;
-
 };
 
 #define GET_TASK2003(p)  container_of(p, zzTask2003ST, base)
