@@ -90,7 +90,7 @@ zzStatus ZZMatrix1003_Release(zzMatrix1003ST *pSelf)
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
     ffmpeg_decode_uninit();
-    
+
     return sts;
 }
 
@@ -141,6 +141,7 @@ zzStatus ZZMatrix1003_Start(zzMatrixBaseST *pMatrixBase)
     ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
 
     //Get next frame
+    sts = ffmpeg_next_frame(&pSelf->dst_surf);
     switch (sts)
     {
     case ZZ_ERR_NONE:
@@ -179,7 +180,7 @@ zzStatus ZZMatrix1003_PartStart(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
-    //get next frame
+    sts = ffmpeg_next_frame(&pSelf->dst_surf);
     switch (sts)
     {
     case ZZ_ERR_NONE:

@@ -10,7 +10,6 @@
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 
-#include "vaapi/frame_reader.h"
 #include "vaapi/va_surf_mng.h"
 #include "ffmpeg/ff_cmn.h"
 

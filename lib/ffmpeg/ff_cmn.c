@@ -98,3 +98,9 @@ int ffmpeg_decode_uninit()
 
     return 0;
 }
+
+
+int ffmpeg_next_frame(zzSurfaceST *dst_surf)
+{
+    return 0;
+}
