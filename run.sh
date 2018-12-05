@@ -67,7 +67,9 @@ run_task_2003()
 {
     echo "run task 2003 start ..."
     rm output/*
-    ./zzmediaxapp -task 2003 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input-stream/water.h264 -o output/water.yuv -n 10
+    ./zzmediaxapp -task 2003 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input-stream/water.h264 -o output/water.yuv
+    #./zzmediaxapp -task 2003 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input-stream/water.h264 -o output/water.yuv -n 10
+    md5sum output/*
     ls -l output/*
     echo "run task 2003 end ..."    
 }

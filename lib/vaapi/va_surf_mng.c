@@ -465,5 +465,7 @@ zzStatus ZZSurface_LockFrame(zzSurfaceST *pSurface)
     pSurface->id = (VASurfaceID)(uintptr_t)pSurface->ff_frame->data[3];
     pSurface->ff_lock = TRUE;
 
+    ZZDEBUG("FF surface id = %d\n", pSurface->id);
+
     return sts;
 }

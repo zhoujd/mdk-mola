@@ -155,7 +155,14 @@ zzStatus ZZMatrix1003_Start(zzMatrixBaseST *pMatrixBase)
         sts = ZZ_ERR_NONE;
         break;
     default:
-        ZZPRINTF("ZZ_GetNextInputFrame error\n");
+        ZZPRINTF("ffmpeg_next_frame error\n");
+        goto END;
+    }
+
+    sts = ZZSurface_LockFrame(pSelf->dst_surf);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF("ZZSurface_LockFrame error\n");
         goto END;
     }
 
@@ -199,7 +206,7 @@ zzStatus ZZMatrix1003_PartStart(zzMatrixBaseST *pMatrixBase)
         ZZPRINTF("Frame Number: %d\n", pSelf->frame_idx);
         break;
     default:
-        ZZPRINTF("ZZ_GetNextInputFrame error\n");
+        ZZPRINTF("ffmpeg_next_frame error\n");
         goto END;
     }
 
