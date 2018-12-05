@@ -111,7 +111,7 @@ zzStatus ffmpeg_next_frame(AVFrame *frame)
 
     if ((ret = av_read_frame(ifmt_ctx, &dec_pkt)) < 0)
     {
-        fprintf(stderr, "1. Error while decoding. Error code: %s\n", av_err2str(ret));
+        fprintf(stderr, "Error av_read_frame. Error code: %s\n", av_err2str(ret));
         if (ret == AVERROR_EOF) {
             sts = ZZ_ERR_EOF_STREAM;
         } else {
@@ -125,7 +125,7 @@ zzStatus ffmpeg_next_frame(AVFrame *frame)
     {
         ret = avcodec_send_packet(decoder_ctx, &dec_pkt);
         if (ret < 0) {
-            fprintf(stderr, "2. Error during decoding. Error code: %s\n", av_err2str(ret));
+            fprintf(stderr, "Error avcodec_send_packet. Error code: %s\n", av_err2str(ret));
             return ret;
         }
 
@@ -134,7 +134,7 @@ zzStatus ffmpeg_next_frame(AVFrame *frame)
             sts = ZZ_ERR_EOF_STREAM;
             goto END;
         } else if (ret < 0) {
-            fprintf(stderr, "3. Error while decoding. Error code: %s\n", av_err2str(ret));
+            fprintf(stderr, "Error avcodec_receive_frame. Error code: %s\n", av_err2str(ret));
             sts = ZZ_ERR_UNKNOWN;
             goto END;
         }
