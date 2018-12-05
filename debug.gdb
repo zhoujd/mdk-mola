@@ -46,8 +46,9 @@ define task2001
 end
 
 define task2003
-  set args -task 2003 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input-stream/water.h264 -o output/water.yuv
+  set args -task 2003 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input-stream/water.h264 -o output/water.yuv -n 2
   b main
+  r
 end
 
 task2003
