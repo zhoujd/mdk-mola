@@ -82,7 +82,8 @@ SET(SRC_LIST
   ${ZZMEDIAXAPP_SOURCE_DIR}/utils/packet.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/utils/stream.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/utils/buffer.c
- 
+
+  ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_cmn.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_codec.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_format.c
   ${ZZMEDIAXAPP_SOURCE_DIR}/lib/ffmpeg/ff_frame.c

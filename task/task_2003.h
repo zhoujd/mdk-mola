@@ -12,11 +12,6 @@
 #include "vaapi/va_ctx_mng.h"
 #include "vaapi/va_surf_mng.h"
 
-#include <libavutil/hwcontext.h>
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-
-
 #define TASK2003_ID  (2003)
 
 typedef struct _zzTask2003ST zzTask2003ST;
