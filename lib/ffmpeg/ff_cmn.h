@@ -11,6 +11,9 @@ int ffmpeg_input_file(const char *filename);
 
 AVFormatContext *GetFormatContext();
 
+
+int ffmpeg_decode_uninit();
+
 #endif
 
 

@@ -12,6 +12,7 @@
 
 #include "vaapi/frame_reader.h"
 #include "vaapi/va_surf_mng.h"
+#include "ffmpeg/ff_cmn.h"
 
 #define MATRIX1003_ID    (1003)
 
@@ -23,7 +24,7 @@ struct _zzMatrix1003ST
     zzMatrixBaseST    base;
 
     zzSurfaceST       dst_surf;
-    zzFrameReaderST   *pFrameReader;
+
     zzU16             frame_idx;
     zzU16             frame_num;
 

@@ -79,13 +79,6 @@ zzStatus ZZMatrix1003_Create(zzMatrix1003ST **ppRet)
 
     (*ppRet)->demo_flag      = FALSE;
 
-    sts = ZZFrameReader_Create(&(*ppRet)->pFrameReader);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZFrameReader_Create error\n");
-        goto END;
-    }
-
 END:
     return sts;
 }
@@ -96,14 +89,8 @@ zzStatus ZZMatrix1003_Release(zzMatrix1003ST *pSelf)
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
-    sts = ZZFrameReader_Release(pSelf->pFrameReader);
-    if (sts != ZZ_ERR_NONE)
-    {
-        ZZPRINTF("ZZFrameReader_Release error\n");
-        goto END;
-    }
-
-END:
+    ffmpeg_decode_uninit();
+    
     return sts;
 }
 
@@ -113,6 +100,7 @@ zzStatus ZZMatrix1003_Init(zzMatrix1003ST *pSelf, zzU16 argc, zz_char **argv,
                            zzSurfaceST    *pSurf, zz_char *pFilename)
 {
     zzStatus  sts = ZZ_ERR_NONE;
+
 
     CHECK_POINTER(pSelf, ZZ_ERR_NULL_PTR);
 
@@ -126,10 +114,17 @@ zzStatus ZZMatrix1003_Init(zzMatrix1003ST *pSelf, zzU16 argc, zz_char **argv,
     pSelf->base.pipe_ctrl = pPipeCtrl;
     pSelf->dst_surf       = *pSurf;
 
-    sts = ZZFrameReader_Init(pSelf->pFrameReader, pFilename, pSelf->demo_flag);
+    sts = ffmpeg_decode_init();
     if (sts != ZZ_ERR_NONE)
     {
-        ZZPRINTF("ZZFrameReader_Init error\n");
+        ZZPRINTF("ffmpeg_decode_init error\n");
+        goto END;
+    }
+
+    sts = ffmpeg_input_file(pFilename);
+    if (sts != ZZ_ERR_NONE)
+    {
+        ZZPRINTF(" ffmpeg_input_file error\n");
         goto END;
     }
 
@@ -145,7 +140,7 @@ zzStatus ZZMatrix1003_Start(zzMatrixBaseST *pMatrixBase)
 
     ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
 
-    sts = ZZSurface_GetNextInputFrame(&pSelf->dst_surf, pSelf->pFrameReader);
+    //Get next frame
     switch (sts)
     {
     case ZZ_ERR_NONE:
@@ -184,7 +179,7 @@ zzStatus ZZMatrix1003_PartStart(zzMatrixBaseST *pMatrixBase)
         goto END;
     }
 
-    sts = ZZSurface_GetNextInputFrame(&pSelf->dst_surf, pSelf->pFrameReader);
+    //get next frame
     switch (sts)
     {
     case ZZ_ERR_NONE:

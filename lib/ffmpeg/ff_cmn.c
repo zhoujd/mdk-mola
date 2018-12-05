@@ -88,3 +88,13 @@ int ffmpeg_decode_init()
 
     return 0;
 }
+
+
+int ffmpeg_decode_uninit()
+{
+    avformat_close_input(&ifmt_ctx);
+    avcodec_free_context(&decoder_ctx);
+    av_buffer_unref(&hw_device_ctx);
+
+    return 0;
+}
