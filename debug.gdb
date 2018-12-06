@@ -6,9 +6,10 @@ file zzmediaxapp
 set env DISPLAY=:0.0
 set env LIBVA_DRIVER_NAME=iHD
 set env LIBVA_DRIVERS_PATH=/opt/zach/lib/dri
-set env LD_LIBRARY_PATH=/opt/zach/lib:/opt/zach/ffmpeg/lib:
+set env LD_LIBRARY_PATH=/opt/zach/lib:/opt/zach/ffmpeg/lib
 
 set breakpoint pending on
+set solib-search-path /opt/zach/lib:/opt/zach/lib/dri:/opt/zach/ffmpeg/lib
 
 ##task 1001
 define task1001
@@ -48,6 +49,7 @@ end
 define task2003
   set args -task 2003 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input-stream/water.h264 -o output/water.yuv -n 2
   b main
+  b ZZSurface_LockFrame
   r
 end
 
