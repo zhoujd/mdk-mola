@@ -137,9 +137,6 @@ zzStatus ZZMatrix2003_Start(zzMatrixBaseST *pMatrixBase)
     zzStatus       sts    = ZZ_ERR_NONE;
     zzMatrix2003ST *pSelf = GET_MATRIX2003(pMatrixBase);
 
-    pMatrixBase->next_event = ZZ_EVENT_END;
-    return sts;
-
     ZZDEBUG("Matrix %d Start\n", pSelf->base.matrix_id);
 
     if (pSelf->base.pipe_ctrl->pipe_event == ZZ_EVENT_PIPE_EXIT)

@@ -167,7 +167,7 @@ zzStatus ffmpeg_dump_frame(AVFrame *frame)
     int size;
     int ret = 0;
 
-    FILE *output_file = fopen("output/frame.yuv", "w+");
+    FILE *output_file = fopen("output/frame.yuv", "a+");
 
     if (!(sw_frame = av_frame_alloc())) {
         fprintf(stderr, "Can not alloc frame\n");
