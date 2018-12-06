@@ -4,7 +4,7 @@ static AVFormatContext  *ifmt_ctx = NULL;
 static AVBufferRef      *hw_device_ctx = NULL;
 static AVCodecContext   *decoder_ctx = NULL;
 static int video_stream = -1;
-
+static AVPacket dec_pkt;
 
 static enum AVPixelFormat get_vaapi_format(AVCodecContext *ctx,
                                            const enum AVPixelFormat *pix_fmts)
@@ -106,7 +106,6 @@ zzStatus ffmpeg_decode_uninit()
 zzStatus ffmpeg_next_frame(AVFrame *frame)
 {
     zzStatus   sts    = ZZ_ERR_NONE;
-    AVPacket dec_pkt;
     int ret;
 
     if ((ret = av_read_frame(ifmt_ctx, &dec_pkt)) < 0)
