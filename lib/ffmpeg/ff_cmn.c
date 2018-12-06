@@ -1,5 +1,8 @@
 #include "ff_cmn.h"
 #include <libavutil/imgutils.h>
+#include <libavutil/hwcontext_vaapi.h>
+
+#include <va/va.h>
 
 
 static AVFormatContext  *ifmt_ctx = NULL;
@@ -21,6 +24,43 @@ static enum AVPixelFormat get_vaapi_format(AVCodecContext *ctx,
     fprintf(stderr, "Unable to decode this file using VA-API.\n");
     return AV_PIX_FMT_NONE;
 }
+
+static int set_hwframe_ctx(AVCodecContext *ctx, AVBufferRef *hw_device_ctx)
+{
+    AVBufferRef *hw_frames_ref;
+
+    int err = 0;
+
+    if (!(hw_frames_ref = av_hwframe_ctx_alloc(hw_device_ctx))) {
+        fprintf(stderr, "Failed to create VAAPI frame context.\n");
+        return -1;
+    }
+
+
+#if 1 //zhoujd
+    AVHWFramesContext *frames_ctx = NULL;
+    frames_ctx = (AVHWFramesContext *)(hw_frames_ref->data);
+    frames_ctx->format    = AV_PIX_FMT_VAAPI;
+    frames_ctx->sw_format = AV_PIX_FMT_NV12;
+    frames_ctx->width     = 720;
+    frames_ctx->height    = 480;
+    frames_ctx->initial_pool_size = 20;
+#endif
+
+    if ((err = av_hwframe_ctx_init(hw_frames_ref)) < 0) {
+        fprintf(stderr, "Failed to initialize VAAPI frame context."
+                "Error code: %s\n",av_err2str(err));
+        av_buffer_unref(&hw_frames_ref);
+        return err;
+    }
+    ctx->hw_frames_ctx = av_buffer_ref(hw_frames_ref);
+    if (!ctx->hw_frames_ctx)
+        err = AVERROR(ENOMEM);
+
+    av_buffer_unref(&hw_frames_ref);
+    return err;
+}
+
 
 zzStatus ffmpeg_input_file(const char *filename)
 {
@@ -65,6 +105,13 @@ zzStatus ffmpeg_input_file(const char *filename)
         return AVERROR(ENOMEM);
     }
     decoder_ctx->get_format    = get_vaapi_format;
+
+    /* set hw_frames_ctx for encoder's AVCodecContext */
+    if ((ret = set_hwframe_ctx(decoder_ctx, hw_device_ctx)) < 0) {
+        fprintf(stderr, "Failed to set hwframe context.\n");
+        return ret;
+    }
+
 
     if ((ret = avcodec_open2(decoder_ctx, decoder, NULL)) < 0)
     {
@@ -144,6 +191,19 @@ zzStatus ffmpeg_next_frame(AVFrame *frame)
         ZZDEBUG("This is zz test video stream -1\n");
 
 
+        VASurfaceID s_id = (VASurfaceID)(uintptr_t)frame->data[3];
+        ZZDEBUG("== s_id = %d\n", s_id);
+#if 0 //zhoujd
+        AVHWFramesContext  *hwfc = (AVHWFramesContext *)frame->hw_frames_ctx;
+        AVVAAPIDeviceContext *hwctx = (AVVAAPIDeviceContext *)hwfc->device_ctx;
+
+        VAStatus vas = vaSyncSurface(hwctx->display, s_id);
+        if (vas != VA_STATUS_SUCCESS) {
+            ZZDEBUG("error vaSyncSurface surface id = %d zz\n", s_id);
+            sts = AVERROR(EIO);
+            goto END;
+        }
+#endif //zhoujd
         sts = ffmpeg_dump_frame(frame);
         if (sts != ZZ_ERR_NONE)
         {

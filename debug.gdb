@@ -49,7 +49,9 @@ end
 define task2003
   set args -task 2003 -sw 720 -sh 480 -dw 720 -dh 480 -scc nv12 -dcc nv12 -i input-stream/water.h264 -o output/water.yuv -n 2
   b main
-  b ZZSurface_LockFrame
+  #b ffmpeg_decode_init
+  #b ZZSurface_LockFrame
+  b DdiMedia_DeriveImage
   r
 end
 

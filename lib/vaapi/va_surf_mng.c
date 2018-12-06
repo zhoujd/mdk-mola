@@ -462,28 +462,23 @@ zzStatus ZZSurface_LockFrame(zzSurfaceST *pSurface)
 {
     zzStatus  sts  = ZZ_ERR_NONE;
     VAStatus  vas  = VA_STATUS_SUCCESS;
-    int ret;
-    AVFrame   *dst;
 
-
-    //av_hwframe_map(pSurface->ff_frame->hw_frames_ctx, pSurface->ff_frame, pSurface->ff_frame);
 
     pSurface->id = (VASurfaceID)(uintptr_t)pSurface->ff_frame->data[3];
     pSurface->ff_lock = TRUE;
 
 #if 0 //zhoujd
     vas = vaSyncSurface(GetVaDisplay(pSurface), pSurface->id);
+#endif //zhoujd
+
     if (vas != VA_STATUS_SUCCESS) {
         ZZDEBUG("error vaSyncSurface surface id = %d\n", pSurface->id);
-
-        ret = AVERROR(EIO);
-        sts = ret;
-        goto END;
+        sts = AVERROR(EIO);
+        return sts;
     }
-#endif //zhoujd
+
 
     ZZDEBUG("FF surface id = %d\n", pSurface->id);
 
-END:
     return sts;
 }
