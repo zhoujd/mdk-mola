@@ -309,13 +309,13 @@ zzStatus ZZTask2003_ReleaseMatrix(zzTask2003ST  *pSelf)
         }
     }
 
-    //release martix 2002
-    if (NULL != pSelf->pMatrix2002)
+    //release martix 2003
+    if (NULL != pSelf->pMatrix2003)
     {
-        sts = ZZMatrix2002_Release(pSelf->pMatrix2002);
+        sts = ZZMatrix2003_Release(pSelf->pMatrix2003);
         if (sts != ZZ_ERR_NONE)
         {
-            ZZPRINTF("ZZMatrix2003_Release 2002 error\n");
+            ZZPRINTF("ZZMatrix2003_Release 2003 error\n");
             goto END;
         }
     }
@@ -442,16 +442,16 @@ zzStatus ZZTask2003_InitMatrix(zzTask2003ST  *pSelf, zzU16 argc, zz_char **argv)
         goto END;
     }
 
-    //create martix 2002
-    sts = ZZMatrix2002_Create(&pSelf->pMatrix2002);
+    //create martix 2003
+    sts = ZZMatrix2003_Create(&pSelf->pMatrix2003);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZMatrix2003_Create  error\n");
         goto END;
     }
 
-    //init martix 2002
-    sts = ZZMatrix2002_Init(pSelf->pMatrix2002, argc, argv,
+    //init martix 2003
+    sts = ZZMatrix2003_Init(pSelf->pMatrix2003, argc, argv,
                             &pSelf->base.pipe_ctrl,
                             &pSelf->ctx,
                             &pSelf->surface[TASK2003_SCALING_SRC],
@@ -463,7 +463,7 @@ zzStatus ZZTask2003_InitMatrix(zzTask2003ST  *pSelf, zzU16 argc, zz_char **argv)
     }
 
     //attach matrix to task
-    sts = ZZTaskBase_AttachMatrix(&pSelf->base, &pSelf->pMatrix2002->base);
+    sts = ZZTaskBase_AttachMatrix(&pSelf->base, &pSelf->pMatrix2003->base);
     if (sts != ZZ_ERR_NONE)
     {
         ZZPRINTF("ZZTaskBase_AttachMatrix  error\n");

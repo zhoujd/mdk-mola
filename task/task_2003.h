@@ -7,7 +7,7 @@
 #include "cmn.h"
 #include "task_base.h"
 #include "matrix_1003.h"
-#include "matrix_2002.h"
+#include "matrix_2003.h"
 #include "matrix_9003.h"
 #include "vaapi/va_ctx_mng.h"
 #include "vaapi/va_surf_mng.h"
@@ -40,7 +40,7 @@ struct _zzTask2003ST
 
     zzSurfaceST               surface[TASK2003_SURF_COUNT];
     zzMatrix1003ST           *pMatrix1003;
-    zzMatrix2002ST           *pMatrix2002;
+    zzMatrix2003ST           *pMatrix2003;
     zzMatrix9003ST           *pMatrix9003;
 
     zzTask2003InputParamsST   params;
