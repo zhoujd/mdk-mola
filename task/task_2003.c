@@ -480,7 +480,7 @@ zzStatus ZZTask2003_InitMatrix(zzTask2003ST  *pSelf, zzU16 argc, zz_char **argv)
     //init martix 9003
     sts = ZZMatrix9003_Init(pSelf->pMatrix9003, argc, argv,
                             &pSelf->base.pipe_ctrl,
-                            &pSelf->surface[TASK2003_SCALING_DST],
+                            &pSelf->surface[TASK2003_SCALING_SRC],
                             "output/dump.yuv");
     if (sts != ZZ_ERR_NONE)
     {

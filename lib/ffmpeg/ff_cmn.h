@@ -14,4 +14,6 @@ zzStatus ffmpeg_decode_uninit();
 zzStatus ffmpeg_input_file(const char *filename);
 zzStatus ffmpeg_next_frame(AVFrame *frame);
 
+zzStatus ffmpeg_dump_frame(AVFrame *frame);
+
 #endif

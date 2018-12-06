@@ -1,4 +1,6 @@
 #include "ff_cmn.h"
+#include <libavutil/imgutils.h>
+
 
 static AVFormatContext  *ifmt_ctx = NULL;
 static AVBufferRef      *hw_device_ctx = NULL;
@@ -122,6 +124,7 @@ zzStatus ffmpeg_next_frame(AVFrame *frame)
 
     if (video_stream == dec_pkt.stream_index)
     {
+        ZZDEBUG("This is zz test video stream -0\n");
         ret = avcodec_send_packet(decoder_ctx, &dec_pkt);
         if (ret < 0) {
             fprintf(stderr, "Error avcodec_send_packet. Error code: %s\n", av_err2str(ret));
@@ -137,8 +140,80 @@ zzStatus ffmpeg_next_frame(AVFrame *frame)
             sts = ZZ_ERR_UNKNOWN;
             goto END;
         }
+
+        ZZDEBUG("This is zz test video stream -1\n");
+
+
+        sts = ffmpeg_dump_frame(frame);
+        if (sts != ZZ_ERR_NONE)
+        {
+            ZZPRINTF("ffmpeg_dump_frame error\n");
+            goto END;
+        }
+
     }
 
 END:
+    return sts;
+}
+
+zzStatus ffmpeg_dump_frame(AVFrame *frame)
+{
+    zzStatus   sts    = ZZ_ERR_NONE;
+
+    AVFrame *sw_frame = NULL;
+    AVFrame *tmp_frame = NULL;
+    uint8_t *buffer = NULL;
+    int size;
+    int ret = 0;
+
+    FILE *output_file = fopen("output/frame.yuv", "w+");
+
+    if (!(sw_frame = av_frame_alloc())) {
+        fprintf(stderr, "Can not alloc frame\n");
+        ret = AVERROR(ENOMEM);
+        goto fail;
+    }
+
+
+    fprintf(stderr, "ffmpeg_dump_frame use HW\n");
+
+    /* retrieve data from GPU to CPU */
+    if ((ret = av_hwframe_transfer_data(sw_frame, frame, 0)) < 0) {
+        fprintf(stderr, "Error transferring the data to system memory\n");
+        goto fail;
+    }
+
+    tmp_frame = sw_frame;
+
+    size = av_image_get_buffer_size(tmp_frame->format, tmp_frame->width,
+                                    tmp_frame->height, 1);
+    buffer = av_malloc(size);
+    if (!buffer) {
+        fprintf(stderr, "Can not alloc buffer\n");
+        ret = AVERROR(ENOMEM);
+        goto fail;
+    }
+    ret = av_image_copy_to_buffer(buffer, size,
+                                  (const uint8_t * const *)tmp_frame->data,
+                                  (const int *)tmp_frame->linesize, tmp_frame->format,
+                                  tmp_frame->width, tmp_frame->height, 1);
+    if (ret < 0) {
+        fprintf(stderr, "Can not copy image to buffer\n");
+        goto fail;
+    }
+
+    if ((ret = fwrite(buffer, 1, size, output_file)) < 0) {
+        fprintf(stderr, "Failed to dump raw data.\n");
+        goto fail;
+    }
+
+fail:
+    if (output_file)
+        fclose(output_file);
+
+    av_frame_free(&sw_frame);
+    av_freep(&buffer);
+
     return sts;
 }
