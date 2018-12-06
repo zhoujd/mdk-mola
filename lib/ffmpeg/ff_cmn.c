@@ -178,13 +178,24 @@ zzStatus ffmpeg_dump_frame(AVFrame *frame)
 
     fprintf(stderr, "ffmpeg_dump_frame use HW\n");
 
+
     /* retrieve data from GPU to CPU */
     if ((ret = av_hwframe_transfer_data(sw_frame, frame, 0)) < 0) {
         fprintf(stderr, "Error transferring the data to system memory\n");
         goto fail;
     }
 
-    tmp_frame = sw_frame;
+    if (frame->format == AV_PIX_FMT_VAAPI) {
+        fprintf(stderr, "==hw frame\n");
+        /* retrieve data from GPU to CPU */
+        if ((ret = av_hwframe_transfer_data(sw_frame, frame, 0)) < 0) {
+            fprintf(stderr, "Error transferring the data to system memory\n");
+            goto fail;
+        }
+        tmp_frame = sw_frame;
+    } else {
+        tmp_frame = frame;
+    }
 
     size = av_image_get_buffer_size(tmp_frame->format, tmp_frame->width,
                                     tmp_frame->height, 1);
